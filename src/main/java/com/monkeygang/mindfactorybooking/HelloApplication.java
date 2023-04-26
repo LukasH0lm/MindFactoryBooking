@@ -1,5 +1,8 @@
 package com.monkeygang.mindfactorybooking;
 
+import com.itextpdf.text.DocumentException;
+import com.monkeygang.mindfactorybooking.utility.MailSender;
+import com.monkeygang.mindfactorybooking.utility.PDFMaker;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +20,11 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, DocumentException {
+
+        PDFMaker.HelloWordPDF();
+        MailSender.sendTestMail();
+
         launch();
     }
 }
