@@ -5,7 +5,8 @@ module com.monkeygang.mindfactorybooking {
     requires itextpdf;
     requires java.desktop;
     requires jakarta.mail;
-
+    requires java.sql;
+    requires com.microsoft.sqlserver.jdbc;
 
 
     opens com.monkeygang.mindfactorybooking to javafx.fxml;
