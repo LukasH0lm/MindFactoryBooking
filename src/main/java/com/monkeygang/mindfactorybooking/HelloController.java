@@ -1,15 +1,21 @@
 package com.monkeygang.mindfactorybooking;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.temporal.IsoFields;
+import java.util.Locale;
 
 
 public class HelloController {
@@ -36,6 +42,13 @@ public class HelloController {
 
     @FXML
     private Line hBoxLineThree;
+
+
+    @FXML
+    private Button nextWeekButton;
+
+    @FXML
+    private Button previousWeekButton;
 
     @FXML
     private Line hBoxLineTwo;
@@ -64,9 +77,12 @@ public class HelloController {
     @FXML
     private VBox vBoxTorsdag;
 
-
+    private final DecimalFormat df = new DecimalFormat("00.00");
 
     public void initialize() {
+
+
+
 
         // Vi sætter startdatoen til at være dagens dato
         datePicker.setValue(LocalDate.now());
@@ -90,20 +106,16 @@ public class HelloController {
 
         });
 
+        // Vi sætter decimalformatet til at være med punktum i stedet for komma, da vi skal bruge det til at lave tidspunkter
+        df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
-        double time = 10.0;
+
+        double time = 07.00;
         double timeLabelsHeight = 0.0;
 
-        while (time <= 18.0) {
-
-            //formatere tiden til at vise 2 decimaler, samt sætte 0 foran hvis der kun er 1 tal
-            String hour = String.format("%02d", (int) time);
-            // Vi tjekker om tiden er 30 minutter, og hvis den er, så sætter vi minutterne til 30, ellers sætter vi dem til 00
-            String minute = (time % 1 == 0.5) ? "30" : "00";
-            String timeStr = hour + "." + minute;
-
+        while (time <= 18.00) {
             // Vi laver flere labels med tidspunkterne indtil vi når 18.00
-            Label label = new Label(timeStr);
+            Label label = new Label(df.format(time));
             label.setPrefWidth(30);
             label.setPrefHeight(15);
             label.setMaxWidth(label.getPrefWidth());
@@ -114,8 +126,8 @@ public class HelloController {
             // Tilføjer labels til vBoxTid
             vBoxTid.getChildren().add(label);
 
-            // Vi tilføjer 0.5 til tiden, så vi kan lave labels for hver halve time
-            time += 0.5;
+            // Vi tilføjer 1.00 til tiden, så vi kan lave labels for hver  time
+            time += 1.00;
 
 
             // Vi tilføjer højden af labelen til timeLabelsHeight, så vi kan sætte højden på hBoxCalendar og vBoxTid
@@ -126,21 +138,23 @@ public class HelloController {
 
 
         //Vi sætter højden på hBoxCalendar og vBoxTid, samt linjerne, som opdeler vores kalender.
-        hBoxCalendar.setPrefHeight(timeLabelsHeight);
+        // Vi minusser med vBoxTid.getSpacing(), da når der er spacing i en vBox, så bliver der tilføjet spacing efter det sidste element, og vi vil have at kalenderen slutter ved det sidste tidspunkt.
+        hBoxCalendar.setPrefHeight(timeLabelsHeight - vBoxTid.getSpacing());
         hBoxCalendar.setMaxHeight(hBoxCalendar.getPrefHeight());
         hBoxCalendar.setMinHeight(hBoxCalendar.getPrefHeight());
 
 
-        vBoxTid.setPrefHeight(timeLabelsHeight);
+        vBoxTid.setPrefHeight(timeLabelsHeight - vBoxTid.getSpacing());
         vBoxTid.setMaxHeight(vBoxTid.getPrefHeight());
         vBoxTid.setMinHeight(vBoxTid.getPrefHeight());
 
-        hBoxLineOne.setEndY(timeLabelsHeight);
-        hBoxLineTwo.setEndY(timeLabelsHeight);
-        hBoxLineThree.setEndY(timeLabelsHeight);
-        hBoxLineFour.setEndY(timeLabelsHeight);
-        hBoxLineFive.setEndY(timeLabelsHeight);
-        hBoxLineSix.setEndY(timeLabelsHeight);
+
+        hBoxLineOne.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
+        hBoxLineTwo.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
+        hBoxLineThree.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
+        hBoxLineFour.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
+        hBoxLineFive.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
+        hBoxLineSix.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
 
 
 

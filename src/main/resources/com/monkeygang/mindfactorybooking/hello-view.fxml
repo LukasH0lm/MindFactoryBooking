@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -11,9 +12,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.HelloController">
     <children>
-        <HBox fx:id="hBoxCalendar" layoutX="116.0" layoutY="255.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="768.0" spacing="30.0" style="-fx-border-style: solid inside; -fx-border-width: 1;" styleClass="fxCalendarHBox">
+        <HBox fx:id="hBoxCalendar" layoutX="110.0" layoutY="255.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="780.0" spacing="30.0" style="-fx-border-style: solid inside; -fx-border-width: 1;" styleClass="fxCalendarHBox">
             <children>
                 <VBox fx:id="vBoxMandag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
                 <Line fx:id="hBoxLineOne" endX="-100.0" endY="350.0" startX="-100.0" />
@@ -36,42 +37,42 @@
                 <Insets left="30.0" right="30.0" />
             </padding>
         </HBox>
-        <Label layoutX="148.0" layoutY="238.0" text="Mandag" textAlignment="CENTER">
+        <Label layoutX="142.0" layoutY="238.0" text="Mandag" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="259.0" layoutY="238.0" text="Tirsdag">
+        <Label layoutX="253.0" layoutY="238.0" text="Tirsdag">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="371.0" layoutY="238.0" text="Onsdag">
+        <Label layoutX="365.0" layoutY="238.0" text="Onsdag">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="479.0" layoutY="238.0" text="Torsdag">
+        <Label layoutX="477.0" layoutY="238.0" text="Torsdag">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="593.0" layoutY="238.0" text="Fredag">
+        <Label layoutX="587.0" layoutY="238.0" text="Fredag">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="700.0" layoutY="238.0" text="Lørdag">
+        <Label layoutX="701.0" layoutY="238.0" text="Lørdag">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="810.0" layoutY="238.0" text="Søndag">
+        <Label layoutX="813.0" layoutY="238.0" text="Søndag">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <VBox fx:id="vBoxTid" layoutX="84.0" layoutY="255.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="32.0" spacing="1.0" />
+        <VBox fx:id="vBoxTid" layoutX="78.0" layoutY="255.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="32.0" spacing="30.0" />
         <DatePicker fx:id="datePicker" layoutX="415.0" layoutY="151.0" />
         <Label fx:id="ugeLabel" layoutX="463.0" layoutY="192.0" text="Uge: 10 ">
          <font>
@@ -86,5 +87,7 @@
             </ImageView>
          </children>
       </AnchorPane>
+      <Button fx:id="nextWeekButton" layoutX="500.0" layoutY="822.0" mnemonicParsing="false" text="-&gt;" />
+      <Button fx:id="previousWeekButton" layoutX="470.0" layoutY="822.0" mnemonicParsing="false" text="&lt;-" />
     </children>
 </AnchorPane>
