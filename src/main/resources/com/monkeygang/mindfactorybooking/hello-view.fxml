@@ -77,7 +77,7 @@
          <font>
             <Font name="System Bold" size="20.0" />
          </font></Label>
-      <AnchorPane prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: BLACK;">
+      <AnchorPane prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: #121111;">
          <children>
             <ImageView fitHeight="100.0" fitWidth="155.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
