@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.monkeygang.mindfactorybooking.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.HelloController">
+    <children>
+        <HBox fx:id="hBoxCalendar" layoutX="180.0" layoutY="126.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="768.0" spacing="30.0" style="-fx-border-style: solid inside; -fx-border-width: 1;" styleClass="fxCalendarHBox">
+            <children>
+                <VBox fx:id="vBoxMandag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+                <Line fx:id="hBoxLineOne" endX="-100.0" endY="350.0" startX="-100.0" />
+                <VBox fx:id="vBoxTirsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+                <Line fx:id="hBoxLineTwo" endX="-100.0" endY="350.0" startX="-100.0" />
+                <VBox fx:id="vBoxOnsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+                <Line fx:id="hBoxLineThree" endX="-100.0" endY="350.0" startX="-100.0" />
+                <VBox fx:id="vBoxTorsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+                <Line fx:id="hBoxLineFour" endX="-100.0" endY="350.0" startX="-100.0" />
+                <VBox fx:id="vBoxFredag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+                <Line fx:id="hBoxLineFive" endX="-100.0" endY="350.0" startX="-100.0" />
+                <VBox fx:id="vBoxLørdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+                <Line fx:id="hBoxLineSix" endX="-100.0" endY="350.0" startX="-100.0" />
+                <VBox fx:id="vBoxSøndag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+            </children>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <padding>
+                <Insets left="30.0" right="30.0" />
+            </padding>
+        </HBox>
+        <Label layoutX="225.0" layoutY="109.0" text="Mandag" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="330.0" layoutY="109.0" text="Tirsdag">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="436.0" layoutY="109.0" text="Onsdag">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="538.0" layoutY="109.0" text="Torsdag">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="651.0" layoutY="109.0" text="Fredag">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="755.0" layoutY="109.0" text="Lørdag">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="863.0" layoutY="109.0" text="Søndag">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <VBox fx:id="vBoxTid" layoutX="148.0" layoutY="126.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="32.0" spacing="1.0" />
+        <DatePicker fx:id="datePicker" layoutX="451.0" layoutY="47.0" />
+        <Label fx:id="ugeLabel" layoutX="524.0" layoutY="81.0" text="Uge: " />
+    </children>
+</AnchorPane>
