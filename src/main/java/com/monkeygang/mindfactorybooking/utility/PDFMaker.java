@@ -20,7 +20,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class PDFMaker {
-
+//Lukas er sej
 
     public static void HelloWordPDF() throws IOException, DocumentException {
 

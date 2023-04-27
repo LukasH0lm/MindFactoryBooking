@@ -15,6 +15,7 @@ import jakarta.mail.internet.MimeMultipart;
 
 
 public class MailSender {
+//Lukas er sej
 
 
     public static void sendTestMail() throws IOException {
