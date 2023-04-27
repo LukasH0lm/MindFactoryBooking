@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.io.*;
 
 import com.itextpdf.text.DocumentException;
+import com.monkeygang.mindfactorybooking.HelloApplication;
 import org.jfree.chart.*;
 
 
@@ -20,13 +21,13 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class PDFMaker {
-
+//Lukas er sej
 
     public static void HelloWordPDF() throws IOException, DocumentException {
 
         JFreeChart pieChart = createPieChart();
 
-        String pdfFilePath = "C:\\Users\\lukas\\IdeaProjects\\MindFactoryBooking\\HelloWorld.pdf";
+        String pdfFilePath = HelloApplication.class.getResource("hello-view.fxml").getPath() + "HelloWorld.pdf";
         OutputStream fos = new FileOutputStream(pdfFilePath);
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, fos);

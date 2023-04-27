@@ -4,6 +4,7 @@ package com.monkeygang.mindfactorybooking.utility;
 import java.io.*;
 import java.util.Properties;
 
+import com.monkeygang.mindfactorybooking.HelloApplication;
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.FileDataSource;
@@ -15,6 +16,7 @@ import jakarta.mail.internet.MimeMultipart;
 
 
 public class MailSender {
+//Lukas er sej
 
 
     public static void sendTestMail() throws IOException {
@@ -32,12 +34,12 @@ public class MailSender {
 
         // Setup mail server
         properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", "2525");
+        properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.ssl.enable", "no");
         properties.put("mail.smtp.starttls.enable", "yes");
         properties.put("mail.smtp.auth", "true");
 
-        File file = new File("C:\\Users\\lukas\\IdeaProjects\\MindFactoryBooking\\SendinBluePassword");
+        File file = new File(HelloApplication.class.getResource("").getPath() + "SendinBluePassword");
 
         BufferedReader br = new BufferedReader(new FileReader(file));
 
@@ -89,7 +91,7 @@ public class MailSender {
 
             // Part two is attachment
             messageBodyPart = new MimeBodyPart();
-            String filename = "C:\\Users\\lukas\\IdeaProjects\\MindFactoryBooking\\HelloWorld.pdf";
+            String filename = HelloApplication.class.getResource("hello-view.fxml").getPath() + "HelloWorld.pdf";
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(filename);
