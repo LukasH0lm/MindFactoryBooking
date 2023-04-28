@@ -87,7 +87,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <Button fx:id="nextWeekButton" layoutX="500.0" layoutY="822.0" mnemonicParsing="false" text="-&gt;" />
-      <Button fx:id="previousWeekButton" layoutX="470.0" layoutY="822.0" mnemonicParsing="false" text="&lt;-" />
+      <Button fx:id="nextWeekButton" layoutX="502.0" layoutY="816.0" mnemonicParsing="false" onAction="#nextWeekButtonPressed" prefHeight="20.0" prefWidth="100.0" text="Næste uge" />
+      <Button fx:id="previousWeekButton" layoutX="400.0" layoutY="816.0" mnemonicParsing="false" onAction="#previousWeekButtonPressed" prefHeight="20.0" prefWidth="100.0" text="Forrige uge" />
     </children>
 </AnchorPane>

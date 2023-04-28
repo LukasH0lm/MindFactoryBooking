@@ -1,5 +1,7 @@
 package com.monkeygang.mindfactorybooking;
 
+import com.monkeygang.mindfactorybooking.DAO.BookingDAO;
+import com.monkeygang.mindfactorybooking.Objects.Booking;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -11,10 +13,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.temporal.IsoFields;
+import java.util.LinkedList;
 import java.util.Locale;
 
 
@@ -79,13 +84,31 @@ public class HelloController {
 
     private final DecimalFormat df = new DecimalFormat("00.00");
 
-    public void initialize() {
+    BookingDAO bookingDAO = new BookingDAO();
+
+    public HelloController() throws SQLException {
+    }
+
+    public void previousWeekButtonPressed(){
+
+        datePicker.setValue(datePicker.getValue().minusDays(7));
 
 
 
+    }
+
+    public void nextWeekButtonPressed(){
+
+        datePicker.setValue(datePicker.getValue().plusDays(7));
+    }
+
+
+
+    public void initialize() throws SQLException {
 
         // Vi sætter startdatoen til at være dagens dato
         datePicker.setValue(LocalDate.now());
+
 
         // vi sætter ugenummert til at være ugenummeret for den valgte dato, når programmet starter.
         ugeLabel.setText("Uge " + datePicker.getValue().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR));
@@ -96,15 +119,29 @@ public class HelloController {
             int weekNumber = datePicker.getValue().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
             ugeLabel.setText("Uge " + weekNumber);
 
-
             // her skal vi så også se på hvilke aftaler der er gemt i for den uge, som der er valgt,
             // og så ud fra de aftaler lave firkanter, som bliver vist i kalenderen
 
 
 
 
+            LinkedList<Booking> bookingsAtDate = new LinkedList<>();
+
+
+
+         /*  if (datePicker.getValue() == bookingDate)
+
+
+            Rectangle booking1Rectangle = new Rectangle(booking1.getStartTime() , booking1.getEndTime())
+
+
+            */
 
         });
+
+
+
+
 
         // Vi sætter decimalformatet til at være med punktum i stedet for komma, da vi skal bruge det til at lave tidspunkter
         df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
