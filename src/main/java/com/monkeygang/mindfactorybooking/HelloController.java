@@ -9,7 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
@@ -18,9 +20,9 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.IsoFields;
-import java.util.LinkedList;
-import java.util.Locale;
+import java.util.*;
 
 
 public class HelloController {
@@ -58,29 +60,35 @@ public class HelloController {
     @FXML
     private Line hBoxLineTwo;
 
-    @FXML
-    private VBox vBoxFredag;
+
 
     @FXML
-    private VBox vBoxLørdag;
+    private Pane paneFredag;
 
     @FXML
-    private VBox vBoxMandag;
+    private Pane paneLordag;
 
     @FXML
-    private VBox vBoxOnsdag;
+    private Pane paneMandag;
 
     @FXML
-    private VBox vBoxSøndag;
+    private Pane paneOnsdag;
+
+    @FXML
+    private Pane paneSondag;
+
+    @FXML
+    private Pane paneTirsdag;
+
+    @FXML
+    private Pane paneTorsdag;
+
+
 
     @FXML
     private VBox vBoxTid;
 
-    @FXML
-    private VBox vBoxTirsdag;
 
-    @FXML
-    private VBox vBoxTorsdag;
 
     private final DecimalFormat df = new DecimalFormat("00.00");
 
@@ -106,38 +114,42 @@ public class HelloController {
 
     public void initialize() throws SQLException {
 
+
+
+
+
+
+
         // Vi sætter startdatoen til at være dagens dato
         datePicker.setValue(LocalDate.now());
 
 
+        // Datoen skal konveretes til date.
+        LocalDate localDate = datePicker.getValue();
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        // Vi skal finde ugenummeret af datoen.
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int week = cal.get(Calendar.WEEK_OF_YEAR);
+
         // vi sætter ugenummert til at være ugenummeret for den valgte dato, når programmet starter.
-        ugeLabel.setText("Uge " + datePicker.getValue().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR));
+        ugeLabel.setText("Uge " + week);
 
 
-        // Vi sætter ugenummeret til at være ugenummeret for den valgte dato, hver gang der sker ændringer i datePicker
-        datePicker.setOnAction(event -> {
-            int weekNumber = datePicker.getValue().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-            ugeLabel.setText("Uge " + weekNumber);
+        // Vi laver en liste til alle bookings
+        LinkedList<Booking>  allBookings = new LinkedList<>();
 
-            // her skal vi så også se på hvilke aftaler der er gemt i for den uge, som der er valgt,
-            // og så ud fra de aftaler lave firkanter, som bliver vist i kalenderen
-
-
-
-
-            LinkedList<Booking> bookingsAtDate = new LinkedList<>();
+        // Vi får alle bookings fra databasen, og ligger dem i listen.
+        try {
+          allBookings.addAll(bookingDAO.getAll());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
 
-         /*  if (datePicker.getValue() == bookingDate)
 
-
-            Rectangle booking1Rectangle = new Rectangle(booking1.getStartTime() , booking1.getEndTime())
-
-
-            */
-
-        });
 
 
 
@@ -149,6 +161,8 @@ public class HelloController {
 
         double time = 07.00;
         double timeLabelsHeight = 0.0;
+        final int spacingPrLabel = (int) vBoxTid.getSpacing();
+        final int heightPrLabel = 15;
 
         while (time <= 18.00) {
             // Vi laver flere labels med tidspunkterne indtil vi når 18.00
@@ -171,7 +185,12 @@ public class HelloController {
             timeLabelsHeight += label.getPrefHeight();
             timeLabelsHeight += vBoxTid.getSpacing();
 
+
+
+
         }
+
+
 
 
         //Vi sætter højden på hBoxCalendar og vBoxTid, samt linjerne, som opdeler vores kalender.
@@ -199,6 +218,107 @@ public class HelloController {
 
 
 
+        // Vi sætter ugenummeret til at være ugenummeret for den valgte dato, hver gang der sker ændringer i datePicker
+        datePicker.setOnAction(event -> {
+
+            // Datoen skal konveretes til date.
+            LocalDate localDateOnAction = datePicker.getValue();
+            Date dateOnAction = Date.from(localDateOnAction.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            // Vi skal finde ugenummeret af datoen.
+            Calendar calOnAction = Calendar.getInstance();
+            calOnAction.setTime(dateOnAction);
+            int weekOnAction = calOnAction.get(Calendar.WEEK_OF_YEAR);
+
+
+            ugeLabel.setText("Uge " + weekOnAction);
+
+
+            paneMandag.getChildren().clear();
+            paneTirsdag.getChildren().clear();
+            paneOnsdag.getChildren().clear();
+            paneTorsdag.getChildren().clear();
+            paneFredag.getChildren().clear();
+            paneLordag.getChildren().clear();
+            paneSondag.getChildren().clear();
+
+            for (Booking booking : allBookings) {
+
+                Date bookingDate = booking.getStartTime();
+
+                System.out.println(bookingDate);
+
+
+                // Vi skal finde ugenummeret af datoen.
+                Calendar calBookingDate = Calendar.getInstance();
+                calBookingDate.setTime(bookingDate);
+                int bookingDateWeek = calBookingDate.get(Calendar.WEEK_OF_YEAR);
+
+
+                LinkedList<Booking> datesThatMatchesWeek = new LinkedList<>();
+
+                System.out.println("bookingDateWeek " + bookingDateWeek);
+                System.out.println("WeekOnAction " + weekOnAction);
+
+                if (bookingDateWeek == weekOnAction){
+                    datesThatMatchesWeek.add(booking);
+
+                    Integer RectangleHeight = (booking.getEndTime().getHours() - booking.getStartTime().getHours()) * (spacingPrLabel + heightPrLabel);
+                    Integer RectangleYStartPosition = ((booking.getStartTime().getHours() - 7) * (spacingPrLabel + heightPrLabel));
+
+
+                    Rectangle bookingRectangle = new Rectangle(50, RectangleHeight);
+
+                    bookingRectangle.setFill(Color.RED);
+
+
+                    bookingRectangle.setY(RectangleYStartPosition);
+
+                    System.out.println(booking.getStartTime().getDay());
+
+                    if (booking.getStartTime().getDay() == 1){
+                        paneMandag.getChildren().add(bookingRectangle);
+
+                    }
+                    if (booking.getStartTime().getDay() == 2){
+                        paneTirsdag.getChildren().add(bookingRectangle);
+
+                    }
+                    if (booking.getStartTime().getDay() == 3) {
+                        paneOnsdag.getChildren().add(bookingRectangle);
+
+                    }
+                    if (booking.getStartTime().getDay() == 4) {
+                        paneTorsdag.getChildren().add(bookingRectangle);
+
+                    }
+                    if (booking.getStartTime().getDay() == 5) {
+                        paneFredag.getChildren().add(bookingRectangle);
+
+                    }
+                    if (booking.getStartTime().getDay() == 6) {
+                        paneLordag.getChildren().add(bookingRectangle);
+
+                    }
+                    if (booking.getStartTime().getDay() == 0) {
+                        paneSondag.getChildren().add(bookingRectangle);
+                    }
+
+
+                }
+
+
+
+            }
+
+
+
+
+
+
+
+
+        });
 
 
 

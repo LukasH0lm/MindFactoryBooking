@@ -34,7 +34,7 @@ public class HelloApplication extends Application {
 
         Booking booking1 = new Booking(-1,dateTime, dateTime2, "Test", "Test", "Test", 1, "Test", "Test");
 
-        bookingDAO.save(booking1);
+
 
         List<Booking> bookings = bookingDAO.getAll();
 

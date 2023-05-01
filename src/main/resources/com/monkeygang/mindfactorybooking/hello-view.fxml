@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -16,19 +17,19 @@
     <children>
         <HBox fx:id="hBoxCalendar" layoutX="110.0" layoutY="255.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="780.0" spacing="30.0" style="-fx-border-style: solid inside; -fx-border-width: 1;" styleClass="fxCalendarHBox">
             <children>
-                <VBox fx:id="vBoxMandag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+            <Pane fx:id="paneMandag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
                 <Line fx:id="hBoxLineOne" endX="-100.0" endY="350.0" startX="-100.0" />
-                <VBox fx:id="vBoxTirsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+            <Pane fx:id="paneTirsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
                 <Line fx:id="hBoxLineTwo" endX="-100.0" endY="350.0" startX="-100.0" />
-                <VBox fx:id="vBoxOnsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+            <Pane fx:id="paneOnsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
                 <Line fx:id="hBoxLineThree" endX="-100.0" endY="350.0" startX="-100.0" />
-                <VBox fx:id="vBoxTorsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+            <Pane fx:id="paneTorsdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
                 <Line fx:id="hBoxLineFour" endX="-100.0" endY="350.0" startX="-100.0" />
-                <VBox fx:id="vBoxFredag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+            <Pane fx:id="paneFredag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
                 <Line fx:id="hBoxLineFive" endX="-100.0" endY="350.0" startX="-100.0" />
-                <VBox fx:id="vBoxLørdag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+            <Pane fx:id="paneLordag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
                 <Line fx:id="hBoxLineSix" endX="-100.0" endY="350.0" startX="-100.0" />
-                <VBox fx:id="vBoxSøndag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
+            <Pane fx:id="paneSondag" minWidth="-Infinity" prefHeight="200.0" prefWidth="50.0" />
             </children>
             <opaqueInsets>
                 <Insets />
