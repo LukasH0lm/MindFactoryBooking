@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class HelloApplication extends Application {
     @Override
@@ -28,14 +29,21 @@ public class HelloApplication extends Application {
 
         BookingDAO bookingDAO = new BookingDAO();
 
-        Timestamp dateTime = new Timestamp(2023, 4, 28, 11, 0, 0, 0 );
-        Timestamp dateTime2 = new Timestamp(2023, 4, 28, 13, 0, 0, 0 );
+        Timestamp dateTime = new Timestamp(2023 - 1900, 4, 28, 11, 0, 0, 0 );
+        Timestamp dateTime2 = new Timestamp(2023 - 1900, 4, 28, 13, 0, 0, 0 );
 
-        Booking booking1 = new Booking(2, dateTime, dateTime2, "EASV", "IT", "Erik", 10,  "12345678", "Doctor");
+        Booking booking1 = new Booking(-1,dateTime, dateTime2, "Test", "Test", "Test", 1, "Test", "Test");
+
+        bookingDAO.save(booking1);
+
+        List<Booking> bookings = bookingDAO.getAll();
+
+        for(Booking booking : bookings){
+            System.out.println(booking.getStartTime());
+            System.out.println(booking.getEndTime());
+        }
 
 
-        System.out.println(booking1.getStartTime().getYear());
-        System.out.println(booking1.getStartTime().getMonth());
 
 
         //bookingDAO.save(booking1);
