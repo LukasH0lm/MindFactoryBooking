@@ -54,10 +54,10 @@ public class PDFMaker {
 
         document.add(new com.itextpdf.text.Paragraph("MindFactory Projekt", new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 18, com.itextpdf.text.Font.BOLD)));
         document.add(new com.itextpdf.text.Paragraph(""));
-        document.add(new com.itextpdf.text.Paragraph("Lukas er sej"));
-        document.add(new com.itextpdf.text.Paragraph("Han bager den dej"));
-        document.add(new com.itextpdf.text.Paragraph("former den som kaj"));
-        document.add(new com.itextpdf.text.Paragraph("lige i munden på dig"));
+        document.add(new com.itextpdf.text.Paragraph("Organisation: EASV"));
+        document.add(new com.itextpdf.text.Paragraph("Navn: Lukas"));
+        document.add(new com.itextpdf.text.Paragraph("Email: lukasholm@hotmail.com"));
+        document.add(new com.itextpdf.text.Paragraph("Tlf: 12345678"));
 
 
 
@@ -70,7 +70,7 @@ public class PDFMaker {
 
     public static JFreeChart createPieChart() throws IOException {
 
-        DefaultPieDataset dataset = new DefaultPieDataset();
+        DefaultPieDataset<String> dataset = new DefaultPieDataset<String>();
         dataset.setValue("Lukas", new Double(85));
         dataset.setValue("Sune", new Double(14));
         dataset.setValue("Alexander", new Double(1));

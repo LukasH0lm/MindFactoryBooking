@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-
-public class BookingDAO implements Dao{
+public class BookingDAO implements Dao {
 
     Connection con;
 
@@ -41,7 +40,7 @@ public class BookingDAO implements Dao{
         ResultSet rs = ps.executeQuery();
 
 
-        while (rs.next()){
+        while (rs.next()) {
             Booking booking = new Booking(rs.getInt("id"), rs.getTimestamp("start_time"), rs.getTimestamp("end_time"), rs.getString("organisation"), rs.getString("field"), rs.getString("responsible"), rs.getInt("amount_of_people"), rs.getString("telephone"), rs.getString("title_of_responsible"));
             allBookings.add(booking);
         }
@@ -51,33 +50,55 @@ public class BookingDAO implements Dao{
 
     }
 
+    public PreparedStatement generatePreparedStatement(Object o) throws SQLException {
+
+        PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?,?,?,?,?)");
+
+        //id is auto increment, so no need to add it here
+
+        ps.setTimestamp(1, ((Booking) o).getStartTime());
+        ps.setTimestamp(2, ((Booking) o).getEndTime());
+        ps.setString(3, ((Booking) o).getOrganisation());
+        ps.setString(4, ((Booking) o).getField());
+        ps.setString(5, ((Booking) o).getResponsible());
+        ps.setInt(6, ((Booking) o).getAmount_of_people());
+        ps.setString(7, ((Booking) o).getTelephone());
+        ps.setString(8, ((Booking) o).getTitle_of_responsible());
+
+        return ps;
+    }
+
+
+
     @Override
     public void save(Object o) throws SQLException {
 
 
-        PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?,?,?,?,?,?)");
-
-        ps.setInt(1, ((Booking) o).getId());
-        ps.setTimestamp(2, ((Booking) o).getStartTime());
-        ps.setTimestamp(3, ((Booking) o).getEndTime());
-        ps.setString(4, ((Booking) o).getOrganisation());
-        ps.setString(5, ((Booking) o).getField());
-        ps.setString(6, ((Booking) o).getResponsible());
-        ps.setInt(7, ((Booking) o).getAmount_of_people());
-        ps.setString(8, ((Booking) o).getTelephone());
-        ps.setString(9, ((Booking) o).getTitle_of_responsible());
+        PreparedStatement ps = generatePreparedStatement(o);
 
         ps.execute();
 
     }
 
     @Override
-    public void update(Object o, String[] params) {
+    public void update(Object o, String[] params) throws SQLException {
+
+        PreparedStatement ps = con.prepareStatement("UPDATE booking SET start_time = ?, end_time = ?, organisation = ?, field = ?, responsible = ?, amount_of_people = ?, telephone = ?, title_of_responsible = ? WHERE id = ?");
+
+        generatePreparedStatement(o);
+
+        ps.setInt(9, ((Booking) o).getId());
 
     }
 
     @Override
-    public void delete(Object o) {
+    public void delete(Object o) throws SQLException {
+
+        PreparedStatement ps = con.prepareStatement("DELETE FROM booking WHERE id = ?");
+
+
+        ps.setInt(1, ((Booking) o).getId());
+        ps.execute();
 
     }
 }
