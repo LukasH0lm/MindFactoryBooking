@@ -17,7 +17,11 @@ public class Booking {
 
     public Booking(int id, Timestamp startTime, Timestamp endTime, String organisation, String field, String responsible, int amount_of_people, String telephone, String title_of_responsible) {
         this.id = id;
+        startTime.setYear(startTime.getYear() - 1900);
+        startTime.setMonth(startTime.getMonth() - 1);
         this.startTime = startTime;
+        endTime.setYear(endTime.getYear() - 1900);
+        endTime.setMonth(endTime.getMonth() - 1);
         this.endTime = endTime;
         this.organisation = organisation;
         this.field = field;

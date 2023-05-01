@@ -28,12 +28,17 @@ public class HelloApplication extends Application {
 
         BookingDAO bookingDAO = new BookingDAO();
 
-        Timestamp dateTime = new Timestamp(System.currentTimeMillis());
-        Timestamp dateTime2 = new Timestamp(System.currentTimeMillis() + 3600000);
+        Timestamp dateTime = new Timestamp(2023, 4, 28, 11, 0, 0, 0 );
+        Timestamp dateTime2 = new Timestamp(2023, 4, 28, 13, 0, 0, 0 );
 
-        Booking booking = new Booking(1, dateTime, dateTime2, "EASV", "IT", "Erik", 10,  "12345678", "Doctor");
+        Booking booking1 = new Booking(2, dateTime, dateTime2, "EASV", "IT", "Erik", 10,  "12345678", "Doctor");
 
-        bookingDAO.save(booking);
+
+        System.out.println(booking1.getStartTime().getYear());
+        System.out.println(booking1.getStartTime().getMonth());
+
+
+        //bookingDAO.save(booking1);
 
         PDFMaker.HelloWordPDF();
        // MailSender.sendTestMail();
