@@ -51,9 +51,7 @@ public class BookingDAO implements Dao {
 
     }
 
-    public PreparedStatement generatePreparedStatement(Object o) throws SQLException {
-
-        PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?,?,?,?,?)");
+    public PreparedStatement generatePreparedStatement(PreparedStatement ps, Object o) throws SQLException {
 
         //id is auto increment, so no need to add it here
 
@@ -74,21 +72,24 @@ public class BookingDAO implements Dao {
     @Override
     public void save(Object o) throws SQLException {
 
+        PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?,?,?,?,?)");
 
-        PreparedStatement ps = generatePreparedStatement(o);
+        ps = generatePreparedStatement(ps,o);
 
         ps.execute();
 
     }
 
     @Override
-    public void update(Object o, String[] params) throws SQLException {
+    public void update(Object o, String[] args) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement("UPDATE booking SET start_time = ?, end_time = ?, organisation = ?, field = ?, responsible = ?, amount_of_people = ?, telephone = ?, title_of_responsible = ? WHERE id = ?");
 
-        generatePreparedStatement(o);
+        ps = generatePreparedStatement(ps,o);
 
         ps.setInt(9, ((Booking) o).getId());
+
+        ps.execute();
 
     }
 

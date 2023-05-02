@@ -27,7 +27,7 @@ public class PDFMaker {
 
         JFreeChart pieChart = createPieChart();
 
-        String pdfFilePath = HelloApplication.class.getResource("hello-view.fxml").getPath() + "HelloWorld.pdf";
+        String pdfFilePath = HelloApplication.class.getResource("").getPath() + "HelloWorld.pdf";
         OutputStream fos = new FileOutputStream(pdfFilePath);
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, fos);
@@ -71,9 +71,9 @@ public class PDFMaker {
     public static JFreeChart createPieChart() throws IOException {
 
         DefaultPieDataset<String> dataset = new DefaultPieDataset<String>();
-        dataset.setValue("Lukas", new Double(85));
-        dataset.setValue("Sune", new Double(14));
-        dataset.setValue("Alexander", new Double(1));
+        dataset.setValue("Lukas", 85.0);
+        dataset.setValue("Sune", 14.0);
+        dataset.setValue("Alexander", 1.0);
 
         JFreeChart chart = ChartFactory.createPieChart("Amount of work put into project",   // chart title
                 dataset,          // data

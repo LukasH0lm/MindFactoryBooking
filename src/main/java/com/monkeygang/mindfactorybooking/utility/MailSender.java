@@ -91,7 +91,7 @@ public class MailSender {
 
             // Part two is attachment
             messageBodyPart = new MimeBodyPart();
-            String filename = HelloApplication.class.getResource("hello-view.fxml").getPath() + "HelloWorld.pdf";
+            String filename = HelloApplication.class.getResource("calendar-view.fxml").getPath() + "HelloWorld.pdf";
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(filename);

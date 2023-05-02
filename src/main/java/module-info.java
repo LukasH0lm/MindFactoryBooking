@@ -12,5 +12,7 @@ module com.monkeygang.mindfactorybooking {
     opens com.monkeygang.mindfactorybooking to javafx.fxml;
     exports com.monkeygang.mindfactorybooking;
     exports com.monkeygang.mindfactorybooking.Objects;
+    exports com.monkeygang.mindfactorybooking.Controller;
+    opens com.monkeygang.mindfactorybooking.Controller to javafx.fxml;
 
 }
