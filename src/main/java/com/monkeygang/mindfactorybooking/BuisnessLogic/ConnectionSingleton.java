@@ -1,5 +1,8 @@
 package com.monkeygang.mindfactorybooking.BuisnessLogic;
 
+import com.monkeygang.mindfactorybooking.HelloApplication;
+
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,12 +14,18 @@ public class ConnectionSingleton {
     private Connection connection;
 
 
-    private ConnectionSingleton() {
+    private ConnectionSingleton() throws IOException {
+
+        File file = new File(HelloApplication.class.getResource("").getPath() + "DatabaseSettings");
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+
+
         try {
-            String serverName = "EASV-DB4";
-            String databaseName = "CSe2002t_t_2_MindFactory";
-            String userName = "CSe2022t_t_2";
-            String password = "CSe2022tT2#";
+            String serverName = br.readLine();
+            String databaseName = br.readLine();
+            String userName = br.readLine();
+            String password = br.readLine();
 
             String url = "jdbc:sqlserver://" + serverName + ":1433;DatabaseName=" + databaseName + ";user=" + userName + ";password=" + password + ";encrypt=false;trustServerCertificate=true;";
             connection = DriverManager.getConnection(url);
@@ -33,7 +42,7 @@ public class ConnectionSingleton {
         return connection;
     }
 
-    public static ConnectionSingleton getInstance() throws SQLException {
+    public static ConnectionSingleton getInstance() throws SQLException, IOException {
 
         if (instance == null) {
             instance = new ConnectionSingleton();

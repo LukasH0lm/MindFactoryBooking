@@ -3,6 +3,7 @@ package com.monkeygang.mindfactorybooking.DAO;
 import com.monkeygang.mindfactorybooking.BuisnessLogic.ConnectionSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ public class BookingDAO implements Dao {
 
     Connection con;
 
-    public BookingDAO() throws SQLException {
+    public BookingDAO() throws SQLException, IOException {
 
         con = ConnectionSingleton.getInstance().getConnection();
 
@@ -29,7 +30,7 @@ public class BookingDAO implements Dao {
     }
 
     @Override
-    public List getAll() throws SQLException {
+    public List getAll() throws SQLException, IOException {
 
         ArrayList<Booking> allBookings = new ArrayList<>();
 

@@ -74,20 +74,7 @@
             </font>
         </Label>
         <VBox fx:id="vBoxTid" layoutX="80.0" layoutY="247.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="358.0" prefWidth="30.0" spacing="13.5">
-         <children>
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="7:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="11.0" prefWidth="30.0" text="8:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="9:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="10:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="11:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="12:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="13:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="14:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="15:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="16:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="17:00" />
-            <Label alignment="CENTER_RIGHT" contentDisplay="BOTTOM" prefHeight="17.0" prefWidth="30.0" text="18:00" />
-         </children></VBox>
+         </VBox>
         <DatePicker fx:id="datePicker" layoutX="415.0" layoutY="151.0" />
         <Label fx:id="ugeLabel" layoutX="463.0" layoutY="192.0" text="Uge: 10 ">
          <font>

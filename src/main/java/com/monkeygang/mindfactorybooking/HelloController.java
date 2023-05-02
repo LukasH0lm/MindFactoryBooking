@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -27,13 +28,13 @@ import java.util.*;
 
 public class HelloController {
 
-    public List<Object> allBookings = new ArrayList<>();
+    public List<Booking> allBookings = new ArrayList<>();
 
     private final DecimalFormat df = new DecimalFormat("00.00");
 
     BookingDAO bookingDAO = new BookingDAO();
 
-    public HelloController() throws SQLException {
+    public HelloController() throws SQLException, IOException {
     }
 
 
@@ -61,7 +62,7 @@ public class HelloController {
         // Vi får alle bookings fra databasen, og ligger dem i listen.
         try {
             allBookings.addAll(bookingDAO.getAll());
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -161,19 +162,8 @@ public class HelloController {
             paneLordag.getChildren().clear();
             paneSondag.getChildren().clear();
 
-            for (Object object : allBookings) {
+            for (Booking booking : allBookings) {
 
-                Booking booking;
-
-                //not necessary to check if object is a booking, since we know it is
-                //but it's good practice
-                if (object.getClass() == Booking.class) {
-
-                    booking = (Booking) object;
-                }else {
-                    System.out.println("object is not a booking");
-                    return;
-                }
 
                 Date bookingDate = booking.getStartTime();
 
