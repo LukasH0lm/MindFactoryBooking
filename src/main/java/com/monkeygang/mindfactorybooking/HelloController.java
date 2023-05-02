@@ -8,6 +8,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -71,6 +72,8 @@ public class HelloController {
         df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
 
+
+
         double calenderStartTime = 07.00;
         double calendarEndTime = 18.00;
         double timeLabelsHeight = 0.0;
@@ -88,8 +91,24 @@ public class HelloController {
             label.setMinWidth(label.getPrefWidth());
             label.setMinHeight(label.getPrefHeight());
 
+
+
             // Tilføjer labels til vBoxTid
             vBoxTid.getChildren().add(label);
+
+
+            // skal lige have kigget på hvilke værdi der skal ind her, så det også bliver dynamisk, men det er jeg for smadret til lige nu.
+
+            Line timeLine = new Line();
+            timeLine.setStartX(0);
+            timeLine.setStartY(0);
+            timeLine.setEndX(780);
+            timeLine.setLayoutX(110);
+            timeLine.setLayoutY(255 + timeLabelsHeight);
+            timeLine.setStroke(Color.gray(0.0));
+
+
+            anchorPane.getChildren().add(timeLine);
 
             // Vi tilføjer 1.00 til tiden, så vi kan lave labels for hver  time
             currentTime += 1.00;
@@ -105,27 +124,27 @@ public class HelloController {
 
         //Vi sætter højden på hBoxCalendar og vBoxTid, samt linjerne, som opdeler vores kalender.
         // Vi minusser med vBoxTid.getSpacing(), da når der er spacing i en vBox, så bliver der tilføjet spacing efter det sidste element, og vi vil have at kalenderen slutter ved det sidste tidspunkt.
-        hBoxCalendar.setPrefHeight(timeLabelsHeight - vBoxTid.getSpacing());
+        hBoxCalendar.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + 15));
         hBoxCalendar.setMaxHeight(hBoxCalendar.getPrefHeight());
         hBoxCalendar.setMinHeight(hBoxCalendar.getPrefHeight());
 
+        // ikke fast værdi her (15) - SW
+        vBoxTid.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + 15));
 
-        vBoxTid.setPrefHeight(timeLabelsHeight - vBoxTid.getSpacing());
+        System.out.println(vBoxTid.getSpacing());
         vBoxTid.setMaxHeight(vBoxTid.getPrefHeight());
         vBoxTid.setMinHeight(vBoxTid.getPrefHeight());
 
 
-        hBoxLineOne.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineTwo.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineThree.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineFour.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineFive.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineSix.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
+        hBoxLineOne.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + 15));
+        hBoxLineTwo.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + 15));
+        hBoxLineThree.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + 15));
+        hBoxLineFour.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + 15));
+        hBoxLineFive.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + 15));
+        hBoxLineSix.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + 15));
 
 
         // Vi sætter ugenummeret til at være ugenummeret for den valgte dato, hver gang der sker ændringer i datePicker
-
-
         datePickerInitialize((int) calenderStartTime);
 
         datePicker.setValue(LocalDate.now());
@@ -136,6 +155,8 @@ public class HelloController {
     public void datePickerInitialize(int startTime) {
 
         final int spacingPrLabel = (int) vBoxTid.getSpacing();
+
+        // vi skal ikke have en fast værdi her - SW
         final int heightPrLabel = 15;
 
 
@@ -250,6 +271,9 @@ public class HelloController {
     }
 
 
+
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private DatePicker datePicker;
 
