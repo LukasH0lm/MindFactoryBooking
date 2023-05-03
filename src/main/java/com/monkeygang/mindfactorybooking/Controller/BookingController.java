@@ -4,6 +4,8 @@ import com.monkeygang.mindfactorybooking.DAO.BookingDAO;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -33,8 +35,18 @@ public class BookingController {
 
     public void initialize() {
 
-        /*
-        isEdit = true;
+
+        if (isEdit) {
+            fillFields();
+        }
+
+
+    }
+
+    private void fillFields() {
+
+        Booking booking = currentBooking;
+
         bookingID = booking.getId();
 
         organisationTextfield.setText(booking.getOrganisation());
@@ -43,13 +55,14 @@ public class BookingController {
         amountOfVisitorsTextfield.setText(String.valueOf(booking.getAmount_of_people()));
         phoneTextfield.setText(booking.getTelephone());
         titelTextfield.setText(booking.getTitle_of_responsible());
-*/
+
+
 
     }
 
 
     @FXML
-    void onSubmitButtonClick(ActionEvent event) throws SQLException {
+    void onSubmitButtonClick(ActionEvent event) throws SQLException, IOException {
 
 
         //Checking if all fields are filled out, we should probably add some more checks here
@@ -97,8 +110,15 @@ public class BookingController {
 
             }
 
-            Stage stage = (Stage) submitButton.getScene().getWindow();
-            stage.close();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/monkeygang/mindfactorybooking/view/catering-view.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Mind Factory Booking - Catering");
+            stage.getIcons().add(new javafx.scene.image.Image("file:src/main/resources/com/monkeygang/mindfactorybooking/logo.jpg"));
+            stage.setScene(new Scene(fxmlLoader.load()));
+            stage.show();
+
+            Stage thisStage = (Stage) submitButton.getScene().getWindow();
+            thisStage.close();
 
         }
 
@@ -138,6 +158,8 @@ public class BookingController {
 
     @FXML
     private TextField titelTextfield;
+
+    
 
 
 }

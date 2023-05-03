@@ -28,6 +28,10 @@ import java.time.ZoneId;
 import java.util.*;
 
 
+import static com.monkeygang.mindfactorybooking.Controller.BookingController.isEdit;
+
+
+
 public class CalendarController {
 
     private List<Booking> allBookings = new ArrayList<>();
@@ -283,6 +287,7 @@ public class CalendarController {
 
             if (event.getButton() == MouseButton.PRIMARY) {
                 if (event.getClickCount() == 2) {
+                    isEdit = true;
                     loadBookingUI();
 
 
