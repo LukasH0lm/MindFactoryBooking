@@ -172,8 +172,8 @@ public class CalendarController {
         //Vi sætter højden på hBoxCalendar og vBoxTid, samt linjerne, som opdeler vores kalender.
         // Vi minusser med vBoxTid.getSpacing(), da når der er spacing i en vBox, så bliver der tilføjet spacing efter det sidste element, og vi vil have at kalenderen slutter ved det sidste tidspunkt.
         hBoxCalendar.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
-        hBoxCalendar.setMaxHeight(hBoxCalendar.getPrefHeight() + spacing);
-        hBoxCalendar.setMinHeight(hBoxCalendar.getPrefHeight() + spacing);
+        hBoxCalendar.setMaxHeight(hBoxCalendar.getPrefHeight());
+        hBoxCalendar.setMinHeight(hBoxCalendar.getPrefHeight());
 
 
         // ikke fast værdi her (15) - SW
@@ -185,9 +185,9 @@ public class CalendarController {
 
         hBoxLineOne.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
         hBoxLineTwo.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
-        hBoxLineThree.setEndY(timeLabelsHeight - ( vBoxTid.getSpacing() + spacing));
-        hBoxLineFour.setEndY(timeLabelsHeight - ( vBoxTid.getSpacing() + spacing));
-        hBoxLineFive.setEndY(timeLabelsHeight - ( vBoxTid.getSpacing() + spacing));
+        hBoxLineThree.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
+        hBoxLineFour.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
+        hBoxLineFive.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
         hBoxLineSix.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
 
 

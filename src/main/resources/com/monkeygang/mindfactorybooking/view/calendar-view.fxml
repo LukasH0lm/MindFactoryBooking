@@ -35,9 +35,9 @@
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
-            <padding>
-                <Insets left="30.0" right="30.0" />
-            </padding>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
         </HBox>
         <Label layoutX="142.0" layoutY="238.0" text="Mandag" textAlignment="CENTER">
             <font>
@@ -74,7 +74,7 @@
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <VBox fx:id="vBoxTid" layoutX="80.0" layoutY="247.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="358.0" prefWidth="30.0" spacing="13.5">
+        <VBox fx:id="vBoxTid" layoutX="80.0" layoutY="247.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="358.0" prefWidth="30.0" spacing="30.0">
          </VBox>
         <DatePicker fx:id="datePicker" layoutX="415.0" layoutY="151.0" />
         <Label fx:id="ugeLabel" layoutX="463.0" layoutY="192.0" text="Uge: 10 ">
