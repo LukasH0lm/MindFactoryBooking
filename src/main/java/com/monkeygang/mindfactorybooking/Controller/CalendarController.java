@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -46,8 +47,8 @@ public class CalendarController {
     public void initialize() throws SQLException {
 
         //mest for at teste om ui er "agilt"
-        timeComboBox.setValue("16:00");
-        timeComboBox.getItems().add("16:00");
+        timeComboBox.setValue("18:00");
+        timeComboBox.getItems().add("18:00");
         timeComboBox.getItems().add("24:00");
         timeComboBox.onActionProperty().setValue(e -> {
             generateCalendar(7);
@@ -125,6 +126,8 @@ public class CalendarController {
             vBoxTid.getChildren().add(label);
 
 
+
+
         }
 
         for (Node node : vBoxTid.getChildren()) {
@@ -143,6 +146,19 @@ public class CalendarController {
                 label.setMinWidth(label.getPrefWidth());
                 label.setMinHeight(label.getPrefHeight());
 
+
+                Line timeLine = new Line();
+                timeLine.setStartX(0);
+                timeLine.setStartY(0);
+                timeLine.setEndX(780);
+                timeLine.setLayoutX(110);
+                timeLine.setLayoutY(255 + timeLabelsHeight);
+                timeLine.setStroke(Color.gray(0.0));
+
+
+                calendarAnchorPane.getChildren().add(timeLine);
+
+
                 timeLabelsHeight += label.getPrefHeight();
                 timeLabelsHeight += vBoxTid.getSpacing();
 
@@ -151,25 +167,28 @@ public class CalendarController {
 
         }
 
+        int spacing = 15;
 
         //Vi sætter højden på hBoxCalendar og vBoxTid, samt linjerne, som opdeler vores kalender.
         // Vi minusser med vBoxTid.getSpacing(), da når der er spacing i en vBox, så bliver der tilføjet spacing efter det sidste element, og vi vil have at kalenderen slutter ved det sidste tidspunkt.
-        hBoxCalendar.setPrefHeight(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxCalendar.setMaxHeight(hBoxCalendar.getPrefHeight());
-        hBoxCalendar.setMinHeight(hBoxCalendar.getPrefHeight());
+        hBoxCalendar.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
+        hBoxCalendar.setMaxHeight(hBoxCalendar.getPrefHeight() + spacing);
+        hBoxCalendar.setMinHeight(hBoxCalendar.getPrefHeight() + spacing);
 
 
-        vBoxTid.setPrefHeight(timeLabelsHeight - vBoxTid.getSpacing());
+        // ikke fast værdi her (15) - SW
+        vBoxTid.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
+
         vBoxTid.setMaxHeight(vBoxTid.getPrefHeight());
         vBoxTid.setMinHeight(vBoxTid.getPrefHeight());
 
 
-        hBoxLineOne.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineTwo.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineThree.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineFour.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineFive.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
-        hBoxLineSix.setEndY(timeLabelsHeight - vBoxTid.getSpacing());
+        hBoxLineOne.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
+        hBoxLineTwo.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
+        hBoxLineThree.setEndY(timeLabelsHeight - ( vBoxTid.getSpacing() + spacing));
+        hBoxLineFour.setEndY(timeLabelsHeight - ( vBoxTid.getSpacing() + spacing));
+        hBoxLineFive.setEndY(timeLabelsHeight - ( vBoxTid.getSpacing() + spacing));
+        hBoxLineSix.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
 
 
     }
@@ -295,6 +314,9 @@ public class CalendarController {
         datePicker.setValue(datePicker.getValue().plusDays(7));
     }
 
+
+    @FXML
+    AnchorPane calendarAnchorPane;
 
     @FXML
     private DatePicker datePicker;
