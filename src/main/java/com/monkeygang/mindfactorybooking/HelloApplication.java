@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 
 
@@ -16,7 +18,10 @@ public class HelloApplication extends Application {
         stage.setTitle("Mind Factory Booking - Admin");
         stage.getIcons().add(new javafx.scene.image.Image("file:src/main/resources/com/monkeygang/mindfactorybooking/logo.jpg"));
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
+
+
     }
 
     public static void main(String[] args) {

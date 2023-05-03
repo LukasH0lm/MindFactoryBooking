@@ -40,6 +40,12 @@ public class CalendarController {
 
     public double startTime = 07.00;
 
+    public double heightPrLabel = 0.0;
+
+    public double spacingPrLabel = 0.0;
+
+
+
     public CalendarController() throws SQLException, IOException {
     }
 
@@ -140,7 +146,6 @@ public class CalendarController {
 
                 label.setPrefWidth(30);
                 label.setPrefHeight(15);
-
                 label.setMaxWidth(label.getPrefWidth());
                 label.setMaxHeight(label.getPrefHeight());
                 label.setMinWidth(label.getPrefWidth());
@@ -148,12 +153,12 @@ public class CalendarController {
 
 
                 Line timeLine = new Line();
-                timeLine.setStartX(0);
-                timeLine.setStartY(0);
-                timeLine.setEndX(780);
-                timeLine.setLayoutX(110);
-                timeLine.setLayoutY(255 + timeLabelsHeight);
-                timeLine.setStroke(Color.gray(0.0));
+                //timeLine.setStartX(0);
+                //timeLine.setStartY(0);
+                timeLine.setEndX(hBoxCalendar.getPrefWidth());
+                timeLine.setLayoutX(hBoxCalendar.getLayoutX());
+                timeLine.setLayoutY(hBoxCalendar.getLayoutY() + timeLabelsHeight);
+                timeLine.setStroke(Color.rgb(169,169, 169));
 
 
                 calendarAnchorPane.getChildren().add(timeLine);
@@ -162,33 +167,36 @@ public class CalendarController {
                 timeLabelsHeight += label.getPrefHeight();
                 timeLabelsHeight += vBoxTid.getSpacing();
 
+                heightPrLabel = label.getPrefHeight();
+
+
+
+
 
             }
 
         }
 
-        int spacing = 15;
 
         //Vi sætter højden på hBoxCalendar og vBoxTid, samt linjerne, som opdeler vores kalender.
         // Vi minusser med vBoxTid.getSpacing(), da når der er spacing i en vBox, så bliver der tilføjet spacing efter det sidste element, og vi vil have at kalenderen slutter ved det sidste tidspunkt.
-        hBoxCalendar.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
+        hBoxCalendar.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + heightPrLabel));
         hBoxCalendar.setMaxHeight(hBoxCalendar.getPrefHeight());
         hBoxCalendar.setMinHeight(hBoxCalendar.getPrefHeight());
 
 
         // ikke fast værdi her (15) - SW
-        vBoxTid.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
-
+        vBoxTid.setPrefHeight(timeLabelsHeight - (vBoxTid.getSpacing() + heightPrLabel));
         vBoxTid.setMaxHeight(vBoxTid.getPrefHeight());
         vBoxTid.setMinHeight(vBoxTid.getPrefHeight());
 
 
-        hBoxLineOne.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
-        hBoxLineTwo.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
-        hBoxLineThree.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
-        hBoxLineFour.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
-        hBoxLineFive.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
-        hBoxLineSix.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + spacing));
+        hBoxLineOne.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + heightPrLabel));
+        hBoxLineTwo.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + heightPrLabel));
+        hBoxLineThree.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + heightPrLabel));
+        hBoxLineFour.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + heightPrLabel));
+        hBoxLineFive.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + heightPrLabel));
+        hBoxLineSix.setEndY(timeLabelsHeight - (vBoxTid.getSpacing() + heightPrLabel));
 
 
     }
@@ -197,8 +205,7 @@ public class CalendarController {
 
     private void loadBookings() {
 
-        final int spacingPrLabel = (int) vBoxTid.getSpacing();
-        final int heightPrLabel = 15;
+        spacingPrLabel = vBoxTid.getSpacing();
 
         // Datoen skal konveretes til date. //hvorfor?
         LocalDate localDateOnAction = datePicker.getValue();
@@ -239,8 +246,8 @@ public class CalendarController {
 
             if (bookingDateWeek == weekOnAction) {
 
-                Integer RectangleHeight = (booking.getEndTime().getHours() - booking.getStartTime().getHours()) * (spacingPrLabel + heightPrLabel);
-                Integer RectangleYStartPosition = (int) ((booking.getStartTime().getHours() - startTime) * (spacingPrLabel + heightPrLabel));
+                double RectangleHeight = (booking.getEndTime().getHours() - booking.getStartTime().getHours()) * (spacingPrLabel + heightPrLabel);
+                double RectangleYStartPosition = (booking.getStartTime().getHours() - startTime) * (spacingPrLabel + heightPrLabel);
 
 
                 Rectangle bookingRectangle = new Rectangle(50, RectangleHeight);
@@ -267,6 +274,7 @@ public class CalendarController {
 
 
     }
+
 
     public void bookingInitialize(Rectangle bookingRectangle, Booking booking) {
         bookingRectangle.setOnMouseClicked(event -> {
