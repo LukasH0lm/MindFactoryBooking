@@ -1,8 +1,10 @@
 package com.monkeygang.mindfactorybooking.Controller;
 
+import com.itextpdf.text.DocumentException;
 import com.monkeygang.mindfactorybooking.DAO.BookingDAO;
 import com.monkeygang.mindfactorybooking.HelloApplication;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
+import com.monkeygang.mindfactorybooking.utility.PDFMaker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
@@ -206,6 +209,107 @@ public class CalendarController {
     }
 
 
+    private void createSingleBooking(Booking booking){
+
+        double RectangleHeight = (booking.getEndTime().getHours() - booking.getStartTime().getHours()) * (spacingPrLabel + heightPrLabel) + (booking.getEndTime().getMinutes() * (spacingPrLabel + heightPrLabel) / 60);
+        double RectangleYStartPosition = (booking.getStartTime().getHours() - startTime) * (spacingPrLabel + heightPrLabel);
+
+
+
+        Rectangle bookingRectangle = new Rectangle(50, RectangleHeight);
+        bookingRectangle.setFill(Color.RED);
+        bookingRectangle.setY(RectangleYStartPosition);
+
+        bookingInitialize(bookingRectangle, booking);
+
+
+
+        switch (booking.getStartTime().getDay()) {
+            case 1 -> paneMandag.getChildren().add(bookingRectangle);
+            case 2 -> paneTirsdag.getChildren().add(bookingRectangle);
+            case 3 -> paneOnsdag.getChildren().add(bookingRectangle);
+            case 4 -> paneTorsdag.getChildren().add(bookingRectangle);
+            case 5 -> paneFredag.getChildren().add(bookingRectangle);
+            case 6 -> paneLordag.getChildren().add(bookingRectangle);
+            case 0 -> paneSondag.getChildren().add(bookingRectangle);
+        }
+
+    }
+
+    private void createSingleBookingFixedValues(Booking booking, Timestamp bookingStartTime, Timestamp bookingEndTime){
+
+        double RectangleHeight = (bookingEndTime.getHours() - bookingStartTime.getHours()) * (spacingPrLabel + heightPrLabel) + (bookingEndTime.getMinutes() * (spacingPrLabel + heightPrLabel) / 60);
+        double RectangleYStartPosition = (bookingStartTime.getHours() - startTime) * (spacingPrLabel + heightPrLabel);
+
+
+
+        Rectangle bookingRectangle = new Rectangle(50, RectangleHeight);
+        bookingRectangle.setFill(Color.RED);
+        bookingRectangle.setY(RectangleYStartPosition);
+
+        Booking fixedbooking = new Booking(0, bookingStartTime, bookingEndTime, "0", "0", "0", 0, "0", "0");
+
+        bookingInitialize(bookingRectangle, booking);
+
+
+        switch (fixedbooking.getStartTime().getDay()) {
+            case 1 -> paneMandag.getChildren().add(bookingRectangle);
+            case 2 -> paneTirsdag.getChildren().add(bookingRectangle);
+            case 3 -> paneOnsdag.getChildren().add(bookingRectangle);
+            case 4 -> paneTorsdag.getChildren().add(bookingRectangle);
+            case 5 -> paneFredag.getChildren().add(bookingRectangle);
+            case 6 -> paneLordag.getChildren().add(bookingRectangle);
+            case 0 -> paneSondag.getChildren().add(bookingRectangle);
+        }
+
+    }
+
+
+    private void createBookingMultipleDays(Booking booking){
+
+        int daysBetweenStartdateAndEndDate = booking.getEndTime().getDate() - booking.getStartTime().getDate();
+        int currentDay = booking.getStartTime().getDate();
+
+        // vi burde nok bruge endtime her fra kalenderen
+
+        //vi laver start dagen her, da vi skal have et bestemt tidspunkt, hvor dagen starter.
+        Timestamp firstDayEndTime = new Timestamp(booking.getStartTime().getYear(), booking.getStartTime().getMonth(), booking.getStartTime().getDate(), 18, 00, 00, 00 );
+
+        createSingleBookingFixedValues(booking, booking.getStartTime(), firstDayEndTime);
+
+        System.out.println("test" + booking.getStartTime());
+
+        currentDay++;
+
+        //Vi laver dagene i mellem start dato og slut dato.
+        //Vi skal ikke gå igennem denne loop, hvis der ikke er booket mere end 2 dage, da vi laver start og slut dag uden for loopen.
+        //Vi minusser med 2, da vi ikke skal tælle de 2 dage med som vi laver ude for loopen.
+        if (daysBetweenStartdateAndEndDate > 1) {
+            for (int i = 0; i <= daysBetweenStartdateAndEndDate - 2; i++) {
+
+                Timestamp fillerStart = new Timestamp(booking.getStartTime().getYear(), booking.getStartTime().getMonth(), currentDay, 7, 00, 00, 00);
+                Timestamp fillerEnd = new Timestamp(booking.getEndTime().getYear(), booking.getEndTime().getMonth(), currentDay, 18, 00, 00, 00);
+
+                createSingleBookingFixedValues(booking, fillerStart, fillerEnd);
+
+                currentDay++;
+            }
+        }
+
+
+        // vi burde nok bruge starttime her fra kalenderen
+
+        //Vi laver slutdagen her, da vi skal have bestem tidspunkt for slutningen af dagen.
+        Timestamp lastDayStartTime = new Timestamp(booking.getEndTime().getYear(), booking.getEndTime().getMonth(), currentDay, 7, 00, 00, 00 );
+
+        Timestamp lastDayEndTime = new Timestamp(booking.getEndTime().getYear(), booking.getEndTime().getMonth(), currentDay, booking.getEndTime().getHours(), booking.getEndTime().getMinutes(), booking.getEndTime().getSeconds(), booking.getEndTime().getNanos());
+
+        createSingleBookingFixedValues(booking, lastDayStartTime, lastDayEndTime);
+
+
+    }
+
+
 
     private void loadBookings() {
 
@@ -219,6 +323,7 @@ public class CalendarController {
         Calendar calOnAction = Calendar.getInstance();
         calOnAction.setTime(dateOnAction);
         int weekOnAction = calOnAction.get(Calendar.WEEK_OF_YEAR);
+        int yearOnAction = calOnAction.get(Calendar.YEAR);
 
 
         ugeLabel.setText("Uge " + weekOnAction);
@@ -248,28 +353,23 @@ public class CalendarController {
             System.out.println("bookingDateWeek " + bookingDateWeek);
             System.out.println("WeekOnAction " + weekOnAction);
 
-            if (bookingDateWeek == weekOnAction) {
-
-                double RectangleHeight = (booking.getEndTime().getHours() - booking.getStartTime().getHours()) * (spacingPrLabel + heightPrLabel);
-                double RectangleYStartPosition = (booking.getStartTime().getHours() - startTime) * (spacingPrLabel + heightPrLabel);
 
 
-                Rectangle bookingRectangle = new Rectangle(50, RectangleHeight);
-                bookingRectangle.setFill(Color.RED);
-                bookingRectangle.setY(RectangleYStartPosition);
-
-                bookingInitialize(bookingRectangle, booking);
+            // vi ligger 1900 til, da Timestamp er underlig D:D:D:D:
+            if (bookingDateWeek == weekOnAction && booking.getStartTime().getYear() + 1900 == yearOnAction) {
 
 
-                switch (booking.getStartTime().getDay()) {
-                    case 1 -> paneMandag.getChildren().add(bookingRectangle);
-                    case 2 -> paneTirsdag.getChildren().add(bookingRectangle);
-                    case 3 -> paneOnsdag.getChildren().add(bookingRectangle);
-                    case 4 -> paneTorsdag.getChildren().add(bookingRectangle);
-                    case 5 -> paneFredag.getChildren().add(bookingRectangle);
-                    case 6 -> paneLordag.getChildren().add(bookingRectangle);
-                    case 0 -> paneSondag.getChildren().add(bookingRectangle);
+
+                if (!(booking.getStartTime().getDay() == booking.getEndTime().getDay())){
+
+                    createBookingMultipleDays(booking);
+
                 }
+                else{
+                    createSingleBooking(booking);
+
+                }
+
 
 
             }
@@ -327,6 +427,9 @@ public class CalendarController {
         datePicker.setValue(datePicker.getValue().plusDays(7));
     }
 
+    public void createPDF() throws DocumentException, IOException {
+        PDFMaker.HelloWordPDF();
+    }
 
     @FXML
     AnchorPane calendarAnchorPane;
