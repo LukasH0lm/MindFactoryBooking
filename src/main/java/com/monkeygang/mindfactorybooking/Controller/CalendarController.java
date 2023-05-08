@@ -112,7 +112,7 @@ public class CalendarController {
         generateCalendar(calenderStartTime);
 
 
-        // Vi sætter ugenummeret til at være ugenummeret for den valgte dato, hver gang der sker ændringer i datePicker
+
 
         loadBookings();
 
@@ -241,18 +241,14 @@ public class CalendarController {
         double RectangleHeight = (bookingEndTime.getHours() - bookingStartTime.getHours()) * (spacingPrLabel + heightPrLabel) + (bookingEndTime.getMinutes() * (spacingPrLabel + heightPrLabel) / 60);
         double RectangleYStartPosition = (bookingStartTime.getHours() - startTime) * (spacingPrLabel + heightPrLabel);
 
-
-
         Rectangle bookingRectangle = new Rectangle(50, RectangleHeight);
         bookingRectangle.setFill(Color.RED);
         bookingRectangle.setY(RectangleYStartPosition);
 
-        Booking fixedbooking = new Booking(0, bookingStartTime, bookingEndTime, "0", "0", "0", 0, "0", "0");
 
         bookingInitialize(bookingRectangle, booking);
 
-
-        switch (fixedbooking.getStartTime().getDay()) {
+        switch (bookingStartTime.getDay()) {
             case 1 -> paneMandag.getChildren().add(bookingRectangle);
             case 2 -> paneTirsdag.getChildren().add(bookingRectangle);
             case 3 -> paneOnsdag.getChildren().add(bookingRectangle);
