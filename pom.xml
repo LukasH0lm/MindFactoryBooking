@@ -108,7 +108,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.monkeygang.mindfactorybooking/com.monkeygang.mindfactorybooking.HelloApplication
+                                com.monkeygang.mindfactorybooking/com.monkeygang.mindfactorybooking.BookingApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

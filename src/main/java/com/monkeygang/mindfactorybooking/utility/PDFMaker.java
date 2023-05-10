@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.io.*;
 
 import com.itextpdf.text.DocumentException;
-import com.monkeygang.mindfactorybooking.HelloApplication;
+import com.monkeygang.mindfactorybooking.BookingApplication;
 import org.jfree.chart.*;
 
 
@@ -27,7 +27,7 @@ public class PDFMaker {
 
         JFreeChart pieChart = createPieChart();
 
-        String pdfFilePath = HelloApplication.class.getResource("").getPath() + "HelloWorld.pdf";
+        String pdfFilePath = BookingApplication.class.getResource("").getPath() + "HelloWorld.pdf";
         OutputStream fos = new FileOutputStream(pdfFilePath);
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, fos);
