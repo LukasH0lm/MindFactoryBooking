@@ -2,9 +2,8 @@ package com.monkeygang.mindfactorybooking.Controller;
 
 import com.itextpdf.text.DocumentException;
 import com.monkeygang.mindfactorybooking.DAO.BookingDAO;
-import com.monkeygang.mindfactorybooking.BookingApplication;
+import com.monkeygang.mindfactorybooking.HelloApplication;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
-import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.utility.PDFMaker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +29,9 @@ import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+
+
+import static com.monkeygang.mindfactorybooking.Controller.BookingController.isEdit;
 
 
 
@@ -376,16 +378,12 @@ public class CalendarController {
 
     public void bookingInitialize(Rectangle bookingRectangle, Booking booking) {
         bookingRectangle.setOnMouseClicked(event -> {
-            CurrentBookingSingleton.getInstance().setCurrentBooking(booking);
+            currentBooking = booking;
 
 
             if (event.getButton() == MouseButton.PRIMARY) {
                 if (event.getClickCount() == 2) {
-
-                    CurrentBookingSingleton.getInstance().setCurrentBooking(booking);
-
-                    CurrentBookingSingleton.getInstance().setIsEdit(true);
-
+                    isEdit = true;
                     loadBookingUI();
 
 
@@ -400,7 +398,7 @@ public class CalendarController {
 
     private void loadBookingUI() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(BookingApplication.class.getResource("view/booking-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("view/booking-view.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setTitle("Booking");

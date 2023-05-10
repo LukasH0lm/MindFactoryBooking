@@ -2,7 +2,6 @@ package com.monkeygang.mindfactorybooking.Controller;
 
 import com.monkeygang.mindfactorybooking.DAO.BookingDAO;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
-import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +15,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+
+import static com.monkeygang.mindfactorybooking.Controller.CalendarController.currentBooking;
 
 
 public class BookingController {
@@ -35,8 +36,7 @@ public class BookingController {
     public void initialize() {
 
 
-
-        if (CurrentBookingSingleton.getInstance().getIsEdit()) {
+        if (isEdit) {
             fillFields();
         }
 
@@ -45,7 +45,7 @@ public class BookingController {
 
     private void fillFields() {
 
-        Booking booking = CurrentBookingSingleton.getInstance().getBooking();
+        Booking booking = currentBooking;
 
         bookingID = booking.getId();
 
@@ -81,10 +81,10 @@ public class BookingController {
 
         } else {
 
-            if (CurrentBookingSingleton.getInstance().getIsEdit()) {
+            if (isEdit) {
 
                 String[] args = new String[1];
-                BookingDAOImpl.update(CurrentBookingSingleton.getInstance().getBooking(), args);
+                BookingDAOImpl.update(currentBooking, args);
 
             } else {
 
@@ -114,9 +114,6 @@ public class BookingController {
             Stage stage = new Stage();
             stage.setTitle("Mind Factory Booking - Catering");
             stage.getIcons().add(new javafx.scene.image.Image("file:src/main/resources/com/monkeygang/mindfactorybooking/logo.jpg"));
-
-            
-
             stage.setScene(new Scene(fxmlLoader.load()));
             stage.show();
 
