@@ -4,7 +4,7 @@ package com.monkeygang.mindfactorybooking.utility;
 import java.io.*;
 import java.util.Properties;
 
-import com.monkeygang.mindfactorybooking.HelloApplication;
+import com.monkeygang.mindfactorybooking.BookingApplication;
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.FileDataSource;
@@ -39,7 +39,7 @@ public class MailSender {
         properties.put("mail.smtp.starttls.enable", "yes");
         properties.put("mail.smtp.auth", "true");
 
-        File file = new File(HelloApplication.class.getResource("").getPath() + "SendinBluePassword");
+        File file = new File(BookingApplication.class.getResource("").getPath() + "SendinBluePassword");
 
         BufferedReader br = new BufferedReader(new FileReader(file));
 
@@ -91,7 +91,7 @@ public class MailSender {
 
             // Part two is attachment
             messageBodyPart = new MimeBodyPart();
-            String filename = HelloApplication.class.getResource("calendar-view.fxml").getPath() + "HelloWorld.pdf";
+            String filename = BookingApplication.class.getResource("calendar-view.fxml").getPath() + "HelloWorld.pdf";
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(filename);
