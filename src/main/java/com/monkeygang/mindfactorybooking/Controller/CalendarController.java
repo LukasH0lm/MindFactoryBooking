@@ -398,7 +398,10 @@ public class CalendarController {
         Label bookingLabel = new Label(booking.getOrganisation());
 
         bookingLabel.setAlignment(Pos.CENTER);
+
         bookingLabel.setTextFill(Paint.valueOf("white"));
+        bookingLabel.setMaxWidth(45); // 50 - 5 to give the text to space to breathe
+        bookingLabel.setWrapText(true);
 
         StackPane stack = new StackPane(bookingRectangle, bookingLabel);
 
@@ -460,12 +463,13 @@ public class CalendarController {
 
                 currentStage.setOpacity(1);
 
-
+                //fake waiting to let the ui update
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
 
                 try {
                     loadBookings();
