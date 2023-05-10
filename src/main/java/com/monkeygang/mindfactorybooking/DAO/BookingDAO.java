@@ -78,6 +78,9 @@ public class BookingDAO implements Dao {
 
         ps.execute();
 
+        System.out.println("Booking saved");
+        System.out.println("hashcode: " + o.hashCode());
+
     }
 
     @Override
@@ -91,15 +94,20 @@ public class BookingDAO implements Dao {
 
         ps.execute();
 
+        System.out.println("Booking updated");
+        System.out.println("hashcode: " + o.hashCode());
+
     }
 
     @Override
     public void delete(Object o) throws SQLException {
 
+        Booking booking = (Booking) o;
+
         PreparedStatement ps = con.prepareStatement("DELETE FROM booking WHERE id = ?");
 
 
-        ps.setInt(1, ((Booking) o).getId());
+        ps.setInt(1, booking.getId());
         ps.execute();
 
     }

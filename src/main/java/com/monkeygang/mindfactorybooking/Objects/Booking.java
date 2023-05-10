@@ -2,6 +2,7 @@ package com.monkeygang.mindfactorybooking.Objects;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class Booking {
 
@@ -106,5 +107,19 @@ public class Booking {
 
     public void setAmount_of_people(int amount_of_people) {
         this.amount_of_people = amount_of_people;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Booking booking = (Booking) o;
+        return id == booking.id && amount_of_people == booking.amount_of_people && Objects.equals(startTime, booking.startTime) && Objects.equals(endTime, booking.endTime) && Objects.equals(organisation, booking.organisation) && Objects.equals(field, booking.field) && Objects.equals(responsible, booking.responsible) && Objects.equals(title_of_responsible, booking.title_of_responsible) && Objects.equals(telephone, booking.telephone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, startTime, endTime, organisation, field, responsible, title_of_responsible, telephone, amount_of_people);
     }
 }

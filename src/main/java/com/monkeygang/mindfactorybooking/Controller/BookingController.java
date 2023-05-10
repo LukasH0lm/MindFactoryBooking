@@ -7,15 +7,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class BookingController {
@@ -29,15 +29,21 @@ public class BookingController {
     public BookingController() throws SQLException, IOException {
 
 
-
     }
 
     public void initialize() {
 
+        startTimeCombobox.getItems().addAll("7:00", "8:00", "9:00", "10:00", "11:00", "12:00",
+                "13:00", "14:00", "15:00", "16:00", "17:00", "18:00");
 
+        endTimeCombobox.getItems().addAll("7:00", "8:00", "9:00", "10:00", "11:00", "12:00",
+                "13:00", "14:00", "15:00", "16:00", "17:00", "18:00");
 
         if (CurrentBookingSingleton.getInstance().getIsEdit()) {
             fillFields();
+
+        } else {
+            deleteButton.setVisible(false);
         }
 
 
@@ -57,7 +63,6 @@ public class BookingController {
         titelTextfield.setText(booking.getTitle_of_responsible());
 
 
-
     }
 
 
@@ -73,17 +78,38 @@ public class BookingController {
                 || phoneTextfield.getText().equals("")
                 || titelTextfield.getText().equals("")) {
 
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            stage.setAlwaysOnTop(false);
+            stage.setOpacity(0.5);
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
             alert.setContentText("Please fill out all fields!");
             alert.showAndWait();
 
+            alert.setOnCloseRequest( (e) -> {
+                stage.setAlwaysOnTop(true);
+                stage.setOpacity(1);
+            });
+
         } else {
 
             if (CurrentBookingSingleton.getInstance().getIsEdit()) {
 
+                //if editing, does not work rn:
+
                 String[] args = new String[1];
+
+                if (isColliding(CurrentBookingSingleton.getInstance().getBooking())) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error");
+                    alert.setContentText("This time is already booked!");
+                    alert.showAndWait();
+                    return;
+                }
+
                 BookingDAOImpl.update(CurrentBookingSingleton.getInstance().getBooking(), args);
 
             } else {
@@ -93,10 +119,22 @@ public class BookingController {
 
                 Booking booking = new Booking(
                         -1,
-                        //Temporary solution, the controller is build as if we already have the times
-                        new Timestamp(dateTime.get(Calendar.YEAR) - 1900, dateTime.get(Calendar.MONTH), dateTime.get(Calendar.DAY_OF_MONTH), dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), 0, 0),
-                        new Timestamp(dateTime.get(Calendar.YEAR) - 1900, dateTime.get(Calendar.MONTH), dateTime.get(Calendar.DAY_OF_MONTH), dateTime.get(Calendar.HOUR_OF_DAY) + 2, dateTime.get(Calendar.MINUTE), 0, 0),
-
+                        //startTime
+                        new Timestamp(
+                                startDatePicker.getValue().getYear() - 1900,
+                                startDatePicker.getValue().getMonthValue() -1, // -1 because timestamp starts at 0,
+                                startDatePicker.getValue().getDayOfMonth(),
+                                Integer.parseInt(startTimeCombobox.getValue().substring(0, 2).replace(":", "")),
+                                0, 0, 0)
+                        ,
+                        //endTime
+                        new Timestamp(
+                                endDatePicker.getValue().getYear() - 1900,
+                                endDatePicker.getValue().getMonthValue() -1, // -1 because timestamp starts at 0,
+                                endDatePicker.getValue().getDayOfMonth(),
+                                Integer.parseInt(endTimeCombobox.getValue().substring(0, 2)),
+                                0, 0, 0)
+                        ,
 
                         organisationTextfield.getText(),
                         fieldTextfield.getText(),
@@ -106,25 +144,81 @@ public class BookingController {
                         titelTextfield.getText()
                 );
 
-                BookingDAOImpl.save(booking);
+                if (isColliding(booking)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error");
+                    alert.setContentText("This time is already booked!");
+                    alert.showAndWait();
+                    //returning as a failsafe, should never happen
+                    return;
+                } else {
 
+                    BookingDAOImpl.save(booking);
+
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/monkeygang/mindfactorybooking/view/catering-view.fxml"));
+                    Stage stage = new Stage();
+                    stage.setTitle("Mind Factory Booking - Catering");
+                    stage.getIcons().add(new javafx.scene.image.Image("file:src/main/resources/com/monkeygang/mindfactorybooking/logo.jpg"));
+
+
+                    stage.setScene(new Scene(fxmlLoader.load()));
+                    stage.show();
+
+                    Stage thisStage = (Stage) submitButton.getScene().getWindow();
+                    thisStage.close();
+
+
+                }
+            }
+        }
+    }
+
+
+    public boolean isColliding(Booking currentBooking) {
+        List<Booking> bookings = new LinkedList<>();
+
+        try {
+            bookings = BookingDAOImpl.getAll();
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
+        }
+
+        //checks for collisions
+        //checks:
+        //if current booking starts or end at the same time as another booking
+        //if current booking is between another booking
+        //if another booking is between current booking
+
+        //doesn't check if current booking is right before or right after another booking
+
+        for (Booking booking : bookings) {
+
+            if (booking.getId() == currentBooking.getId()) {
+                continue;
             }
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/monkeygang/mindfactorybooking/view/catering-view.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Mind Factory Booking - Catering");
-            stage.getIcons().add(new javafx.scene.image.Image("file:src/main/resources/com/monkeygang/mindfactorybooking/logo.jpg"));
 
-            
+            // if current booking starts or end at the same time as another booking
+            if (booking.getStartTime().equals(currentBooking.getStartTime()) || booking.getEndTime().equals(currentBooking.getEndTime())) {
+                return true;
+            }
 
-            stage.setScene(new Scene(fxmlLoader.load()));
-            stage.show();
+            // if current booking is between another booking
+            if (booking.getStartTime().before(currentBooking.getStartTime()) && booking.getEndTime().after(currentBooking.getStartTime())) {
+                return true;
+            }
 
-            Stage thisStage = (Stage) submitButton.getScene().getWindow();
-            thisStage.close();
+            // if another booking is between current booking
+            if (booking.getStartTime().after(currentBooking.getStartTime()) && booking.getEndTime().before(currentBooking.getEndTime())) {
+                return true;
+            }
+
 
         }
 
+        return false;
 
     }
 
@@ -136,6 +230,21 @@ public class BookingController {
 
     }
 
+    @FXML
+    void onDeleteButtonClick() {
+
+        try {
+            System.out.println("deleting:" + CurrentBookingSingleton.getInstance().getBooking().getId());
+            BookingDAOImpl.delete(CurrentBookingSingleton.getInstance().getBooking());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        Stage stage = (Stage) deleteButton.getScene().getWindow();
+        stage.close();
+
+
+    }
 
 
     @FXML
@@ -160,9 +269,22 @@ public class BookingController {
     private Button cancelButton;
 
     @FXML
+    private Button deleteButton;
+
+    @FXML
     private TextField titelTextfield;
 
-    
+    @FXML
+    private ComboBox<String> startTimeCombobox;
+
+    @FXML
+    private ComboBox<String> endTimeCombobox;
+
+    @FXML
+    private DatePicker startDatePicker;
+
+    @FXML
+    private DatePicker endDatePicker;
 
 
 }
