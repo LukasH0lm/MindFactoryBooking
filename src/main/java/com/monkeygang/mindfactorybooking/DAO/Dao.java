@@ -11,9 +11,9 @@ public interface Dao<T> {
 
     List<T> getAll() throws SQLException, IOException;
 
-    void save(T t) throws SQLException;
+    void save(T t) throws SQLException, IOException;
 
     void update(T t, String[] params) throws SQLException;
 
-    void delete(T t) throws SQLException;
+    void delete(T t) throws SQLException, IOException;
 }

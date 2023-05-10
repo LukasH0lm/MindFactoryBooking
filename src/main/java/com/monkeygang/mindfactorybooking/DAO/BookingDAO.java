@@ -4,10 +4,7 @@ import com.monkeygang.mindfactorybooking.BuisnessLogic.ConnectionSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +13,9 @@ import java.util.Optional;
 public class BookingDAO implements Dao {
 
     Connection con;
+
+    Timestamp lastStartTime;
+    Timestamp lastEndTime;
 
     public BookingDAO() throws SQLException, IOException {
 
@@ -27,6 +27,22 @@ public class BookingDAO implements Dao {
     @Override
     public Optional get(long id) {
         return Optional.empty();
+    }
+
+    public Booking getFromTimeStamps(Timestamp startTime, Timestamp endTime) throws SQLException, IOException {
+
+        List<Booking> bookings = getAll();
+
+        for (Booking booking : bookings) {
+
+            if (startTime.equals(booking.getStartTime()) && endTime.equals(booking.getEndTime())){
+                return booking;
+            }
+        }
+
+        System.out.println("no new bookings");
+        return null;
+
     }
 
     @Override
@@ -81,6 +97,12 @@ public class BookingDAO implements Dao {
         System.out.println("Booking saved");
         System.out.println("hashcode: " + o.hashCode());
 
+        lastStartTime = ((Booking) o).getStartTime();
+        lastEndTime = ((Booking) o).getEndTime();
+
+        System.out.println("last start time: " + lastStartTime);
+        System.out.println("last end time: " + lastEndTime);
+
     }
 
     @Override
@@ -97,15 +119,21 @@ public class BookingDAO implements Dao {
         System.out.println("Booking updated");
         System.out.println("hashcode: " + o.hashCode());
 
+        lastStartTime = ((Booking) o).getStartTime();
+        lastEndTime = ((Booking) o).getEndTime();
+
     }
 
     @Override
-    public void delete(Object o) throws SQLException {
+    public void delete(Object o) throws SQLException, IOException {
 
         Booking booking = (Booking) o;
 
         PreparedStatement ps = con.prepareStatement("DELETE FROM booking WHERE id = ?");
 
+        Booking_CateringDAO booking_cateringDAO = new Booking_CateringDAO();
+
+        booking_cateringDAO.deleteByBookingId(booking.getId());
 
         ps.setInt(1, booking.getId());
         ps.execute();

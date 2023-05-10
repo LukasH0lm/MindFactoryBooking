@@ -7,6 +7,7 @@ import com.monkeygang.mindfactorybooking.Objects.Booking;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.utility.PDFMaker;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -115,6 +116,32 @@ public class CalendarController {
         generateCalendar(calenderStartTime);
 
 
+        // updates ui every 5 seconds
+        Thread thread = new Thread(() -> {
+
+            while (true) {
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Platform.runLater(() -> {
+                    try {
+                        loadBookings();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+            }
+
+        });
+
+        thread.start();
 
 
         loadBookings();
@@ -426,9 +453,19 @@ public class CalendarController {
             Stage currentStage = (Stage) calendarAnchorPane.getScene().getWindow();
 
 
+            //currentStage.setOpacity(0.5); //works like half of the time
+
+
             stage.setOnCloseRequest(event -> {
 
                 currentStage.setOpacity(1);
+
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
                 try {
                     loadBookings();
@@ -439,7 +476,6 @@ public class CalendarController {
                 }
             });
 
-            currentStage.setOpacity(0.5);
 
             stage.show();
 
