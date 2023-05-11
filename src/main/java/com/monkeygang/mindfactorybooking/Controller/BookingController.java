@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,6 +53,11 @@ public class BookingController {
         Booking booking = CurrentBookingSingleton.getInstance().getBooking();
 
         bookingID = booking.getId();
+
+        startDatePicker.setValue(booking.getStartTime().toLocalDateTime().toLocalDate());
+        endDatePicker.setValue(booking.getEndTime().toLocalDateTime().toLocalDate());
+        startTimeCombobox.setValue(booking.getStartTime().toLocalDateTime().toLocalTime().toString().substring(0, 5));
+        endTimeCombobox.setValue(booking.getEndTime().toLocalDateTime().toLocalTime().toString().substring(0, 5));
 
         organisationTextfield.setText(booking.getOrganisation());
         fieldTextfield.setText(booking.getField());
@@ -109,6 +113,19 @@ public class BookingController {
                     alert.showAndWait();
                     return;
                 }
+
+                Timestamp startTime = Timestamp.valueOf(startDatePicker.getValue().atTime(Integer.parseInt(startTimeCombobox.getValue().substring(0, 2).replace(":", "")), 0));
+                Timestamp endTime = Timestamp.valueOf(endDatePicker.getValue().atTime(Integer.parseInt(endTimeCombobox.getValue().substring(0, 2).replace(":", "")), 0));
+
+                CurrentBookingSingleton.getInstance().getBooking().setStartTime(startTime);
+                CurrentBookingSingleton.getInstance().getBooking().setEndTime(endTime);
+                CurrentBookingSingleton.getInstance().getBooking().setOrganisation(organisationTextfield.getText());
+                CurrentBookingSingleton.getInstance().getBooking().setField(fieldTextfield.getText());
+                CurrentBookingSingleton.getInstance().getBooking().setResponsible(responsibleTextfield.getText());
+                CurrentBookingSingleton.getInstance().getBooking().setAmount_of_people(Integer.parseInt(amountOfVisitorsTextfield.getText()));
+                CurrentBookingSingleton.getInstance().getBooking().setTelephone(phoneTextfield.getText());
+                CurrentBookingSingleton.getInstance().getBooking().setTitle_of_responsible(titelTextfield.getText());
+
 
                 BookingDAOImpl.update(CurrentBookingSingleton.getInstance().getBooking(), args);
 
