@@ -54,7 +54,7 @@ public class PDFMaker {
 
         document.add(new com.itextpdf.text.Paragraph("MindFactory Projekt", new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 18, com.itextpdf.text.Font.BOLD)));
         document.add(new com.itextpdf.text.Paragraph(""));
-        document.add(new com.itextpdf.text.Paragraph("Organisation: EASV"));
+        document.add(new com.itextpdf.text.Paragraph("Organization: EASV"));
         document.add(new com.itextpdf.text.Paragraph("Navn: Lukas"));
         document.add(new com.itextpdf.text.Paragraph("Email: lukasholm@hotmail.com"));
         document.add(new com.itextpdf.text.Paragraph("Tlf: 12345678"));

@@ -1,6 +1,8 @@
 package com.monkeygang.mindfactorybooking.DAO;
 
-import com.monkeygang.mindfactorybooking.BuisnessLogic.ConnectionSingleton;
+import com.monkeygang.mindfactorybooking.Objects.Customer;
+import com.monkeygang.mindfactorybooking.Objects.Organization;
+import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 
 import java.io.IOException;
@@ -10,14 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class BookingDAO implements Dao {
+public class BookingDao implements Dao {
 
     Connection con;
 
     Timestamp lastStartTime;
     Timestamp lastEndTime;
 
-    public BookingDAO() throws SQLException, IOException {
+    public BookingDao() throws SQLException, IOException {
 
         con = ConnectionSingleton.getInstance().getConnection();
 
@@ -56,9 +58,17 @@ public class BookingDAO implements Dao {
 
         ResultSet rs = ps.executeQuery();
 
+        CustomerDao customerDao = new CustomerDao();
 
         while (rs.next()) {
-            Booking booking = new Booking(rs.getInt("id"), rs.getTimestamp("start_time"), rs.getTimestamp("end_time"), rs.getString("organisation"), rs.getString("field"), rs.getString("responsible"), rs.getInt("amount_of_people"), rs.getString("telephone"), rs.getString("title_of_responsible"));
+            Booking booking = new Booking(
+                    rs.getInt("id"),
+                    rs.getTimestamp("start_time"),
+                    rs.getTimestamp("end_time"),
+                    rs.getInt("amount_of_visitors"),
+                    //TODO: make null safe
+                    (Customer) customerDao.get(rs.getInt("customer_id")).get());
+
             allBookings.add(booking);
         }
 
@@ -73,12 +83,8 @@ public class BookingDAO implements Dao {
 
         ps.setTimestamp(1, ((Booking) o).getStartTime());
         ps.setTimestamp(2, ((Booking) o).getEndTime());
-        ps.setString(3, ((Booking) o).getOrganisation());
-        ps.setString(4, ((Booking) o).getField());
-        ps.setString(5, ((Booking) o).getResponsible());
-        ps.setInt(6, ((Booking) o).getAmount_of_people());
-        ps.setString(7, ((Booking) o).getTelephone());
-        ps.setString(8, ((Booking) o).getTitle_of_responsible());
+        ps.setInt(3, ((Booking) o).getAmount_of_people());
+        ps.setInt(4, ((Booking) o).getCustomer().getId());
 
         return ps;
     }
@@ -88,13 +94,14 @@ public class BookingDAO implements Dao {
     @Override
     public void save(Object o) throws SQLException {
 
-        PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?,?,?,?,?)");
+        PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
         ps = generatePreparedStatement(ps,o);
 
-        ps.execute();
+        int Booking_id = ps.executeUpdate();
 
         System.out.println("Booking saved");
+        System.out.println("booking id: " + Booking_id);
         System.out.println("hashcode: " + o.hashCode());
 
         lastStartTime = ((Booking) o).getStartTime();
@@ -103,12 +110,17 @@ public class BookingDAO implements Dao {
         System.out.println("last start time: " + lastStartTime);
         System.out.println("last end time: " + lastEndTime);
 
+
+        //TODO: add booking_catering
+        //TODO: add booking_activity
+        //TODO: add booking_subject if organization is school
+
     }
 
     @Override
     public void update(Object o, String[] args) throws SQLException {
 
-        PreparedStatement ps = con.prepareStatement("UPDATE booking SET start_time = ?, end_time = ?, organisation = ?, field = ?, responsible = ?, amount_of_people = ?, telephone = ?, title_of_responsible = ? WHERE id = ?");
+        PreparedStatement ps = con.prepareStatement("UPDATE booking SET start_time = ?, end_time = ?, amount_of_visitors = ? WHERE id = ?");
 
         ps = generatePreparedStatement(ps,o);
 
@@ -131,12 +143,25 @@ public class BookingDAO implements Dao {
 
         PreparedStatement ps = con.prepareStatement("DELETE FROM booking WHERE id = ?");
 
-        Booking_CateringDAO booking_cateringDAO = new Booking_CateringDAO();
+        Booking_CateringDao booking_cateringDAO = new Booking_CateringDao();
 
         booking_cateringDAO.deleteByBookingId(booking.getId());
 
         ps.setInt(1, booking.getId());
         ps.execute();
+
+    }
+
+    public Organization getOrganisation(Booking booking) throws SQLException, IOException {
+
+        CustomerDao customerDao = new CustomerDao();
+
+        Customer customer = (Customer) customerDao.get(booking.getCustomer().getId()).get();
+
+        OrganisationDao organisationDao = new OrganisationDao();
+
+        return (Organization) organisationDao.get(customer.getOrganisation().getId()).get();
+
 
     }
 }

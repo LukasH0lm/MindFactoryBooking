@@ -1,6 +1,6 @@
 package com.monkeygang.mindfactorybooking.DAO;
 
-import com.monkeygang.mindfactorybooking.BuisnessLogic.ConnectionSingleton;
+import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 import com.monkeygang.mindfactorybooking.Objects.Catering;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class Booking_CateringDAO implements Dao{
+public class Booking_CateringDao implements Dao{
     @Override
     public Optional get(long id) {
         return Optional.empty();
@@ -34,7 +34,7 @@ public class Booking_CateringDAO implements Dao{
 
         Connection con = ConnectionSingleton.getInstance().getConnection();
 
-        BookingDAO bookingDao = new BookingDAO();
+        BookingDao bookingDao = new BookingDao();
 
         Booking booking = CurrentBookingSingleton.getInstance().getBooking();
 

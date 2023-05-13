@@ -1,4 +1,4 @@
-package com.monkeygang.mindfactorybooking.BuisnessLogic;
+package com.monkeygang.mindfactorybooking.utility;
 
 import com.monkeygang.mindfactorybooking.BookingApplication;
 

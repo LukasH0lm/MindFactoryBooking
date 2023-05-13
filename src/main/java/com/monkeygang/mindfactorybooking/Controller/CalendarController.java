@@ -1,10 +1,11 @@
 package com.monkeygang.mindfactorybooking.Controller;
 
 import com.itextpdf.text.DocumentException;
-import com.monkeygang.mindfactorybooking.DAO.BookingDAO;
+import com.monkeygang.mindfactorybooking.DAO.BookingDao;
 import com.monkeygang.mindfactorybooking.BookingApplication;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
+import com.monkeygang.mindfactorybooking.Objects.Organization;
 import com.monkeygang.mindfactorybooking.utility.PDFMaker;
 
 import javafx.application.Platform;
@@ -31,7 +32,8 @@ import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 public class CalendarController {
@@ -40,7 +42,7 @@ public class CalendarController {
 
     private final DecimalFormat df = new DecimalFormat("00.00");
 
-    private final BookingDAO bookingDAO = new BookingDAO();
+    private final BookingDao bookingDAO = new BookingDao();
 
     public double startTime = 07.00;
 
@@ -48,8 +50,10 @@ public class CalendarController {
 
     public double spacingPrLabel = 0.0;
 
+    //TODO: shutdown threads on close
 
-
+    ThreadPoolExecutor executor =
+            (ThreadPoolExecutor) Executors.newCachedThreadPool();
     public CalendarController() throws SQLException, IOException {
     }
 
@@ -117,31 +121,8 @@ public class CalendarController {
 
 
         // updates ui every 5 seconds
-        Thread thread = new Thread(() -> {
+        initializeUpdatingThread();
 
-            while (true) {
-
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-                Platform.runLater(() -> {
-                    try {
-                        loadBookings();
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
-            }
-
-        });
-
-        thread.start();
 
 
         loadBookings();
@@ -303,7 +284,7 @@ public class CalendarController {
     }
 
 
-    private void createSingleBooking(Booking booking){
+    private void createSingleBooking(Booking booking) throws SQLException, IOException {
 
         double rectangleHeight = (booking.getEndTime().getHours() - booking.getStartTime().getHours()) * (spacingPrLabel + heightPrLabel) + (booking.getEndTime().getMinutes() * (spacingPrLabel + heightPrLabel) / 60);
         double rectangleYStartPosition = (booking.getStartTime().getHours() - startTime) * (spacingPrLabel + heightPrLabel);
@@ -324,7 +305,7 @@ public class CalendarController {
 
     }
 
-    private void createSingleBookingFixedValues(Booking booking, Timestamp bookingStartTime, Timestamp bookingEndTime){
+    private void createSingleBookingFixedValues(Booking booking, Timestamp bookingStartTime, Timestamp bookingEndTime) throws SQLException, IOException {
 
         double RectangleHeight = (bookingEndTime.getHours() - bookingStartTime.getHours()) * (spacingPrLabel + heightPrLabel) + (bookingEndTime.getMinutes() * (spacingPrLabel + heightPrLabel) / 60);
         double RectangleYStartPosition = (bookingStartTime.getHours() - startTime) * (spacingPrLabel + heightPrLabel);
@@ -345,7 +326,7 @@ public class CalendarController {
     }
 
 
-    private void createBookingMultipleDays(Booking booking){
+    private void createBookingMultipleDays(Booking booking) throws SQLException, IOException {
 
         int daysBetweenStartdateAndEndDate = booking.getEndTime().getDate() - booking.getStartTime().getDate();
         int currentDay = booking.getStartTime().getDate();
@@ -390,12 +371,14 @@ public class CalendarController {
     }
 
 
-    public StackPane generateBookingStack(Booking booking, double rectangleHeight, double rectangleYStartPosition){
+    public StackPane generateBookingStack(Booking booking, double rectangleHeight, double rectangleYStartPosition) throws SQLException, IOException {
 
         Rectangle bookingRectangle = new Rectangle(50, rectangleHeight);
         bookingRectangle.setFill(Color.RED);
 
-        Label bookingLabel = new Label(booking.getOrganisation());
+        Organization currentOrganization = bookingDAO.getOrganisation(booking);
+
+        Label bookingLabel = new Label(currentOrganization.getName());
 
         bookingLabel.setAlignment(Pos.CENTER);
 
@@ -418,6 +401,10 @@ public class CalendarController {
 
     //opens the booking the rectangle is representing
     public void bookingInitialize(Rectangle bookingRectangle, Booking booking, StackPane stack) {
+
+        //bookingRectangle isnt used anymore
+        //we should discuss if we want to keep it or not
+
         stack.setOnMouseClicked(event -> {
             CurrentBookingSingleton.getInstance().setCurrentBooking(booking);
 
@@ -441,34 +428,39 @@ public class CalendarController {
 
     }
 
+
+    //booking in this instance refers to the entire booking (booking, customer, catering, activity, etc.)
     private void loadBookingUI() {
 
 
-
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(BookingApplication.class.getResource("view/booking-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(BookingApplication.class.getResource("view/organization-view.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("Booking");
+            stage.setTitle("Organization");
             stage.setScene(new Scene(root));
             stage.setAlwaysOnTop(true);
 
             Stage currentStage = (Stage) calendarAnchorPane.getScene().getWindow();
 
 
-            //currentStage.setOpacity(0.5); //works like half of the time
+            currentStage.setOpacity(0.5); //makes the main window a bit transparent
 
+            AnchorPane bookingAnchorPane = (AnchorPane) currentStage.getScene().getRoot();
+
+            bookingAnchorPane.setDisable(true);
 
             stage.setOnCloseRequest(event -> {
 
                 currentStage.setOpacity(1);
-
+                bookingAnchorPane.setDisable(false);
                 //fake waiting to let the ui update
+                /*
                 try {
-                    Thread.sleep(1000);
+                    //Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
-                }
+                }*/
 
 
                 try {
@@ -481,10 +473,7 @@ public class CalendarController {
             });
 
 
-            stage.show();
-
-
-
+            stage.showAndWait();
 
 
         } catch (IOException e) {
@@ -492,6 +481,39 @@ public class CalendarController {
         }
     }
 
+
+    private void initializeUpdatingThread(){
+
+
+        executor.execute(() -> {
+
+            while (true) {
+
+                //sleep for 5 seconds
+                //forgot to add this and my machine sounded like it was running source 2 :p
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Platform.runLater(() -> {
+                    try {
+                        loadBookings();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+            }
+
+        });
+
+
+
+    }
 
     public void onSearchButtonClick(){
 
@@ -505,8 +527,12 @@ public class CalendarController {
 
     }
 
-    public void onCreateButtonClick(){
-        CurrentBookingSingleton.getInstance().setIsEdit(false);
+    public void onCreateButtonClick() throws SQLException, IOException {
+
+        //starts the booking process
+        //organisation -> booking -> catering -> activity -> customer -> confirm
+
+        CurrentBookingSingleton.getInstance().reset();
         loadBookingUI();
     }
 

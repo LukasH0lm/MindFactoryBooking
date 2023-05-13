@@ -6,43 +6,41 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="427.0" prefWidth="382.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.BookingController">
+
+<StackPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.BookingController">
    <children>
-      <Label layoutX="15.0" layoutY="176.0" text="Organisation" />
-      <TextField fx:id="organisationTextfield" layoutX="95.0" layoutY="172.0" />
-      <Label layoutX="15.0" layoutY="210.0" text="Fag" />
-      <TextField fx:id="fieldTextfield" layoutX="95.0" layoutY="206.0" />
-      <Label layoutX="15.0" layoutY="244.0" text="Ansvarlig" />
-      <TextField fx:id="responsibleTextfield" layoutX="95.0" layoutY="240.0" />
-      <Label layoutX="103.0" layoutY="14.0" text="Booking">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Label layoutX="15.0" layoutY="279.0" text="Antal folk" />
-      <TextField fx:id="amountOfVisitorsTextfield" layoutX="95.0" layoutY="275.0" />
-      <Label layoutX="15.0" layoutY="314.0" text="Telefon" />
-      <TextField fx:id="phoneTextfield" layoutX="95.0" layoutY="310.0" />
-      <Label layoutX="14.0" layoutY="338.0" prefHeight="40.0" prefWidth="70.0" text="titel af ansvarlig" wrapText="true" />
-      <TextField fx:id="titelTextfield" layoutX="95.0" layoutY="345.0" />
-      <Button fx:id="submitButton" layoutX="245.0" layoutY="387.0" mnemonicParsing="false" onAction="#onSubmitButtonClick" text="submit" />
-      <Button fx:id="cancelButton" layoutX="182.0" layoutY="387.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="cancel" />
-      <ComboBox fx:id="startTimeCombobox" layoutX="44.0" layoutY="132.0" prefHeight="26.0" prefWidth="78.0" />
-      <ComboBox fx:id="endTimeCombobox" layoutX="247.0" layoutY="132.0" prefHeight="26.0" prefWidth="78.0" />
-      <Button fx:id="deleteButton" layoutX="15.0" layoutY="387.0" mnemonicParsing="false" onAction="#onDeleteButtonClick" text="Delete" />
-      <DatePicker fx:id="startDatePicker" layoutX="7.0" layoutY="98.0" />
-      <DatePicker fx:id="endDatePicker" layoutX="199.0" layoutY="98.0" />
-      <Label layoutX="71.0" layoutY="68.0" text="Fra:">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="273.0" layoutY="68.0" text="Til:">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
+      <AnchorPane fx:id="container" prefHeight="450.0" prefWidth="400.0" style="-fx-background-color: white;">
+         <children>
+            <Label layoutX="133.0" layoutY="14.0" text="Booking">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="17.0" layoutY="216.0" style="-fx-background-color: white;" text="Antal folk" />
+            <TextField fx:id="amountOfVisitorsTextfield" layoutX="75.0" layoutY="212.0" />
+            <Button fx:id="nextButton" layoutX="330.0" layoutY="413.0" mnemonicParsing="false" onAction="#onNextButtonClick" text="next" />
+            <Button fx:id="cancelButton" layoutX="267.0" layoutY="413.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="cancel" />
+            <ComboBox fx:id="startTimeCombobox" layoutX="69.0" layoutY="132.0" prefHeight="26.0" prefWidth="78.0" />
+            <ComboBox fx:id="endTimeCombobox" layoutX="258.0" layoutY="132.0" prefHeight="26.0" prefWidth="78.0" />
+            <Button fx:id="deleteButton" layoutX="196.0" layoutY="413.0" mnemonicParsing="false" onAction="#onDeleteButtonClick" text="Delete" />
+            <DatePicker fx:id="startDatePicker" layoutX="21.0" layoutY="98.0" />
+            <DatePicker fx:id="endDatePicker" layoutX="209.0" layoutY="98.0" />
+            <Label layoutX="95.0" layoutY="68.0" text="Fra:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="287.0" layoutY="68.0" text="Til:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="232.0" layoutY="188.0" prefHeight="74.0" prefWidth="150.0" text="midlertidig, kun for at gøre det lettere at bughunte" wrapText="true" />
+            <Button fx:id="backButton" layoutX="16.0" layoutY="413.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="back" />
+         </children>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</StackPane>

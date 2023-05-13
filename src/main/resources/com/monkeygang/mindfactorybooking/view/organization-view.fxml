@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.OrganizationController">
+   <children>
+      <AnchorPane fx:id="container" prefHeight="450.0" prefWidth="400.0" style="-fx-background-color: white;">
+         <children>
+            <Label layoutX="98.0" layoutY="14.0" text="Organisation">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Button fx:id="nextButton" layoutX="333.0" layoutY="410.0" mnemonicParsing="false" onAction="#onNextButtonClick" text="next" />
+            <Button fx:id="cancelButton" layoutX="270.0" layoutY="410.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="cancel" />
+            <ComboBox fx:id="organisationCombobox" layoutX="131.0" layoutY="92.0" prefHeight="26.0" prefWidth="137.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
