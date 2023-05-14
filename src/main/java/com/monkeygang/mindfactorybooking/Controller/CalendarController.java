@@ -8,6 +8,7 @@ import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Organization;
 import com.monkeygang.mindfactorybooking.utility.PDFMaker;
 
+import com.monkeygang.mindfactorybooking.utility.RectangleYPositionComparator;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,8 +30,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -44,7 +47,7 @@ public class CalendarController {
 
     private final BookingDao bookingDAO = new BookingDao();
 
-    public double startTime = 07.00;
+    public double uiStartTime = 07.00;
 
     public double heightPrLabel = 0.0;
 
@@ -128,6 +131,7 @@ public class CalendarController {
 
 
         loadBookings();
+
 
     }
 
@@ -277,9 +281,17 @@ public class CalendarController {
 
 
 
+
             }
 
+
+
+
+
         }
+
+        fillCalendarWithBlankSquares();
+
 
 
     }
@@ -288,7 +300,7 @@ public class CalendarController {
     private void createSingleBooking(Booking booking) throws SQLException, IOException {
 
         double rectangleHeight = (booking.getEndTime().getHours() - booking.getStartTime().getHours()) * (spacingPrLabel + heightPrLabel) + (booking.getEndTime().getMinutes() * (spacingPrLabel + heightPrLabel) / 60);
-        double rectangleYStartPosition = (booking.getStartTime().getHours() - startTime) * (spacingPrLabel + heightPrLabel);
+        double rectangleYStartPosition = (booking.getStartTime().getHours() - uiStartTime) * (spacingPrLabel + heightPrLabel);
 
 
         StackPane stack = generateBookingStack(booking, rectangleHeight, rectangleYStartPosition);
@@ -309,7 +321,7 @@ public class CalendarController {
     private void createSingleBookingFixedValues(Booking booking, Timestamp bookingStartTime, Timestamp bookingEndTime) throws SQLException, IOException {
 
         double RectangleHeight = (bookingEndTime.getHours() - bookingStartTime.getHours()) * (spacingPrLabel + heightPrLabel) + (bookingEndTime.getMinutes() * (spacingPrLabel + heightPrLabel) / 60);
-        double RectangleYStartPosition = (bookingStartTime.getHours() - startTime) * (spacingPrLabel + heightPrLabel);
+        double RectangleYStartPosition = (bookingStartTime.getHours() - uiStartTime) * (spacingPrLabel + heightPrLabel);
 
 
         StackPane stack = generateBookingStack(booking, RectangleHeight, RectangleYStartPosition);
@@ -372,6 +384,22 @@ public class CalendarController {
     }
 
 
+    public StackPane generateAvailableBookingStack(Booking booking, double rectangleHeight, double rectangleYStartPosition) {
+
+        Rectangle bookingRectangle = new Rectangle(50, rectangleHeight);
+        bookingRectangle.setFill(Color.TRANSPARENT);
+
+        StackPane stack = new StackPane(bookingRectangle);
+
+        stack.setLayoutY(rectangleYStartPosition);
+        stack.setPrefHeight(rectangleHeight);
+
+        bookingCreate(bookingRectangle, booking , stack);
+
+        return stack;
+
+    }
+
     public StackPane generateBookingStack(Booking booking, double rectangleHeight, double rectangleYStartPosition) throws SQLException, IOException {
 
         Rectangle bookingRectangle = new Rectangle(50, rectangleHeight);
@@ -390,6 +418,7 @@ public class CalendarController {
         StackPane stack = new StackPane(bookingRectangle, bookingLabel);
 
         stack.setLayoutY(rectangleYStartPosition);
+        stack.setPrefHeight(rectangleHeight);
 
         bookingInitialize(bookingRectangle, booking , stack);
 
@@ -432,6 +461,172 @@ public class CalendarController {
     }
 
 
+    public void bookingCreate(Rectangle bookingRectangle, Booking booking, StackPane stack) {
+
+        stack.setOnMouseClicked(event -> {
+
+            if (event.getButton() == MouseButton.PRIMARY) {
+                if (event.getClickCount() == 2) {
+
+                    try {
+                        CurrentBookingSingleton.getInstance().reset();
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    loadBookingUI();
+
+
+                }
+            }
+
+
+        });
+
+
+    }
+
+    public void fillCalendarWithBlankSquares()  {
+
+        // Vi vil gerne have usynlige rektangler, der hvor der ikke er nogen bookings registreret
+        // Det vil vi gerne, så man kan trykke i de firkanter, og derved lave en booking der.
+        // Grunden til det er fordi så kan vi få tidsrummet, som er frit ud fra de tomme firkanters længde, ligesom vi gør i resten af ui.
+
+
+        // Vi laver en liste af vores panes, så vi kan loope igennem dem.
+        LinkedList<Pane> panesForEachDay = new LinkedList<>();
+
+        // Vi skal bruge listen her til at tilføje rektanglerne fra hvert pane.
+        LinkedList<StackPane> eksisterendeRektanglerForHvertPane = new LinkedList<>();
+
+
+        LocalDate selectedDate = datePicker.getValue();
+
+        LocalDate nearestMonday = selectedDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        int dayOfMonth = nearestMonday.getDayOfMonth();
+
+
+        // Vi adder vores panes til listen
+        panesForEachDay.add(paneMandag);
+        panesForEachDay.add(paneTirsdag);
+        panesForEachDay.add(paneOnsdag);
+        panesForEachDay.add(paneTorsdag);
+        panesForEachDay.add(paneFredag);
+        panesForEachDay.add(paneLordag);
+        panesForEachDay.add(paneSondag);
+
+
+
+        //Vi går igennem hver pane, og hvis de er tomme, så laver vi et rektangel, der fylder hele panelet.
+        for (Pane pane : panesForEachDay) {
+            if (pane.getChildren().isEmpty()) {
+
+
+                double rectangleHeight = 540 - (vBoxTid.getSpacing() + heightPrLabel);
+                double rectangleYStartPosition = 0.0;
+
+                createAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
+
+
+            }
+            else if (!pane.getChildren().isEmpty()) {
+                // Hvis panet vi ser på ikke er tomt, skal vi få de eksisterende bookinger i panet
+                // Vi skal ud fra dem beregne de tomme felter, og fylde dem med usynlige rektangler.
+
+                //Vi går igennem alle elementerne for hver pane
+                for (Node node : pane.getChildren()) {
+                    //Vi tjekker om elementet vi kigger på er et rektangel
+                    if (node instanceof StackPane) {
+                        // Vi caster til (Rectangle)
+                        StackPane rectangle = (StackPane) node;
+
+
+                        // Vi tilføjer rektanglen til listen.
+                        eksisterendeRektanglerForHvertPane.add(rectangle);
+
+                    }
+                }
+
+                // Vi sortere listen med rektangler efter laveste y position først
+                // Dette gør vi, da vi skal have rektanglerne efter laveste tid i ui.
+                eksisterendeRektanglerForHvertPane.sort(new RectangleYPositionComparator());
+
+                // Vi sætter værdien til 0, da vi gerne vil tjekke om der er et mellemrum fra starten
+                // kalenderne til den næste rektangel.
+
+                double calendarStartYPosition = 0;
+                double calenderEndYPosition = 540;
+                int lastRectangleIndex = eksisterendeRektanglerForHvertPane.size() - 1;
+
+
+
+                //Vi starter med at tjekke, om der er afstand mellem det første rektangel
+                //I hvert pane, og starten på kalenderen
+                // Hvis der er afstand, skal vi have lagt en rektangel ind, som går fra starten af kalenderen,
+                // og til starten af den første booking/bookingrektangel.
+                if (eksisterendeRektanglerForHvertPane.get(0).getLayoutY() - calendarStartYPosition > 1) {
+                    // Vi laver et rektangel, der går fra starten af kalenderen, og til starten af den første booking/bookingrektangel.
+
+                    double rectangleHeight = eksisterendeRektanglerForHvertPane.get(0).getLayoutY() - calendarStartYPosition;
+                    double rectangleYStartPosition = calendarStartYPosition;
+
+                    createAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
+
+                }
+
+
+
+                for (int i = 1; i < eksisterendeRektanglerForHvertPane.size(); i++) {
+
+                    double previousRectangleYPosition = eksisterendeRektanglerForHvertPane.get(i - 1).getLayoutY();
+                    double previousRectangleHeight = eksisterendeRektanglerForHvertPane.get(i - 1).getPrefHeight();
+
+                    double rectangleHeight = eksisterendeRektanglerForHvertPane.get(i).getLayoutY() - (previousRectangleYPosition + previousRectangleHeight);
+                    double rectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(i - 1).getLayoutY() + eksisterendeRektanglerForHvertPane.get(i - 1).getPrefHeight();
+
+
+                    if (eksisterendeRektanglerForHvertPane.get(i).getLayoutY() - previousRectangleYPosition > 1) {
+
+                        createAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
+
+
+                    }
+                }
+
+
+              if (calenderEndYPosition - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight() + (vBoxTid.getSpacing() + heightPrLabel)) > 1) {
+
+                   double rectangleHeight = calenderEndYPosition - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight()) - (vBoxTid.getSpacing() + heightPrLabel);
+                   double rectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight();
+
+
+                  createAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
+
+                }
+            }
+
+
+            dayOfMonth++;
+            // Vi  clear vores liste, så vi ikke har rektanglerne fra sidste pane med.
+            eksisterendeRektanglerForHvertPane.clear();
+
+
+        }
+    }
+
+    private void createAvailableBookingStack(int dayOfMonth, Pane pane, double rectangleHeight, double rectangleYStartPosition) {
+        Timestamp startTime = new Timestamp(datePicker.getValue().getYear(), datePicker.getValue().getMonthValue(), dayOfMonth, (int) (uiStartTime + (rectangleYStartPosition / 45)), 00, 00, 00);
+        Timestamp endTime = new Timestamp(datePicker.getValue().getYear(), datePicker.getValue().getMonthValue(), dayOfMonth, (int) (uiStartTime + (rectangleHeight / 45)), 00, 00, 00);
+
+        System.out.println("Start time: " + startTime);
+        System.out.println("End time: " + endTime);
+
+        Booking availableBooking = new Booking(startTime, endTime);
+
+        pane.getChildren().add(generateAvailableBookingStack(availableBooking, rectangleHeight, rectangleYStartPosition));
+    }
+
+
     //booking in this instance refers to the entire booking (booking, customer, catering, activity, etc.)
     private void loadBookingUI() {
 
@@ -466,6 +661,7 @@ public class CalendarController {
                 }*/
 
 
+
                 try {
                     loadBookings();
                 } catch (SQLException e) {
@@ -474,6 +670,7 @@ public class CalendarController {
                     throw new RuntimeException(e);
                 }
             });
+
 
 
             stage.showAndWait();
