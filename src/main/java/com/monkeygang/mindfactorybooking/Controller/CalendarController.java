@@ -1,7 +1,7 @@
 package com.monkeygang.mindfactorybooking.Controller;
 
 import com.itextpdf.text.DocumentException;
-import com.monkeygang.mindfactorybooking.DAO.BookingDao;
+import com.monkeygang.mindfactorybooking.Dao.BookingDao;
 import com.monkeygang.mindfactorybooking.BookingApplication;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
@@ -125,6 +125,8 @@ public class CalendarController {
 
 
 
+
+
         loadBookings();
 
     }
@@ -215,6 +217,9 @@ public class CalendarController {
 
     private void loadBookings() throws SQLException, IOException {
 
+        System.out.println("Loading bookings...");
+
+        // The way we do it ensures we get a booking with a customer with a organisation
         allBookings = bookingDAO.getAll();
 
         spacingPrLabel = vBoxTid.getSpacing();
@@ -246,16 +251,12 @@ public class CalendarController {
 
             Date bookingDate = booking.getStartTime();
 
-            System.out.println(bookingDate);
 
 
             // Vi skal finde ugenummeret af datoen.
             Calendar calBookingDate = Calendar.getInstance();
             calBookingDate.setTime(bookingDate);
             int bookingDateWeek = calBookingDate.get(Calendar.WEEK_OF_YEAR);
-
-            System.out.println("bookingDateWeek " + bookingDateWeek);
-            System.out.println("WeekOnAction " + weekOnAction);
 
 
 
@@ -413,6 +414,8 @@ public class CalendarController {
                 if (event.getClickCount() == 2) {
 
                     CurrentBookingSingleton.getInstance().setCurrentBooking(booking);
+                    CurrentBookingSingleton.getInstance().setCustomer(booking.getCustomer());
+                    CurrentBookingSingleton.getInstance().setCurrentOrganization(booking.getCustomer().getOrganisation());
 
                     CurrentBookingSingleton.getInstance().setIsEdit(true);
 
@@ -506,6 +509,8 @@ public class CalendarController {
                         throw new RuntimeException(e);
                     }
                 });
+
+
 
             }
 

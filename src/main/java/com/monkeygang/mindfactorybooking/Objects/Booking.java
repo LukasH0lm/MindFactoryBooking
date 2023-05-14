@@ -42,6 +42,10 @@ public class Booking {
         return id;
     }
 
+    public void setId(int bookingId) {
+        this.id = bookingId;
+    }
+
     public Timestamp getStartTime() {
         return startTime;
     }
@@ -82,4 +86,15 @@ public class Booking {
         result = 31 * result + customer.hashCode();
         return result;
     }
+
+    public void setAmountOfPeople(int i) {
+
+        this.amount_of_people = i;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+
 }

@@ -1,7 +1,7 @@
-package com.monkeygang.mindfactorybooking.DAO;
+package com.monkeygang.mindfactorybooking.Dao;
 
-import com.monkeygang.mindfactorybooking.Objects.Customer;
-import com.monkeygang.mindfactorybooking.Objects.Organization;
+import com.monkeygang.mindfactorybooking.Objects.Activity;
+import com.monkeygang.mindfactorybooking.Objects.Organisation_type;
 import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
 
 import java.io.IOException;
@@ -12,39 +12,32 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class CustomerDao implements Dao {
+public class ActivityDao implements Dao{
 
-    Connection con;
+    Connection con = ConnectionSingleton.getInstance().getConnection();
 
-    CustomerDao() throws SQLException, IOException {
-
-        Connection con = ConnectionSingleton.getInstance().getConnection();
-
+    public ActivityDao() throws SQLException, IOException {
     }
 
     @Override
     public Optional get(long id) throws SQLException, IOException {
 
-        OrganisationDao companyDao = new OrganisationDao();
+        if (id == 0) {
+            return Optional.of(new Activity(0, "No activity"));
+        }
 
-        PreparedStatement ps = con.prepareStatement("SELECT * FROM customer WHERE id = ?");
-
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM activity WHERE id = ?");
         ps.setLong(1, id);
 
         ResultSet rs = ps.executeQuery();
 
-        return Optional.of(new Customer(
+        rs.next();
+        return Optional.of(new Activity(
                 rs.getInt("id"),
                 rs.getString("name"),
-                rs.getString("title"),
-                rs.getString("mail"),
-                rs.getString("phone"),
-                //TODO: make null safe
-                (Organization) companyDao.get(rs.getInt("company_id")).get()));
+                Organisation_type.values()[rs.getInt("type")]));
 
     }
-
-
 
     @Override
     public List getAll() throws SQLException, IOException {

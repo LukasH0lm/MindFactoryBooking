@@ -18,8 +18,20 @@ public class Customer {
         this.organization = organization;
     }
 
+    public Customer(String name, String title, String email, String phone) {
+        this.name = name;
+        this.title = title;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int customerId) {
+        this.id = customerId;
+
     }
 
     public String getName() {
@@ -53,8 +65,7 @@ public class Customer {
         if (!name.equals(customer.name)) return false;
         if (!title.equals(customer.title)) return false;
         if (!email.equals(customer.email)) return false;
-        if (!phone.equals(customer.phone)) return false;
-        return organization.equals(customer.organization);
+        return phone.equals(customer.phone);
     }
 
     @Override
@@ -64,7 +75,8 @@ public class Customer {
         result = 31 * result + title.hashCode();
         result = 31 * result + email.hashCode();
         result = 31 * result + phone.hashCode();
-        result = 31 * result + organization.hashCode();
         return result;
     }
+
+
 }

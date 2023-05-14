@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.OrganizationController">
+<StackPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.OrganizationController">
    <children>
       <AnchorPane fx:id="container" prefHeight="450.0" prefWidth="400.0" style="-fx-background-color: white;">
          <children>
@@ -16,9 +16,9 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button fx:id="nextButton" layoutX="333.0" layoutY="410.0" mnemonicParsing="false" onAction="#onNextButtonClick" text="next" />
-            <Button fx:id="cancelButton" layoutX="270.0" layoutY="410.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="cancel" />
-            <ComboBox fx:id="organisationCombobox" layoutX="131.0" layoutY="92.0" prefHeight="26.0" prefWidth="137.0" />
+            <Button fx:id="nextButton" layoutX="346.0" layoutY="260.0" mnemonicParsing="false" onAction="#onNextButtonClick" text="next" />
+            <Button fx:id="cancelButton" layoutX="283.0" layoutY="260.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="cancel" />
+            <ComboBox fx:id="organisationCombobox" layoutX="120.0" layoutY="94.0" prefHeight="26.0" prefWidth="159.0" />
          </children>
       </AnchorPane>
    </children>

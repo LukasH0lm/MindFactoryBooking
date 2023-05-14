@@ -1,4 +1,4 @@
-package com.monkeygang.mindfactorybooking.DAO;
+package com.monkeygang.mindfactorybooking.Dao;
 
 import java.io.IOException;
 import java.sql.SQLException;

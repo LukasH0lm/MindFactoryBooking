@@ -1,4 +1,4 @@
-package com.monkeygang.mindfactorybooking.DAO;
+package com.monkeygang.mindfactorybooking.Dao;
 
 import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
@@ -26,17 +26,17 @@ public class Booking_CateringDao implements Dao{
     @Override
     public void save(Object o) throws SQLException, IOException {
 
-        if (!(o instanceof Catering)) {
-            throw new IllegalArgumentException("o must be instance of Catering");
-        }
-
-        Catering catering = (Catering) o;
+        System.out.println("saving booking_catering");
 
         Connection con = ConnectionSingleton.getInstance().getConnection();
 
-        BookingDao bookingDao = new BookingDao();
+        if (CurrentBookingSingleton.getInstance().getCatering().getId() == 0) {
+            System.out.println("no catering selected");
+            return;
+        }
 
         Booking booking = CurrentBookingSingleton.getInstance().getBooking();
+        Catering catering = CurrentBookingSingleton.getInstance().getCatering();
 
         PreparedStatement ps = con.prepareStatement("INSERT INTO booking_catering (booking_id, catering_id) VALUES (?, ?)");
 

@@ -1,5 +1,7 @@
 package com.monkeygang.mindfactorybooking.Controller;
 
+import com.monkeygang.mindfactorybooking.Dao.ActivityDao;
+import com.monkeygang.mindfactorybooking.Objects.Activity;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
 import javafx.event.ActionEvent;
@@ -11,6 +13,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ActivityController {
 
@@ -23,12 +26,21 @@ public class ActivityController {
 
     public void initialize() {
 
+        //different activities for school and buisness
+
+        //omkring activities i databasen:
+        // 0 = ingen aktivitet
+        // privat aktiviteter starter ved 7
+        // dette er muligvis et dårligt design da hvis en admin
+        // tilføjer en ny aktivitet vil det resultere i at
+        // skole aktiviteter og private aktiviteter bliver sammenflettet
+
         if (CurrentBookingSingleton.getInstance().getActivityId() != -1){
             System.out.println("activity id is not -1");
             switch (CurrentBookingSingleton.getInstance().getActivityId()) {
-                case 1 -> kreativtSparkRadioButton.setSelected(true);
-                case 2 -> idéGeneratorenRadioButton.setSelected(true);
-                case 3 -> kreativTechRadioButton.setSelected(true);
+                case 7 -> kreativtSparkRadioButton.setSelected(true);
+                case 8 -> idéGeneratorenRadioButton.setSelected(true);
+                case 9 -> kreativTechRadioButton.setSelected(true);
                 case 0 -> noActivityRadioButton.setSelected(true);
             }
         }
@@ -79,25 +91,33 @@ public class ActivityController {
     private Button nextButton;
 
     @FXML
-    void onNextButtonClicked(ActionEvent event) throws IOException {
+    void onNextButtonClicked(ActionEvent event) throws IOException, SQLException {
 
         CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
 
+
+
         if (kreativtSparkRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(1);
+            currentBookingSingleton.setActivityId(7);
         }
 
         if (idéGeneratorenRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(2);
+            currentBookingSingleton.setActivityId(8);
         }
 
         if (kreativTechRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(3);
+            currentBookingSingleton.setActivityId(9);
         }
 
         if (noActivityRadioButton.isSelected()){
             currentBookingSingleton.setActivityId(0);
         }
+
+        ActivityDao activityDao = new ActivityDao();
+
+        Activity activity = (Activity) activityDao.get(currentBookingSingleton.getActivityId()).get();
+
+        CurrentBookingSingleton.getInstance().setActivity(activity);
 
         SceneChanger sceneChanger = new SceneChanger();
 
@@ -114,6 +134,11 @@ public class ActivityController {
         SceneChanger sceneChanger = new SceneChanger();
         Scene scene = nextButton.getScene();
         sceneChanger.changeScene(scene, container,"catering", false);
+    }
+
+    @FXML
+    public void onCancelButtonClick(ActionEvent event) throws IOException {
+        //TODO: add a confirmation dialog
     }
 
 }

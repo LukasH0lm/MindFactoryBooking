@@ -1,4 +1,4 @@
-package com.monkeygang.mindfactorybooking.DAO;
+package com.monkeygang.mindfactorybooking.Dao;
 
 import com.monkeygang.mindfactorybooking.Objects.Organization;
 import com.monkeygang.mindfactorybooking.Objects.Organisation_type;
@@ -28,8 +28,11 @@ public class OrganisationDao implements Dao{
 
         PreparedStatement ps = con.prepareStatement("SELECT * FROM organization WHERE id = ?");
 
+        ps.setLong(1, id);
+
         ResultSet rs = ps.executeQuery();
 
+        rs.next();
         return Optional.of(new Organization(rs.getInt("id"), rs.getString("name"), Organisation_type.values()[rs.getInt("type")]));
     }
 

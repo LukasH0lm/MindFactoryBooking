@@ -1,6 +1,7 @@
 package com.monkeygang.mindfactorybooking.Objects;
 
-import com.monkeygang.mindfactorybooking.DAO.BookingDao;
+import com.monkeygang.mindfactorybooking.Dao.BookingDao;
+import com.monkeygang.mindfactorybooking.Dao.OrganisationDao;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,6 +18,10 @@ public class CurrentBookingSingleton {
 
     Catering catering = null;
     int catering_id = -1;
+
+    Customer customer = null;
+
+    Subject subject = null;
 
     boolean isEdit = false;
     boolean isTemporary = false;
@@ -89,6 +94,7 @@ public class CurrentBookingSingleton {
     }
 
     public synchronized void setCateringId(int instance) {
+
         this.catering_id = instance;
     }
 
@@ -129,4 +135,64 @@ public class CurrentBookingSingleton {
         return isTemporary;
 
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "CurrentBookingSingleton{" +
+                "start_time=" + booking.getStartTime() +
+                "\nend_time=" + booking.getEndTime() +
+                "\norganization=" + organization.getName() +
+                "\ncatering=" + catering.getName() +
+                "\nactivity=" + activity.getName() +
+                "\nname=" + customer.getName() +
+                "\nemail=" + customer.getEmail() +
+
+                '}';
+    }
+
+
+    public String toUIString() {
+        return
+                "start_time=" + booking.getStartTime() +
+                        "\nend_time=" + booking.getEndTime() +
+                        "\norganization=" + organization.getName() +
+                        "\ncatering=" + catering.getName() +
+                        "\nactivity=" + activity.getName() +
+                        "\nname=" + customer.getName() +
+                        "\nemail=" + customer.getEmail();
+
+
+    }
+
+
+    public Activity getActivity() {
+        return activity;
+    }
+    public void setActivity(Activity activity) {
+
+            this.activity = activity;
+
+    }
+
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+
+
+
+
 }

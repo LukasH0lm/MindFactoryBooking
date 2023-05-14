@@ -1,5 +1,6 @@
-package com.monkeygang.mindfactorybooking.DAO;
+package com.monkeygang.mindfactorybooking.Dao;
 
+import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Customer;
 import com.monkeygang.mindfactorybooking.Objects.Organization;
 import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
@@ -94,9 +95,19 @@ public class BookingDao implements Dao {
     @Override
     public void save(Object o) throws SQLException {
 
+
+        System.out.println("saving booking");
+
         PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
-        ps = generatePreparedStatement(ps,o);
+        CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
+
+
+
+        ps.setTimestamp(1, currentBookingSingleton.getBooking().getStartTime());
+        ps.setTimestamp(2, currentBookingSingleton.getBooking().getEndTime());
+        ps.setInt(3, currentBookingSingleton.getBooking().getAmount_of_people());
+        ps.setInt(4, currentBookingSingleton.getBooking().getCustomer().getId());
 
         int Booking_id = ps.executeUpdate();
 
@@ -104,11 +115,8 @@ public class BookingDao implements Dao {
         System.out.println("booking id: " + Booking_id);
         System.out.println("hashcode: " + o.hashCode());
 
-        lastStartTime = ((Booking) o).getStartTime();
-        lastEndTime = ((Booking) o).getEndTime();
 
-        System.out.println("last start time: " + lastStartTime);
-        System.out.println("last end time: " + lastEndTime);
+        CurrentBookingSingleton.getInstance().getBooking().setId(Booking_id);
 
 
         //TODO: add booking_catering

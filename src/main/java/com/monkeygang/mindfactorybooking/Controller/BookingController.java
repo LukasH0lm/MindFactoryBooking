@@ -1,23 +1,15 @@
 package com.monkeygang.mindfactorybooking.Controller;
 
-import com.monkeygang.mindfactorybooking.DAO.BookingDao;
+import com.monkeygang.mindfactorybooking.Dao.BookingDao;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -83,7 +75,6 @@ public class BookingController {
         startTimeCombobox.setValue(booking.getStartTime().toLocalDateTime().toLocalTime().toString().substring(0, 5));
         endTimeCombobox.setValue(booking.getEndTime().toLocalDateTime().toLocalTime().toString().substring(0, 5));
 
-        amountOfVisitorsTextfield.setText(String.valueOf(booking.getAmount_of_people()));
 
 
     }
@@ -100,7 +91,6 @@ public class BookingController {
                         || endDatePicker.getValue() == null
                         || startTimeCombobox.getValue() == null
                         || endTimeCombobox.getValue() == null
-                        || amountOfVisitorsTextfield.getText().isEmpty()
         ) {
 
             showEmptyFieldAlert();
@@ -143,7 +133,8 @@ public class BookingController {
                         0, 0, 0)
                 ,
 
-                Integer.parseInt(amountOfVisitorsTextfield.getText())
+                -1
+
 
                 //TODO: submit as temporary booking and set database id to the id of the temporary booking
 
@@ -241,7 +232,7 @@ public class BookingController {
                 startTime,
                 endTime,
 
-                Integer.parseInt(amountOfVisitorsTextfield.getText())
+                -1
 
         );
 
@@ -384,20 +375,6 @@ public class BookingController {
     @FXML
     private AnchorPane container;
 
-    @FXML
-    private TextField amountOfVisitorsTextfield;
-
-    @FXML
-    private TextField fieldTextfield;
-
-    @FXML
-    private TextField organisationTextfield;
-
-    @FXML
-    private TextField phoneTextfield;
-
-    @FXML
-    private TextField responsibleTextfield;
 
     @FXML
     private Button nextButton;
@@ -408,8 +385,6 @@ public class BookingController {
     @FXML
     private Button deleteButton;
 
-    @FXML
-    private TextField titelTextfield;
 
     @FXML
     private ComboBox<String> startTimeCombobox;

@@ -1,7 +1,11 @@
 package com.monkeygang.mindfactorybooking.Controller;
 
+import com.monkeygang.mindfactorybooking.Dao.ActivityDao;
+import com.monkeygang.mindfactorybooking.Dao.CateringDao;
+import com.monkeygang.mindfactorybooking.Objects.Activity;
 import com.monkeygang.mindfactorybooking.Objects.Catering;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
+import com.monkeygang.mindfactorybooking.Objects.Organisation_type;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -28,10 +32,10 @@ public class CateringController {
             System.out.println("catering id is not -1");
             System.out.println("catering id is " + CurrentBookingSingleton.getInstance().getCateringId());
             switch (CurrentBookingSingleton.getInstance().getCateringId()) {
+                case 0 -> noCateringRadioButton.setSelected(true);
                 case 1 -> halfDayCoffeeMeetingRadioButton.setSelected(true);
                 case 2 -> halfDayMeetingRadioButton.setSelected(true);
                 case 3 -> wholeDayMeetingRadioButton.setSelected(true);
-                case 4 -> noCateringRadioButton.setSelected(true);
             }
         }
 
@@ -65,7 +69,6 @@ public class CateringController {
 
     public void onNextButtonClicked() throws SQLException, IOException {
 
-        Catering catering;
 
         System.out.println("submit button clicked");
 
@@ -101,13 +104,35 @@ public class CateringController {
         //in the new architecture, we wait until the end of the booking to save the catering
         //booking_cateringDAO.save(catering);
 
+        CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
+
+        CateringDao cateringDao = new CateringDao();
+
+        Catering catering = (Catering) cateringDao.get(currentBookingSingleton.getCateringId()).get();
+
+        CurrentBookingSingleton.getInstance().setCurrentCatering(catering);
+
+
 
         Scene scene = nextButton.getScene();
 
         SceneChanger sceneChanger = new SceneChanger();
 
+        String view = null;
 
-        sceneChanger.changeScene(scene,container, "activity", true);
+        if (CurrentBookingSingleton.getInstance().getOrganization().getType().equals(Organisation_type.SCHOOL)) {
+            view = "school-activity";
+        } else if (CurrentBookingSingleton.getInstance().getOrganization().getType().equals(Organisation_type.PRIVATE)) {
+            view = "private-activity";
+        }
+
+        if (view == null) {
+            System.out.println("view is null");
+            System.out.println("organization type is " + CurrentBookingSingleton.getInstance().getOrganization().getType());
+            return;
+        }
+
+        sceneChanger.changeScene(scene,container, view, true);
 
 
 
