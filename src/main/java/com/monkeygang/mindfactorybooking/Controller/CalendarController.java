@@ -78,6 +78,7 @@ public class CalendarController {
 
         // Datoen skal konveretes til date.
         // det virker bøffet det her, hvorfor konvertere vi en dato til en dato?
+        //bozo code
         LocalDate localDate = datePicker.getValue();
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
