@@ -68,6 +68,9 @@ public class BookingDao implements Dao {
                     rs.getTimestamp("end_time"),
                     rs.getInt("amount_of_visitors"),
                     //TODO: make null safe
+
+
+
                     (Customer) customerDao.get(rs.getInt("customer_id")).get());
 
             allBookings.add(booking);

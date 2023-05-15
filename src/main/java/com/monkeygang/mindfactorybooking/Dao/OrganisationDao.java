@@ -26,6 +26,9 @@ public class OrganisationDao implements Dao{
     @Override
     public Optional get(long id) throws SQLException {
 
+
+        System.out.println("getting organisation with id: " + id);
+
         PreparedStatement ps = con.prepareStatement("SELECT * FROM organization WHERE id = ?");
 
         ps.setLong(1, id);

@@ -3,8 +3,10 @@ package com.monkeygang.mindfactorybooking.Controller;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.utility.DatabaseUpdaterSingleton;
 import com.monkeygang.mindfactorybooking.utility.MailSender;
+import com.monkeygang.mindfactorybooking.utility.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -44,7 +46,13 @@ public class FinalizeController {
     private TextArea finalizeTextArea;
 
     @FXML
-    void onBackButtonClick(ActionEvent event) {
+    void onBackButtonClick(ActionEvent event) throws IOException {
+
+        SceneChanger sceneChanger = new SceneChanger();
+        Scene scene = backButton.getScene();
+        sceneChanger.changeScene(scene, container,"customer", false);
+
+
 
     }
 

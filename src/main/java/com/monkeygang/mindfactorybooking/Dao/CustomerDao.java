@@ -43,7 +43,7 @@ public class CustomerDao implements Dao {
                 rs.getString("mail"),
                 rs.getString("phone"),
                 //TODO: make null safe
-                (Organization) companyDao.get(rs.getInt("id")).get()));
+                (Organization) companyDao.get(rs.getInt("organisation_id")).get()));
 
     }
 
@@ -88,6 +88,7 @@ public class CustomerDao implements Dao {
 
         int customer_id = ps.executeUpdate();
 
+        CurrentBookingSingleton.getInstance().getBooking().setId(customer_id);
         CurrentBookingSingleton.getInstance().getCustomer().setId(customer_id);
 
 

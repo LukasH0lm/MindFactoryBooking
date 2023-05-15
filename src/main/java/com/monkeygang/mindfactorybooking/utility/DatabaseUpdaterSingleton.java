@@ -95,19 +95,42 @@ public class DatabaseUpdaterSingleton {
 
 
         //3. booking_catering
-        Booking_CateringDao booking_cateringDao = new Booking_CateringDao();
 
-        booking_cateringDao.save(currentBookingSingleton);
+        if (currentBookingSingleton.getCatering().getId() == 0) {
+            System.out.println("no catering selected");
+        }else{
+
+            Booking_CateringDao booking_cateringDao = new Booking_CateringDao();
+
+            booking_cateringDao.save(currentBookingSingleton);
+
+        }
+
+
 
 
         //4. booking_activity
 
-        Booking_ActivityDao booking_activityDao = new Booking_ActivityDao();
+        if(currentBookingSingleton.getActivity().getId() == 0){
+            System.out.println("no activity selected");
+        }else{
 
-        booking_activityDao.save(currentBookingSingleton);
+            Booking_ActivityDao booking_activityDao = new Booking_ActivityDao();
+
+            booking_activityDao.save(currentBookingSingleton);
+
+        }
+
 
         //5. booking_field (if applicable)
 
+        if(currentBookingSingleton.getSubject() == null){
+            System.out.println("no subject selected");}
+        else {
+
+            //SubjectDAO subjectDAO = new SubjectDAO();
+
+        }
 
 
 
