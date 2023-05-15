@@ -84,7 +84,7 @@ public class CalendarController {
         datePicker.onActionProperty().setValue(e -> {
 
             try {
-                loadBookings(allBookings);
+                loadBookings();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             } catch (IOException ex) {
@@ -339,6 +339,7 @@ public class CalendarController {
     }
 
 
+
     private void createBookingMultipleDays(Booking booking) throws SQLException, IOException {
 
         int daysBetweenStartdateAndEndDate = booking.getEndTime().getDate() - booking.getStartTime().getDate();
@@ -419,6 +420,8 @@ public class CalendarController {
         Organization currentOrganization = bookingDAO.getOrganisation(booking);
 
         Label bookingLabel = new Label(currentOrganization.getName());
+
+
 
         bookingLabel.setAlignment(Pos.CENTER);
 
@@ -567,24 +570,32 @@ public class CalendarController {
                 // Vi sætter værdien til 0, da vi gerne vil tjekke om der er et mellemrum fra starten
                 // kalenderne til den næste rektangel.
 
-                double calendarStartYPosition = 0;
-                double calenderEndYPosition = 540;
-                int lastRectangleIndex = eksisterendeRektanglerForHvertPane.size() - 1;
+                final double calendarStartYPosition = 0;
+                final double calenderEndYPosition = hBoxCalendar.getPrefHeight();
 
 
+
+                double startRectangleHeight = eksisterendeRektanglerForHvertPane.get(0).getLayoutY() - calendarStartYPosition;
+                double startRectangleYStartPosition = calendarStartYPosition;
+
+                double spacingBetweenStartOfCalendarAndFirstBooking = eksisterendeRektanglerForHvertPane.get(0).getLayoutY()
+                        - calendarStartYPosition;
 
                 //Vi starter med at tjekke, om der er afstand mellem det første rektangel
                 //I hvert pane, og starten på kalenderen
                 // Hvis der er afstand, skal vi have lagt en rektangel ind, som går fra starten af kalenderen,
                 // og til starten af den første booking/bookingrektangel.
-                if (eksisterendeRektanglerForHvertPane.get(0).getLayoutY() - calendarStartYPosition > 1) {
+                if (spacingBetweenStartOfCalendarAndFirstBooking > 45) {
                     // Vi laver et rektangel, der går fra starten af kalenderen, og til starten af den første booking/bookingrektangel.
 
-                    double rectangleHeight = eksisterendeRektanglerForHvertPane.get(0).getLayoutY() - calendarStartYPosition;
-                    double rectangleYStartPosition = calendarStartYPosition;
+                    generateAvailableBookingStack(dayOfMonth, pane, startRectangleHeight, startRectangleYStartPosition);
 
-                    generateAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
-
+                }
+                else if (spacingBetweenStartOfCalendarAndFirstBooking <= 45){
+                    Rectangle blackRectangle = new Rectangle(50, startRectangleHeight);
+                    blackRectangle.setFill(Color.BLACK);
+                    blackRectangle.setLayoutY(startRectangleYStartPosition);
+                    pane.getChildren().add(blackRectangle);
                 }
 
 
@@ -594,27 +605,54 @@ public class CalendarController {
                     double previousRectangleYPosition = eksisterendeRektanglerForHvertPane.get(i - 1).getLayoutY();
                     double previousRectangleHeight = eksisterendeRektanglerForHvertPane.get(i - 1).getPrefHeight();
 
-                    double rectangleHeight = eksisterendeRektanglerForHvertPane.get(i).getLayoutY() - (previousRectangleYPosition + previousRectangleHeight);
-                    double rectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(i - 1).getLayoutY() + eksisterendeRektanglerForHvertPane.get(i - 1).getPrefHeight();
+                    double currentRectangleHeight = eksisterendeRektanglerForHvertPane.get(i).getLayoutY()
+                            - (previousRectangleYPosition + previousRectangleHeight);
 
+                    double currentRectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(i - 1).getLayoutY()
+                            + eksisterendeRektanglerForHvertPane.get(i - 1).getPrefHeight();
 
-                    if (eksisterendeRektanglerForHvertPane.get(i).getLayoutY() - previousRectangleYPosition > 1) {
+                    double spacingBetweenBooking = (previousRectangleYPosition + previousRectangleHeight)
+                            - (currentRectangleYStartPosition - currentRectangleHeight);
 
-                        generateAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
+                    if (spacingBetweenBooking > 45) {
 
+                        generateAvailableBookingStack(dayOfMonth, pane, currentRectangleHeight, currentRectangleYStartPosition);
 
+                    }
+                    else if (spacingBetweenBooking <= 45){
+                        Rectangle blackRectangle = new Rectangle(50, currentRectangleHeight);
+                        blackRectangle.setFill(Color.BLACK);
+                        blackRectangle.setLayoutY(currentRectangleYStartPosition);
+                        pane.getChildren().add(blackRectangle);
                     }
                 }
 
+                final int lastRectangleIndex = eksisterendeRektanglerForHvertPane.size() - 1;
 
-              if (calenderEndYPosition - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight() + (vBoxTid.getSpacing() + heightPrLabel)) > 1) {
+                double endRectangleHeight = calenderEndYPosition
+                        - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY()
+                        + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight());
 
-                   double rectangleHeight = calenderEndYPosition - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight()) - (vBoxTid.getSpacing() + heightPrLabel);
-                   double rectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight();
+                double endRectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY()
+                        + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight();
 
 
-                  generateAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
+                double spacingBetweenLastBookingAndEndOfCalendar = calenderEndYPosition
+                        - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY()
+                        + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight());
 
+
+
+                if (spacingBetweenLastBookingAndEndOfCalendar > 45) {
+
+                  generateAvailableBookingStack(dayOfMonth, pane, endRectangleHeight, endRectangleYStartPosition);
+
+                }
+                else if (spacingBetweenLastBookingAndEndOfCalendar <= 45){
+                    Rectangle blackRectangle = new Rectangle(50, endRectangleHeight);
+                    blackRectangle.setFill(Color.BLACK);
+                    blackRectangle.setLayoutY(endRectangleYStartPosition);
+                    pane.getChildren().add(blackRectangle);
                 }
             }
 
