@@ -37,6 +37,12 @@ public class Booking {
     }
 
 
+    public Booking(Timestamp startTime, Timestamp endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+
 
     public int getId() {
         return id;
