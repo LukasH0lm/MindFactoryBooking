@@ -51,6 +51,8 @@ public class BookingDao implements Dao {
     @Override
     public List getAll() throws SQLException, IOException {
 
+        System.out.println("loading all bookings from database");
+
         ArrayList<Booking> allBookings = new ArrayList<>();
 
         Connection con = ConnectionSingleton.getInstance().getConnection();

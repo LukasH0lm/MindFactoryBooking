@@ -84,7 +84,7 @@ public class CalendarController {
         datePicker.onActionProperty().setValue(e -> {
 
             try {
-                loadBookings();
+                loadBookings(allBookings);
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             } catch (IOException ex) {
@@ -129,8 +129,8 @@ public class CalendarController {
 
 
 
-
-        loadBookings();
+        //
+        loadBookings(allBookings);
 
 
     }
@@ -219,12 +219,16 @@ public class CalendarController {
 
     }
 
-    private void loadBookings() throws SQLException, IOException {
 
-        System.out.println("Loading bookings...");
 
-        // The way we do it ensures we get a booking with a customer with a organisation
-        allBookings = bookingDAO.getAll();
+    private void loadBookings(List<Booking> bookings) throws SQLException, IOException {
+
+
+        if (bookings == null){
+            System.out.println("bookings er null");
+        }
+
+
 
         spacingPrLabel = vBoxTid.getSpacing();
 
@@ -250,7 +254,8 @@ public class CalendarController {
         paneLordag.getChildren().clear();
         paneSondag.getChildren().clear();
 
-        for (Booking booking : allBookings) {
+
+        for (Booking booking : bookings) {
 
 
             Date bookingDate = booking.getStartTime();
@@ -351,7 +356,6 @@ public class CalendarController {
 
         createSingleBookingFixedValues(booking, booking.getStartTime(), firstDayEndTime);
 
-        System.out.println("test" + booking.getStartTime());
 
         currentDay++;
 
@@ -390,7 +394,6 @@ public class CalendarController {
         Timestamp endTime = new Timestamp(datePicker.getValue().getYear() - 1900, datePicker.getValue().getMonthValue() - 1, dayOfMonth, (int) (uiStartTime + (rectangleHeight / 45)), 00, 00, 00);
 
         System.out.println("Start time: " + startTime);
-        System.out.println("End time: " + endTime);
 
         Booking availableBooking = new Booking(startTime, endTime);
 
@@ -648,7 +651,10 @@ public class CalendarController {
             FXMLLoader fxmlLoader = new FXMLLoader(BookingApplication.class.getResource("view/organization-view.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("Organization");
+            stage.setTitle("Booking");
+
+            //TODO: set icon
+
             stage.setScene(new Scene(root));
             stage.setAlwaysOnTop(true);
 
@@ -676,7 +682,7 @@ public class CalendarController {
 
 
                 try {
-                    loadBookings();
+                    loadBookings(allBookings);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -697,8 +703,21 @@ public class CalendarController {
 
     private void initializeUpdatingThread(){
 
+        ArrayList<Booking> allBookingsonThread = new ArrayList<>();
 
-        executor.execute(() -> {
+
+        Runnable runnableTask = () -> {
+
+
+
+            BookingDao BookingDAO = null;
+            try {
+                BookingDAO = new BookingDao();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             while (true) {
 
@@ -710,9 +729,18 @@ public class CalendarController {
                     throw new RuntimeException(e);
                 }
 
+                try {
+                    allBookingsonThread.clear();
+                    allBookingsonThread.addAll(BookingDAO.getAll());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
                 Platform.runLater(() -> {
                     try {
-                        loadBookings();
+                        loadBookings(allBookingsonThread);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
@@ -721,14 +749,24 @@ public class CalendarController {
                 });
 
 
-
             }
 
-        });
+        };
+
+
+        //executor.execute(runnableTask);
+
+        Thread thread = new Thread(runnableTask);
+        thread.start();
+
+    };
 
 
 
-    }
+
+
+
+
 
     public void onSearchButtonClick(){
 
