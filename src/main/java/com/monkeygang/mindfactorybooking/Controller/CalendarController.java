@@ -84,7 +84,7 @@ public class CalendarController {
         datePicker.onActionProperty().setValue(e -> {
 
             try {
-                loadBookings();
+                loadBookings(allBookings);
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             } catch (IOException ex) {
@@ -384,12 +384,13 @@ public class CalendarController {
     }
 
 
-
-
-    public void generateAvailableBookingStack(int dayOfMonth, Pane pane, double rectangleHeight, double rectangleYStartPosition) {
+    public StackPane generateAvailableBookingStack(int dayOfMonth, Pane pane, double rectangleHeight, double rectangleYStartPosition) {
 
         Timestamp startTime = new Timestamp(datePicker.getValue().getYear() - 1900, datePicker.getValue().getMonthValue() - 1, dayOfMonth, (int) (uiStartTime + (rectangleYStartPosition / 45)), 00, 00, 00);
         Timestamp endTime = new Timestamp(datePicker.getValue().getYear() - 1900, datePicker.getValue().getMonthValue() - 1, dayOfMonth, (int) (uiStartTime + (rectangleHeight / 45)), 00, 00, 00);
+
+        System.out.println("Start time: " + startTime);
+        System.out.println("End time: " + endTime);
 
         Booking availableBooking = new Booking(startTime, endTime);
 
@@ -402,9 +403,11 @@ public class CalendarController {
         stack.setLayoutY(rectangleYStartPosition);
         stack.setPrefHeight(rectangleHeight);
 
-        bookingCreateInitialize(availableBooking , stack);
+        bookingCreate(availableBooking , stack);
 
         pane.getChildren().add(stack);
+
+        return stack;
 
     }
 
@@ -469,7 +472,7 @@ public class CalendarController {
     }
 
 
-    public void bookingCreateInitialize(Booking booking, StackPane stack) {
+    public void bookingCreate(Booking booking, StackPane stack) {
 
         stack.setOnMouseClicked(event -> {
 
@@ -624,6 +627,17 @@ public class CalendarController {
         }
     }
 
+    /*private void createAvailableBookingStack(int dayOfMonth, Pane pane, double rectangleHeight, double rectangleYStartPosition) {
+        Timestamp startTime = new Timestamp(datePicker.getValue().getYear() - 1900, datePicker.getValue().getMonthValue() - 1, dayOfMonth, (int) (uiStartTime + (rectangleYStartPosition / 45)), 00, 00, 00);
+        Timestamp endTime = new Timestamp(datePicker.getValue().getYear() - 1900, datePicker.getValue().getMonthValue() - 1, dayOfMonth, (int) (uiStartTime + (rectangleHeight / 45)), 00, 00, 00);
+
+        System.out.println("Start time: " + startTime);
+        System.out.println("End time: " + endTime);
+
+        Booking availableBooking = new Booking(startTime, endTime);
+
+        pane.getChildren().add(generateAvailableBookingStack(availableBooking, rectangleHeight, rectangleYStartPosition));
+    }*/
 
 
     //booking in this instance refers to the entire booking (booking, customer, catering, activity, etc.)
