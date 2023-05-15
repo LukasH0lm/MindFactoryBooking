@@ -78,14 +78,13 @@ public class CalendarController {
 
         // Datoen skal konveretes til date.
         // det virker bøffet det her, hvorfor konvertere vi en dato til en dato?
-        //bozo code
         LocalDate localDate = datePicker.getValue();
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         datePicker.onActionProperty().setValue(e -> {
 
             try {
-                loadBookings();
+                loadBookings(allBookings);
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             } catch (IOException ex) {
@@ -130,8 +129,8 @@ public class CalendarController {
 
 
 
-
-        loadBookings();
+        //
+        loadBookings(allBookings);
 
 
     }
@@ -220,12 +219,16 @@ public class CalendarController {
 
     }
 
-    private void loadBookings() throws SQLException, IOException {
 
-        System.out.println("Loading bookings...");
 
-        // The way we do it ensures we get a booking with a customer with a organisation
-        allBookings = bookingDAO.getAll();
+    private void loadBookings(List<Booking> bookings) throws SQLException, IOException {
+
+
+        if (bookings == null){
+            System.out.println("bookings er null");
+        }
+
+
 
         spacingPrLabel = vBoxTid.getSpacing();
 
@@ -251,7 +254,8 @@ public class CalendarController {
         paneLordag.getChildren().clear();
         paneSondag.getChildren().clear();
 
-        for (Booking booking : allBookings) {
+
+        for (Booking booking : bookings) {
 
 
             Date bookingDate = booking.getStartTime();
@@ -340,7 +344,6 @@ public class CalendarController {
     }
 
 
-
     private void createBookingMultipleDays(Booking booking) throws SQLException, IOException {
 
         int daysBetweenStartdateAndEndDate = booking.getEndTime().getDate() - booking.getStartTime().getDate();
@@ -353,7 +356,6 @@ public class CalendarController {
 
         createSingleBookingFixedValues(booking, booking.getStartTime(), firstDayEndTime);
 
-        System.out.println("test" + booking.getStartTime());
 
         currentDay++;
 
@@ -392,7 +394,6 @@ public class CalendarController {
         Timestamp endTime = new Timestamp(datePicker.getValue().getYear() - 1900, datePicker.getValue().getMonthValue() - 1, dayOfMonth, (int) (uiStartTime + (rectangleHeight / 45)), 00, 00, 00);
 
         System.out.println("Start time: " + startTime);
-        System.out.println("End time: " + endTime);
 
         Booking availableBooking = new Booking(startTime, endTime);
 
@@ -421,8 +422,6 @@ public class CalendarController {
         Organization currentOrganization = bookingDAO.getOrganisation(booking);
 
         Label bookingLabel = new Label(currentOrganization.getName());
-
-
 
         bookingLabel.setAlignment(Pos.CENTER);
 
@@ -571,32 +570,24 @@ public class CalendarController {
                 // Vi sætter værdien til 0, da vi gerne vil tjekke om der er et mellemrum fra starten
                 // kalenderne til den næste rektangel.
 
-                final double calendarStartYPosition = 0;
-                final double calenderEndYPosition = hBoxCalendar.getPrefHeight();
+                double calendarStartYPosition = 0;
+                double calenderEndYPosition = 540;
+                int lastRectangleIndex = eksisterendeRektanglerForHvertPane.size() - 1;
 
 
-
-                double startRectangleHeight = eksisterendeRektanglerForHvertPane.get(0).getLayoutY() - calendarStartYPosition;
-                double startRectangleYStartPosition = calendarStartYPosition;
-
-                double spacingBetweenStartOfCalendarAndFirstBooking = eksisterendeRektanglerForHvertPane.get(0).getLayoutY()
-                        - calendarStartYPosition;
 
                 //Vi starter med at tjekke, om der er afstand mellem det første rektangel
                 //I hvert pane, og starten på kalenderen
                 // Hvis der er afstand, skal vi have lagt en rektangel ind, som går fra starten af kalenderen,
                 // og til starten af den første booking/bookingrektangel.
-                if (spacingBetweenStartOfCalendarAndFirstBooking > 45) {
+                if (eksisterendeRektanglerForHvertPane.get(0).getLayoutY() - calendarStartYPosition > 1) {
                     // Vi laver et rektangel, der går fra starten af kalenderen, og til starten af den første booking/bookingrektangel.
 
-                    generateAvailableBookingStack(dayOfMonth, pane, startRectangleHeight, startRectangleYStartPosition);
+                    double rectangleHeight = eksisterendeRektanglerForHvertPane.get(0).getLayoutY() - calendarStartYPosition;
+                    double rectangleYStartPosition = calendarStartYPosition;
 
-                }
-                else if (spacingBetweenStartOfCalendarAndFirstBooking <= 45){
-                    Rectangle blackRectangle = new Rectangle(50, startRectangleHeight);
-                    blackRectangle.setFill(Color.BLACK);
-                    blackRectangle.setLayoutY(startRectangleYStartPosition);
-                    pane.getChildren().add(blackRectangle);
+                    generateAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
+
                 }
 
 
@@ -606,54 +597,27 @@ public class CalendarController {
                     double previousRectangleYPosition = eksisterendeRektanglerForHvertPane.get(i - 1).getLayoutY();
                     double previousRectangleHeight = eksisterendeRektanglerForHvertPane.get(i - 1).getPrefHeight();
 
-                    double currentRectangleHeight = eksisterendeRektanglerForHvertPane.get(i).getLayoutY()
-                            - (previousRectangleYPosition + previousRectangleHeight);
+                    double rectangleHeight = eksisterendeRektanglerForHvertPane.get(i).getLayoutY() - (previousRectangleYPosition + previousRectangleHeight);
+                    double rectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(i - 1).getLayoutY() + eksisterendeRektanglerForHvertPane.get(i - 1).getPrefHeight();
 
-                    double currentRectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(i - 1).getLayoutY()
-                            + eksisterendeRektanglerForHvertPane.get(i - 1).getPrefHeight();
 
-                    double spacingBetweenBooking = (previousRectangleYPosition + previousRectangleHeight)
-                            - (currentRectangleYStartPosition - currentRectangleHeight);
+                    if (eksisterendeRektanglerForHvertPane.get(i).getLayoutY() - previousRectangleYPosition > 1) {
 
-                    if (spacingBetweenBooking > 45) {
+                        generateAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
 
-                        generateAvailableBookingStack(dayOfMonth, pane, currentRectangleHeight, currentRectangleYStartPosition);
 
-                    }
-                    else if (spacingBetweenBooking <= 45){
-                        Rectangle blackRectangle = new Rectangle(50, currentRectangleHeight);
-                        blackRectangle.setFill(Color.BLACK);
-                        blackRectangle.setLayoutY(currentRectangleYStartPosition);
-                        pane.getChildren().add(blackRectangle);
                     }
                 }
 
-                final int lastRectangleIndex = eksisterendeRektanglerForHvertPane.size() - 1;
 
-                double endRectangleHeight = calenderEndYPosition
-                        - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY()
-                        + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight());
+              if (calenderEndYPosition - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight() + (vBoxTid.getSpacing() + heightPrLabel)) > 1) {
 
-                double endRectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY()
-                        + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight();
+                   double rectangleHeight = calenderEndYPosition - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight()) - (vBoxTid.getSpacing() + heightPrLabel);
+                   double rectangleYStartPosition = eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY() + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight();
 
 
-                double spacingBetweenLastBookingAndEndOfCalendar = calenderEndYPosition
-                        - (eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getLayoutY()
-                        + eksisterendeRektanglerForHvertPane.get(lastRectangleIndex).getPrefHeight());
+                  generateAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
 
-
-
-                if (spacingBetweenLastBookingAndEndOfCalendar > 45) {
-
-                  generateAvailableBookingStack(dayOfMonth, pane, endRectangleHeight, endRectangleYStartPosition);
-
-                }
-                else if (spacingBetweenLastBookingAndEndOfCalendar <= 45){
-                    Rectangle blackRectangle = new Rectangle(50, endRectangleHeight);
-                    blackRectangle.setFill(Color.BLACK);
-                    blackRectangle.setLayoutY(endRectangleYStartPosition);
-                    pane.getChildren().add(blackRectangle);
                 }
             }
 
@@ -687,7 +651,10 @@ public class CalendarController {
             FXMLLoader fxmlLoader = new FXMLLoader(BookingApplication.class.getResource("view/organization-view.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("Organization");
+            stage.setTitle("Booking");
+
+            //TODO: set icon
+
             stage.setScene(new Scene(root));
             stage.setAlwaysOnTop(true);
 
@@ -715,7 +682,7 @@ public class CalendarController {
 
 
                 try {
-                    loadBookings();
+                    loadBookings(allBookings);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -736,8 +703,21 @@ public class CalendarController {
 
     private void initializeUpdatingThread(){
 
+        ArrayList<Booking> allBookingsonThread = new ArrayList<>();
 
-        executor.execute(() -> {
+
+        Runnable runnableTask = () -> {
+
+
+
+            BookingDao BookingDAO = null;
+            try {
+                BookingDAO = new BookingDao();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             while (true) {
 
@@ -749,9 +729,18 @@ public class CalendarController {
                     throw new RuntimeException(e);
                 }
 
+                try {
+                    allBookingsonThread.clear();
+                    allBookingsonThread.addAll(BookingDAO.getAll());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
                 Platform.runLater(() -> {
                     try {
-                        loadBookings();
+                        loadBookings(allBookingsonThread);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
@@ -760,14 +749,24 @@ public class CalendarController {
                 });
 
 
-
             }
 
-        });
+        };
+
+
+        //executor.execute(runnableTask);
+
+        Thread thread = new Thread(runnableTask);
+        thread.start();
+
+    };
 
 
 
-    }
+
+
+
+
 
     public void onSearchButtonClick(){
 
