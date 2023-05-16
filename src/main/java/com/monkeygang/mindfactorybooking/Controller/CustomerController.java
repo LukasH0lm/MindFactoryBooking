@@ -112,6 +112,10 @@ public class CustomerController {
     @FXML
     void onCancelButtonClick(ActionEvent event) {
 
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+
+
     }
 
     @FXML

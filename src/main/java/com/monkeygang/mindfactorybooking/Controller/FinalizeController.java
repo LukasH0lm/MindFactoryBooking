@@ -59,6 +59,11 @@ public class FinalizeController {
     @FXML
     void onCancelButtonClick(ActionEvent event) {
 
+        //TODO: add confirm dialog
+
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+
     }
 
     @FXML

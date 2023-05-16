@@ -5,6 +5,7 @@ import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Organization;
 import com.monkeygang.mindfactorybooking.utility.AlertHandler;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class OrganizationController {
 
@@ -55,13 +57,21 @@ public class OrganizationController {
 
         //TODO: add cancel button functionality
 
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+
     }
 
     @FXML
     void onNextButtonClick(ActionEvent event) throws IOException {
 
-        if (organisationCombobox.getValue() == null) {
+        System.out.println("organization selected: " + organisationCombobox.getValue().getId());
+
+        //this is a bad way to do this, but it works for now
+
+        if (organisationCombobox.getValue().getId() == -1) {
             System.out.println("No organization selected");
+
             showNoOrganizationAlert();
             return;
         }

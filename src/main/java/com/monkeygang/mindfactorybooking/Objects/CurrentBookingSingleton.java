@@ -26,7 +26,7 @@ public class CurrentBookingSingleton {
     boolean isEdit = false;
     boolean isTemporary = false;
 
-    public CurrentBookingSingleton() {
+    private CurrentBookingSingleton() {
 
     }
 

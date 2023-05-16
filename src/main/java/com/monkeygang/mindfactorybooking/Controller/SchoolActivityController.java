@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -87,6 +88,9 @@ public class SchoolActivityController {
 
     @FXML
     void onCancelButtonClick(ActionEvent event) {
+
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
 
     }
 

@@ -692,7 +692,8 @@ public class CalendarController {
             Stage stage = new Stage();
             stage.setTitle("Booking");
 
-            //TODO: set icon
+            stage.getIcons().add(new javafx.scene.image.Image("file:src/main/resources/com/monkeygang/mindfactorybooking/logo.jpg"));
+
 
             stage.setScene(new Scene(root));
             stage.setAlwaysOnTop(true);
@@ -706,7 +707,9 @@ public class CalendarController {
 
             bookingAnchorPane.setDisable(true);
 
-            stage.setOnCloseRequest(event -> {
+
+
+            stage.setOnHiding(event -> {
 
                 currentStage.setOpacity(1);
                 bookingAnchorPane.setDisable(false);
@@ -731,7 +734,7 @@ public class CalendarController {
 
 
 
-            stage.showAndWait();
+            stage.show();
 
 
         } catch (IOException e) {
@@ -793,10 +796,10 @@ public class CalendarController {
         };
 
 
-        //executor.execute(runnableTask);
+        executor.execute(runnableTask);
 
-        Thread thread = new Thread(runnableTask);
-        thread.start();
+        //Thread thread = new Thread(runnableTask);
+        //thread.start();
 
     };
 

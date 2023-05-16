@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -139,6 +140,10 @@ public class ActivityController {
     @FXML
     public void onCancelButtonClick(ActionEvent event) throws IOException {
         //TODO: add a confirmation dialog
+
+        Stage stage = (Stage) nextButton.getScene().getWindow();
+        stage.close();
+
     }
 
 }
