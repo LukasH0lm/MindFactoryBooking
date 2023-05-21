@@ -90,7 +90,7 @@ public class FinalizeController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Booking confirmation");
         alert.setHeaderText("Booking confirmed");
-        alert.setContentText("Your booking has been confirmed. You will receive an email with the details shortly.");
+        alert.setContentText("Din booking er blevet bekræftet. Du modtager snart en mail med oplysningerne.");
         alert.showAndWait();
 
         //TODO: Clear current booking singleton

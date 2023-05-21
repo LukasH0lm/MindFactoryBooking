@@ -91,7 +91,7 @@ public class CateringController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("No catering option selected");
-            alert.setContentText("Please select a catering option");
+            alert.setContentText("Udfyld venligst catering");
             alert.showAndWait();
             return;
         }

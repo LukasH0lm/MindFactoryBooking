@@ -127,7 +127,7 @@ public class CustomerController {
 
             Stage stage = (Stage) container.getScene().getWindow();
 
-            alertHandler.showAlert(stage,"Error","Missing fields","Please fill in all fields");
+            alertHandler.showAlert(stage,"Error","Missing fields","Udfyld venligst alle felter");
 
             return;
 

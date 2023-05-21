@@ -101,7 +101,7 @@ public class OrganizationController {
         alertHandler.showAlert(stage,
                 "No organization selected",
                 "Please select an organization",
-                "You have not selected an organization. Please select an organization to continue.");
+                "Du har ikke valgt en organisation. Vælg venligst en organisation for at fortsætte.");
 
     }
 

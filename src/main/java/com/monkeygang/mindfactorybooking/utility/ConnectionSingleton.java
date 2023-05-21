@@ -16,16 +16,16 @@ public class ConnectionSingleton {
 
     private ConnectionSingleton() throws IOException {
 
-        File file = new File(BookingApplication.class.getResource("").getPath() + "DatabaseSettings");
+      //  File file = new File(BookingApplication.class.getResource("").getPath() + "DatabaseSettings");
 
-        BufferedReader br = new BufferedReader(new FileReader(file));
+       // BufferedReader br = new BufferedReader(new FileReader(file));
 
 
         try {
-            String serverName = br.readLine();
-            String databaseName = br.readLine();
-            String userName = br.readLine();
-            String password = br.readLine();
+            String serverName = "EASV-DB4";
+            String databaseName = "CSe2002t_t_2_MindFactory";
+            String userName = "CSe2022t_t_2";
+            String password = "CSe2022tT2#";
 
             String url = "jdbc:sqlserver://" + serverName + ":1433;DatabaseName=" + databaseName + ";user=" + userName + ";password=" + password + ";encrypt=false;trustServerCertificate=true;";
             connection = DriverManager.getConnection(url);

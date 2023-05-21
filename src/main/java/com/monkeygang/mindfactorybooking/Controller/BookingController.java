@@ -36,11 +36,14 @@ public class BookingController {
 
     public void initialize() {
 
+
+
         startTimeCombobox.getItems().addAll("7:00", "8:00", "9:00", "10:00", "11:00", "12:00",
                 "13:00", "14:00", "15:00", "16:00", "17:00", "18:00");
 
         endTimeCombobox.getItems().addAll("7:00", "8:00", "9:00", "10:00", "11:00", "12:00",
                 "13:00", "14:00", "15:00", "16:00", "17:00", "18:00");
+
 
         //TODO: implement edit booking
         /*
@@ -149,7 +152,7 @@ public class BookingController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
-            alert.setContentText("Start time is after end time!");
+            alert.setContentText("Starttid er efter sluttid!");
             alert.showAndWait();
 
             alert.setOnCloseRequest((e) -> {
@@ -167,7 +170,7 @@ public class BookingController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
-            alert.setContentText("Start time is before current time!");
+            alert.setContentText("Starttid er før nuværende tid!");
 
 
             alert.setOnCloseRequest((e) -> {
@@ -188,7 +191,7 @@ public class BookingController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
-            alert.setContentText("This time is already booked!");
+            alert.setContentText("Denne tid er allerede booket!");
             alert.showAndWait();
 
             alert.setOnCloseRequest((e) -> {
@@ -219,7 +222,7 @@ public class BookingController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
-            alert.setContentText("This time is already booked!");
+            alert.setContentText("Denne tid er allerede booket!");
             alert.showAndWait();
             return;
         }
@@ -265,7 +268,7 @@ public class BookingController {
 
         alert.setTitle("Error");
         alert.setHeaderText("Error");
-        alert.setContentText("Please fill out all fields!");
+        alert.setContentText("Udfyld venligst alle felterne!");
         alert.showAndWait();
 
 

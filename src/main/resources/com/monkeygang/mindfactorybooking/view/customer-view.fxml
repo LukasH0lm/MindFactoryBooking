@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.CustomerController">
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.CustomerController">
    <children>
       <AnchorPane fx:id="container" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: white;">
          <children>
@@ -16,8 +16,8 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button fx:id="nextButton" layoutX="346.0" layoutY="267.0" mnemonicParsing="false" onAction="#onNextButtonClick" text="next" />
-            <Button fx:id="cancelButton" layoutX="285.0" layoutY="267.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="cancel" />
+            <Button fx:id="nextButton" layoutX="335.0" layoutY="267.0" mnemonicParsing="false" onAction="#onNextButtonClick" text="Næste" />
+            <Button fx:id="cancelButton" layoutX="270.0" layoutY="267.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="Annullér" />
             <Label layoutX="14.0" layoutY="72.0" text="Navn" />
             <TextField fx:id="nameTextField" layoutX="59.0" layoutY="68.0" />
             <Label layoutX="14.0" layoutY="109.0" text="Titel" />
@@ -26,7 +26,7 @@
             <TextField fx:id="mailTextField" layoutX="59.0" layoutY="139.0" />
             <Label layoutX="14.0" layoutY="176.0" text="Telefon" />
             <TextField fx:id="telephoneTextField" layoutX="59.0" layoutY="172.0" />
-            <Button fx:id="backButton" layoutX="14.0" layoutY="267.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="back" />
+            <Button fx:id="backButton" layoutX="10.0" layoutY="267.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="Tilbage" />
             <Label layoutX="16.0" layoutY="200.0" prefHeight="36.0" prefWidth="39.0" text="Antal folk" wrapText="true" />
             <TextField fx:id="amountOfPeopleTextField" layoutX="59.0" layoutY="205.0" />
             <Label fx:id="subjectLabel" layoutX="16.0" layoutY="231.0" prefHeight="36.0" prefWidth="39.0" text="fag" wrapText="true" />

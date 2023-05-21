@@ -28,6 +28,18 @@ public class Booking_ActivityDao implements Dao{
         return null;
     }
 
+    public Integer getActivityIDbyBookingID(int bookingID) throws SQLException, IOException {
+        PreparedStatement ps = con.prepareStatement("SELECT activity_id FROM booking_activity WHERE booking_id = ?");
+        ps.setInt(1, bookingID);
+        ps.execute();
+
+        if (ps.getResultSet().next()) {
+            return ps.getResultSet().getInt("activity_id");
+        }
+
+       return null;
+    }
+
     @Override
     public void save(Object o) throws SQLException, IOException {
 

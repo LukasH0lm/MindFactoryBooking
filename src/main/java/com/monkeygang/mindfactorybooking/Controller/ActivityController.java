@@ -63,6 +63,8 @@ public class ActivityController {
 
         System.out.println(buttonName + " selected");
 
+        kreativTechRadioButton.isSelected();
+
         switch (buttonName){
             case "Kreativt Spark" -> kreativtSparkRadioButton.setSelected(true);
             case "IdéGeneratoren" -> idéGeneratorenRadioButton.setSelected(true);

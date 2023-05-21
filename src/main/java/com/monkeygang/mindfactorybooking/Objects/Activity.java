@@ -17,6 +17,8 @@ public class Activity {
         this.organisation_type = organisation_type;
     }
 
+
+
     public int getId() {
         return id;
     }
