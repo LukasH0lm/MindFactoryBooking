@@ -586,7 +586,7 @@ public class CalendarController {
 
 
 
-                System.out.println("Start rectangle height: " + startRectangleHeight);
+                //System.out.println("Start rectangle height: " + startRectangleHeight);
 
                 //Vi starter med at tjekke, om der er afstand mellem det første rektangel
                 //I hvert pane, og starten på kalenderen
@@ -766,7 +766,7 @@ public class CalendarController {
                 //sleep for 5 seconds
                 //forgot to add this and my machine sounded like it was running source 2 :p
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(100000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

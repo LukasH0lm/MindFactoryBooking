@@ -94,7 +94,9 @@ public class FinalizeController {
         alert.showAndWait();
 
         //TODO: Clear current booking singleton
-        CurrentBookingSingleton.getInstance().reset();
+        //sletter bookingen
+        //burde kun slette hvis den er temp
+        //CurrentBookingSingleton.getInstance().reset();
         //TODO: Go back to start screen
         Stage stage = (Stage) doneButton.getScene().getWindow();
         stage.close();
