@@ -7,18 +7,18 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.FinalizeController">
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.FinalizeController">
    <children>
       <AnchorPane fx:id="container" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: white;">
          <children>
-            <Label layoutX="125.0" layoutY="14.0" prefHeight="54.0" prefWidth="149.0" text="Færdigør">
+            <Label layoutX="115.0" layoutY="14.0" prefHeight="54.0" prefWidth="170.0" text="Færdiggør">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button fx:id="doneButton" layoutX="346.0" layoutY="260.0" mnemonicParsing="false" onAction="#onDoneButtonClick" text="done" />
-            <Button fx:id="cancelButton" layoutX="283.0" layoutY="260.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="cancel" />
-            <Button fx:id="backButton" layoutX="17.0" layoutY="260.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="back" />
+            <Button fx:id="doneButton" layoutX="330.0" layoutY="260.0" mnemonicParsing="false" onAction="#onDoneButtonClick" text="Bekræft" />
+            <Button fx:id="cancelButton" layoutX="263.0" layoutY="260.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="Annullér" />
+            <Button fx:id="backButton" layoutX="17.0" layoutY="260.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="Tilbage" />
             <TextArea fx:id="finalizeTextArea" layoutX="60.0" layoutY="68.0" prefHeight="177.0" prefWidth="280.0" />
          </children>
       </AnchorPane>

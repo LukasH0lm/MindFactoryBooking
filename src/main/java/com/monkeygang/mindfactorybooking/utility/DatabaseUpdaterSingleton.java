@@ -93,6 +93,8 @@ public class DatabaseUpdaterSingleton {
         BookingDao bookingDao = new BookingDao();
         bookingDao.save(currentBookingSingleton.getBooking());
 
+        System.out.println(currentBookingSingleton.getBooking().getId());
+
 
         //3. booking_catering
 

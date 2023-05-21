@@ -36,7 +36,6 @@ public class SchoolActivityController {
                 case 4 -> RobottenRydderOpRadioButton.setSelected(true);
                 case 5 -> naturturismeRadioButton.setSelected(true);
                 case 6 -> SikkerhedRadioButton.setSelected(true);
-
                 case 0 -> noActivityRadioButton.setSelected(true);
             }
         }

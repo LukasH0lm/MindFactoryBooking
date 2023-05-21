@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.CateringController">
+<StackPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.CateringController">
    <children>
       <AnchorPane fx:id="container" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: white;">
          <children>
@@ -16,29 +16,29 @@
                   <Font size="36.0" />
                </font>
             </Text>
-            <Button fx:id="nextButton" layoutX="344.0" layoutY="264.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="Next" />
-            <RadioButton fx:id="halfDayCoffeeMeetingRadioButton" layoutX="110.0" layoutY="87.0" mnemonicParsing="false" onAction="#radioButtonSelected" text="Halvdags kaffemøde">
+            <Button fx:id="nextButton" layoutX="333.0" layoutY="264.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="Næste" />
+            <RadioButton fx:id="halfDayCoffeeMeetingRadioButton" layoutX="110.0" layoutY="80.0" mnemonicParsing="false" onAction="#radioButtonSelected" text="Halvdags kaffemøde">
                <font>
                   <Font size="16.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="halfDayMeetingRadioButton" layoutX="110.0" layoutY="121.0" mnemonicParsing="false" onAction="#radioButtonSelected" text="Halvdagsmødepakke">
+            <RadioButton fx:id="halfDayMeetingRadioButton" layoutX="110.0" layoutY="120.0" mnemonicParsing="false" onAction="#radioButtonSelected" text="Halvdagsmødepakke">
                <font>
                   <Font size="16.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="wholeDayMeetingRadioButton" layoutX="110.0" layoutY="154.0" mnemonicParsing="false" onAction="#radioButtonSelected" text="Heldagsmødepakke">
+            <RadioButton fx:id="wholeDayMeetingRadioButton" layoutX="110.0" layoutY="160.0" mnemonicParsing="false" onAction="#radioButtonSelected" text="Heldagsmødepakke">
                <font>
                   <Font size="16.0" />
                </font>
             </RadioButton>
-            <Button fx:id="backButton" layoutX="14.0" layoutY="264.0" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Back" />
-            <RadioButton fx:id="noCateringRadioButton" layoutX="110.0" layoutY="192.0" mnemonicParsing="false" onAction="#radioButtonSelected" text="ingen forplejning">
+            <Button fx:id="backButton" layoutX="14.0" layoutY="264.0" mnemonicParsing="false" onAction="#onBackButtonClicked" text="Tilbage" />
+            <RadioButton fx:id="noCateringRadioButton" layoutX="110.0" layoutY="200.0" mnemonicParsing="false" onAction="#radioButtonSelected" selected="true" text="ingen forplejning">
                <font>
                   <Font size="16.0" />
                </font>
             </RadioButton>
-            <Button fx:id="nextButton1" layoutX="282.0" layoutY="264.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="Cancel" />
+            <Button fx:id="nextButton1" layoutX="261.0" layoutY="264.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="Annullér" />
          </children>
       </AnchorPane>
    </children>

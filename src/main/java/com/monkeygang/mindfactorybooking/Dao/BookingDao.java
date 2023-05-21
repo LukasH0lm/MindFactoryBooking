@@ -1,10 +1,7 @@
 package com.monkeygang.mindfactorybooking.Dao;
 
-import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
-import com.monkeygang.mindfactorybooking.Objects.Customer;
-import com.monkeygang.mindfactorybooking.Objects.Organization;
+import com.monkeygang.mindfactorybooking.Objects.*;
 import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
-import com.monkeygang.mindfactorybooking.Objects.Booking;
 
 import java.io.IOException;
 import java.sql.*;
@@ -177,4 +174,7 @@ public class BookingDao implements Dao {
 
 
     }
+
+
+
 }

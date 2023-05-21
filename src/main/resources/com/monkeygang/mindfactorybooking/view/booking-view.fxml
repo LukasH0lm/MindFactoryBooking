@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.BookingController">
+<StackPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.BookingController">
    <children>
       <AnchorPane fx:id="container" prefHeight="450.0" prefWidth="400.0" style="-fx-background-color: white;">
          <children>
@@ -17,11 +17,11 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Button fx:id="nextButton" layoutX="342.0" layoutY="262.0" mnemonicParsing="false" onAction="#onNextButtonClick" text="next" />
-            <Button fx:id="cancelButton" layoutX="282.0" layoutY="262.0" mnemonicParsing="false" onAction="#onCancelButtonClick" text="cancel" />
+            <Button fx:id="nextButton" layoutX="342.0" layoutY="262.0" mnemonicParsing="false" onAction="#onNextButtonClick" text="Næste" />
+            <Button fx:id="cancelButton" layoutX="277.0" layoutY="262.0" mnemonicParsing="false" onAction="#onCancelButtonClick" prefHeight="25.0" prefWidth="61.0" text="Annullér" />
             <ComboBox fx:id="startTimeCombobox" layoutX="69.0" layoutY="132.0" prefHeight="26.0" prefWidth="78.0" />
             <ComboBox fx:id="endTimeCombobox" layoutX="258.0" layoutY="132.0" prefHeight="26.0" prefWidth="78.0" />
-            <Button fx:id="deleteButton" layoutX="225.0" layoutY="262.0" mnemonicParsing="false" onAction="#onDeleteButtonClick" text="Delete" />
+            <Button fx:id="deleteButton" layoutX="235.0" layoutY="262.0" mnemonicParsing="false" onAction="#onDeleteButtonClick" prefHeight="25.0" prefWidth="37.0" text="Slet" />
             <DatePicker fx:id="startDatePicker" layoutX="21.0" layoutY="98.0" />
             <DatePicker fx:id="endDatePicker" layoutX="209.0" layoutY="98.0" />
             <Label layoutX="95.0" layoutY="68.0" text="Fra:">
@@ -34,7 +34,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Button fx:id="backButton" layoutX="14.0" layoutY="262.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="back" />
+            <Button fx:id="backButton" layoutX="14.0" layoutY="262.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="Tilbage" />
          </children>
       </AnchorPane>
    </children>

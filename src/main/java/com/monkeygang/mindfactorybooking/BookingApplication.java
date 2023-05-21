@@ -15,7 +15,7 @@ import java.io.IOException;
 public class BookingApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(BookingApplication.class.getResource("view/calendar-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(BookingApplication.class.getResource("view/dashboard-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Mind Factory Booking - Admin");
         stage.getIcons().add(new javafx.scene.image.Image("file:src/main/resources/com/monkeygang/mindfactorybooking/logo.jpg"));
