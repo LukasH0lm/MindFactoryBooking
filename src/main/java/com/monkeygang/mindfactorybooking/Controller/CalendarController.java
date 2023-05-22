@@ -423,7 +423,11 @@ public class CalendarController {
 
         Organization currentOrganization = bookingDAO.getOrganisation(booking);
 
+        System.out.println(currentOrganization.getName());
+
         Label bookingLabel = new Label(currentOrganization.getName());
+
+
 
         bookingLabel.setAlignment(Pos.CENTER);
 

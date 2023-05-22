@@ -86,9 +86,27 @@ public class CustomerDao implements Dao {
         ps.setInt(10,organization_id);
 
 
-        int customer_id = ps.executeUpdate();
+        int alteredcolumns = ps.executeUpdate();
 
-        CurrentBookingSingleton.getInstance().getBooking().setId(customer_id);
+        int customer_id = -1;
+
+        if (alteredcolumns == 0) {
+            System.out.println("Customer already exists");
+
+            //get customer by name, title, mail, phone, organisation_id
+            //get()
+            customer_id = 0;
+
+        }else {
+            System.out.println("Customer saved");
+
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            customer_id = rs.getInt(1);
+
+        }
+
+        //CurrentBookingSingleton.getInstance().getBooking().setId(customer_id);
         CurrentBookingSingleton.getInstance().getCustomer().setId(customer_id);
 
 

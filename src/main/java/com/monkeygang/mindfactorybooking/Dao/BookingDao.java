@@ -73,7 +73,10 @@ public class BookingDao implements Dao {
 
 
 
+
+
                     (Customer) customerDao.get(rs.getInt("customer_id")).get());
+
 
             allBookings.add(booking);
         }
@@ -180,13 +183,20 @@ public class BookingDao implements Dao {
 
     public Organization getOrganisation(Booking booking) throws SQLException, IOException {
 
+        System.out.println("getting organisation");
+
         CustomerDao customerDao = new CustomerDao();
 
         Customer customer = (Customer) customerDao.get(booking.getCustomer().getId()).get();
 
+        System.out.println("customer id: " + customer.getId());
+        System.out.println("organisation id: " + customer.getOrganisation().getId());
+
         OrganisationDao organisationDao = new OrganisationDao();
 
         return (Organization) organisationDao.get(customer.getOrganisation().getId()).get();
+
+
 
 
     }
