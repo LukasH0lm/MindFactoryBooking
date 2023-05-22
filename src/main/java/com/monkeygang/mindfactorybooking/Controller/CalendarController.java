@@ -400,7 +400,7 @@ public class CalendarController {
         Booking availableBooking = new Booking(startTime, endTime);
 
 
-        Rectangle bookingRectangle = new Rectangle(50, rectangleHeight);
+        Rectangle bookingRectangle = new Rectangle(100, rectangleHeight);
         bookingRectangle.setFill(Color.TRANSPARENT);
 
         StackPane stack = new StackPane(bookingRectangle);
@@ -418,7 +418,7 @@ public class CalendarController {
 
     public StackPane generateBookingStack(Booking booking, double rectangleHeight, double rectangleYStartPosition) throws SQLException, IOException {
 
-        Rectangle bookingRectangle = new Rectangle(50, rectangleHeight);
+        Rectangle bookingRectangle = new Rectangle(100, rectangleHeight);
         bookingRectangle.setFill(Color.RED);
 
         Organization currentOrganization = bookingDAO.getOrganisation(booking);

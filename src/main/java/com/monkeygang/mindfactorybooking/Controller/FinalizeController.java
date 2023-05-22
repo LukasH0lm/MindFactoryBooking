@@ -91,6 +91,7 @@ public class FinalizeController {
         alert.setTitle("Booking confirmation");
         alert.setHeaderText("Booking confirmed");
         alert.setContentText("Din booking er blevet bekræftet. Du modtager snart en mail med oplysningerne.");
+        alert.initOwner(doneButton.getScene().getWindow());
         alert.showAndWait();
 
         //TODO: Clear current booking singleton
