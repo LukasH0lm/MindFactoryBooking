@@ -427,36 +427,41 @@ public class CalendarController {
 
         bookingLabel.setAlignment(Pos.CENTER);
 
+
         bookingLabel.setTextFill(Paint.valueOf("white"));
         bookingLabel.setMaxWidth(45); // 50 - 5 to give the text to space to breathe
         bookingLabel.setWrapText(true);
 
-      //  System.out.println(booking_activityDao.getActivityIDbyBookingID(booking.getId()));
 
 
-      //  int activityID = booking_activityDao.getActivityIDbyBookingID(booking.getId());
+
+        int activityID = booking_activityDao.getActivityIDbyBookingID(booking.getId());
 
         ImageView activityIcon = new ImageView();
 
 
-        //Hvis ikke det er en aktivitet, så er det et møde.
-        activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/møde.png"));
-
-
-
         //Hvis det er en aktivitet, så skal vi have billedet fra aktiviteten.
-        /*switch (activityID) {
-            case 1 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture1.jpg"));
-            case 2 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture1.jpg"));
-            case 3 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture1.jpg"));
-            case 4 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture1.jpg"));
-            case 5 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture1.jpg"));
-            case 6 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture1.jpg"));
-            case 7 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture1.jpg"));
-            case 8 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture1.jpg"));
-        }*/
+        // Vi returner 0, når booking id ikke findes i aktivitets tabellen, så når den er 0, så sætter vi billedet til møde,
+        // da vi ser en booking som et møde, når der ikke er valgt nogen aktivitet.
+
+               switch (activityID) {
+                   case 0 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/møde.png"));
+                   case 1 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/idefabrikken.png"));
+                   case 2 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/digitalfabrikation.png"));
+                   case 3 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robotpåjob.png"));
+                   case 4 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robottenrydderop.png"));
+                   case 5 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/naturismevedvadehavet.png"));
+                   case 6 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/skabsikkerhedivadehavet.png"));
+                   case 7 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativspark.png"));
+                   case 8 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/ideGeneratoren.png"));
+                   case 9 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativtech.png"));
+               }
 
 
+
+
+        activityIcon.setTranslateX(35);
+        activityIcon.setTranslateY(- ((rectangleHeight / 2) - 7));
 
         StackPane stack = new StackPane(bookingRectangle, bookingLabel, activityIcon);
 

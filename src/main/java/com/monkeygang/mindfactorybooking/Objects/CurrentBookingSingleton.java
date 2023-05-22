@@ -120,7 +120,7 @@ public class CurrentBookingSingleton {
 
     public void reset() throws SQLException, IOException {
 
-        if (!isEdit && booking != null) {
+        if (!isEdit && booking != null && isTemporary) {
             BookingDao bookingDao = new BookingDao();
             bookingDao.delete(booking);
         }

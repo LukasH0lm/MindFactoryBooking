@@ -91,6 +91,7 @@ public class FinalizeController {
         alert.setTitle("Booking confirmation");
         alert.setHeaderText("Booking confirmed");
         alert.setContentText("Din booking er blevet bekræftet. Du modtager snart en mail med oplysningerne.");
+        // Make sure that the confirmation dialog is always on top of other windows.
         alert.initOwner(doneButton.getScene().getWindow());
         alert.showAndWait();
 

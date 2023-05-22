@@ -37,7 +37,8 @@ public class Booking_ActivityDao implements Dao{
             return ps.getResultSet().getInt("activity_id");
         }
 
-       return null;
+        // Hvis Booking ikke har en aktivitet, returner 0
+        return 0;
     }
 
     @Override
