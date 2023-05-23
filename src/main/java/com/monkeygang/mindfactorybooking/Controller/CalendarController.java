@@ -423,7 +423,7 @@ public class CalendarController {
 
         Organization currentOrganization = bookingDAO.getOrganisation(booking);
 
-        System.out.println(currentOrganization.getName());
+
 
         Label bookingLabel = new Label(currentOrganization.getName());
 
@@ -765,7 +765,7 @@ public class CalendarController {
 
     private void initializeUpdatingThread(){
 
-        ArrayList<Booking> allBookingsonThread = new ArrayList<>();
+      //  ArrayList<Booking> allBookingsonThread = new ArrayList<>();
 
 
         Runnable runnableTask = () -> {
@@ -786,14 +786,14 @@ public class CalendarController {
                 //sleep for 5 seconds
                 //forgot to add this and my machine sounded like it was running source 2 :p
                 try {
-                    Thread.sleep(100000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
                 try {
-                    allBookingsonThread.clear();
-                    allBookingsonThread.addAll(BookingDAO.getAll());
+                    allBookings.clear();
+                    allBookings.addAll(BookingDAO.getAll());
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -802,7 +802,7 @@ public class CalendarController {
 
                 Platform.runLater(() -> {
                     try {
-                        loadBookings(allBookingsonThread);
+                        loadBookings(allBookings);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
