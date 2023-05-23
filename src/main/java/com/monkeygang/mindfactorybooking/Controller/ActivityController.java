@@ -101,15 +101,15 @@ public class ActivityController {
 
 
         if (kreativtSparkRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(7);
+            currentBookingSingleton.setActivityId(16);
         }
 
         if (idéGeneratorenRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(8);
+            currentBookingSingleton.setActivityId(17);
         }
 
         if (kreativTechRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(9);
+            currentBookingSingleton.setActivityId(18);
         }
 
         if (noActivityRadioButton.isSelected()){

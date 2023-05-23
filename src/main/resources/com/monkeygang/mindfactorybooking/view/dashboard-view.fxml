@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="calendarAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.DashboardController">
+<AnchorPane fx:id="calendarAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monkeygang.mindfactorybooking.Controller.DashboardController">
     <children>
       <AnchorPane prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: #121111;">
          <children>
@@ -61,12 +61,12 @@
             </Label>
             <ScrollPane layoutX="16.0" layoutY="23.0" prefHeight="200.0" prefWidth="767.0">
                <content>
-                  <TableView prefHeight="200.0" prefWidth="751.0">
+                  <TableView fx:id="bookingsForThisWeekTableView" prefHeight="200.0" prefWidth="751.0">
                     <columns>
-                      <TableColumn prefWidth="180.0" text="Organisation/Virksomhed" />
-                        <TableColumn prefWidth="193.0" text="Dag" />
-                        <TableColumn prefWidth="195.0" text="Start tid" />
-                        <TableColumn prefWidth="181.0" text="Slut tid" />
+                      <TableColumn fx:id="orgCol" prefWidth="180.0" text="Organisation/Virksomhed" />
+                        <TableColumn fx:id="dayCol" prefWidth="193.0" text="Dag" />
+                        <TableColumn fx:id="startCol" prefWidth="195.0" text="Start tid" />
+                        <TableColumn fx:id="endCol" prefWidth="181.0" text="Slut tid" />
                     </columns>
                   </TableView>
                </content>

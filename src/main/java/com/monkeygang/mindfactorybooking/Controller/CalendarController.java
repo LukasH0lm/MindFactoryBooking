@@ -77,6 +77,8 @@ public class CalendarController {
         datePicker.setValue(LocalDate.now());
 
 
+
+
         // Datoen skal konveretes til date.
         // det virker bøffet det her, hvorfor konvertere vi en dato til en dato?
         LocalDate localDate = datePicker.getValue();
