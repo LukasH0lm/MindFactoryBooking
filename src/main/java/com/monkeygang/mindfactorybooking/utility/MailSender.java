@@ -22,7 +22,7 @@ public class MailSender {
     public static void sendTestMail() throws IOException {
 
         // Recipient's email
-        String to = "lukhol01@easv365.dk";
+        String to = "sunwar01@easv365.dk";
 
         // Sender's email
         String from = "MindFactory@ecco.dk";
@@ -44,6 +44,7 @@ public class MailSender {
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         String password = br.readLine();
+        System.out.println(password);
 
 
         // Get the Session object.// and pass username and password
@@ -89,13 +90,14 @@ public class MailSender {
             // Set text message part
             multipart.addBodyPart(messageBodyPart);
 
+            /*
             // Part two is attachment
             messageBodyPart = new MimeBodyPart();
-            String filename = BookingApplication.class.getResource("calendar-view.fxml").getPath() + "HelloWorld.pdf";
+            String filename = String.valueOf(BookingApplication.class.getResource("HelloWorld.pdf"));
             DataSource source = new FileDataSource(filename);
             messageBodyPart.setDataHandler(new DataHandler(source));
             messageBodyPart.setFileName(filename);
-            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(messageBodyPart);*/
 
             // Send the complete message parts
             message.setContent(multipart);

@@ -146,7 +146,7 @@ public class CustomerController {
         currentBookingSingleton.setCustomer(customer);
         currentBookingSingleton.getBooking().setCustomer(customer);
 
-        currentBookingSingleton.getBooking().setAmountOfPeople(Integer.parseInt(amountOfPeopleTextField.getText()));
+        currentBookingSingleton.getBooking().setAmount_of_people(Integer.parseInt(amountOfPeopleTextField.getText()));
 
         SceneChanger sceneChanger = new SceneChanger();
 

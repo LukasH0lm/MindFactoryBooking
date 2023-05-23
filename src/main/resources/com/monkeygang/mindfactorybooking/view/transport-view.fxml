@@ -19,7 +19,7 @@
                </font>
             </Text>
             <Button fx:id="nextButton" layoutX="333.0" layoutY="264.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="Næste" />
-            <RadioButton fx:id="offentligTransportRadioButton" layoutX="118.0" layoutY="75.0" mnemonicParsing="false" onAction="#radioButtonSelected" selected="true" text="Offentlig Transport">
+            <RadioButton fx:id="offentligTransportRadioButton" layoutX="118.0" layoutY="75.0" mnemonicParsing="false" onAction="#radioButtonSelected" text="Offentlig Transport">
                <font>
                   <Font size="16.0" />
                </font>

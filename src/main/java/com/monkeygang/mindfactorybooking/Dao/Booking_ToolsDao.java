@@ -1,7 +1,6 @@
 package com.monkeygang.mindfactorybooking.Dao;
 
 import com.monkeygang.mindfactorybooking.Objects.Booking;
-import com.monkeygang.mindfactorybooking.Objects.Catering;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Redskaber;
 import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class Booking_RedskaberDao implements Dao{
+public class Booking_ToolsDao implements Dao{
     @Override
     public Optional get(long id) throws SQLException, IOException {
         return Optional.empty();

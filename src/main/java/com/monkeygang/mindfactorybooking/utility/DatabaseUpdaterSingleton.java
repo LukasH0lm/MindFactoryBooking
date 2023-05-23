@@ -19,7 +19,8 @@ public class DatabaseUpdaterSingleton {
     private static Catering catering;
 
 
-    private DatabaseUpdaterSingleton(){}
+    private DatabaseUpdaterSingleton() {
+    }
 
 
     public static synchronized DatabaseUpdaterSingleton getInstance() {
@@ -58,10 +59,9 @@ public class DatabaseUpdaterSingleton {
             return false;
         }
 
-       if (currentBookingSingleton.getTransport() == null) {
-            System.out.println("transport is null");
-            return false;
-        }
+        //transport is never null
+        //catering and activity is also never null
+        //keeping checks as a fail-safe
 
         if (currentBookingSingleton.getActivity() == null) {
             System.out.println("activity is null");
@@ -72,7 +72,6 @@ public class DatabaseUpdaterSingleton {
             System.out.println("organization is null");
             return false;
         }
-
 
 
         //TODO: add methods from BookingController to this class
@@ -107,7 +106,7 @@ public class DatabaseUpdaterSingleton {
 
         if (currentBookingSingleton.getCatering().getId() == 0) {
             System.out.println("no catering selected");
-        }else{
+        } else {
 
             Booking_CateringDao booking_cateringDao = new Booking_CateringDao();
 
@@ -119,33 +118,22 @@ public class DatabaseUpdaterSingleton {
 
         if (currentBookingSingleton.getCurrentRedskaber().isEmpty()) {
             System.out.println("no redskaber selected");
-        }else{
+        } else {
 
-            Booking_RedskaberDao booking_redskaberDao = new Booking_RedskaberDao();
+            Booking_ToolsDao booking_toolsDao = new Booking_ToolsDao();
 
-            booking_redskaberDao.save(currentBookingSingleton);
+            booking_toolsDao.save(currentBookingSingleton);
         }
 
 
         //5. booking_transport
 
-        if(currentBookingSingleton.getTransport().getId() == 0){
-            System.out.println("no transport selected");
-        }else{
-
-                Booking_TransportDao booking_transportDao = new Booking_TransportDao();
-                booking_transportDao.save(currentBookingSingleton);
-        }
-
-
-
-
 
         //6. booking_activity
 
-        if(currentBookingSingleton.getActivity().getId() == 0){
+        if (currentBookingSingleton.getActivity().getId() == 0) {
             System.out.println("no activity selected");
-        }else{
+        } else {
 
             Booking_ActivityDao booking_activityDao = new Booking_ActivityDao();
 
@@ -156,14 +144,13 @@ public class DatabaseUpdaterSingleton {
 
         //7. booking_field (if applicable)
 
-        if(currentBookingSingleton.getSubject() == null){
-            System.out.println("no subject selected");}
-        else {
+        if (currentBookingSingleton.getSubject() == null) {
+            System.out.println("no subject selected");
+        } else {
 
             //SubjectDAO subjectDAO = new SubjectDAO();
 
         }
-
 
 
         return true;
@@ -172,9 +159,55 @@ public class DatabaseUpdaterSingleton {
     }
 
 
+    //TODO: test this method
+    public boolean deleteCurrentBookingSingletonFromDatabase() throws SQLException, IOException {
+
+
+        CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
+
+        Booking_CateringDao booking_cateringDao = new Booking_CateringDao();
+        Booking_ToolsDao booking_toolsDao = new Booking_ToolsDao();
+        Booking_ActivityDao booking_activityDao = new Booking_ActivityDao();
+        BookingDao bookingDao = new BookingDao();
+
+        if (currentBookingSingleton.getBooking() == null) {
+            System.out.println("booking is null");
+            return false;
+        }
+
+        if (currentBookingSingleton.getCustomer() == null) {
+            System.out.println("customer is null");
+            return false;
+        }
+
+        if (currentBookingSingleton.getCatering().getId() != 0) {
+
+            booking_cateringDao.delete(currentBookingSingleton.getBooking().getId());
+
+        }
+
+        if (!currentBookingSingleton.getCurrentRedskaber().isEmpty()) {
+
+            booking_toolsDao.delete(currentBookingSingleton.getBooking().getId());
+
+        }
+
+        if (currentBookingSingleton.getActivity().getId() != 0) {
+
+            booking_activityDao.delete(currentBookingSingleton.getBooking().getId());
+
+        }
+
+        bookingDao.delete(currentBookingSingleton.getBooking().getId());
+
+
+        return true;
+
+    }
+
 
     //idk what the fuck this method was meant with this but im sure I was thinking something brilliant
-    public void updateDatabase(){
+    public void updateDatabase() {
 
     }
 

@@ -1,8 +1,5 @@
 package com.monkeygang.mindfactorybooking.Dao;
 
-import com.monkeygang.mindfactorybooking.Objects.Booking;
-import com.monkeygang.mindfactorybooking.Objects.Catering;
-import com.monkeygang.mindfactorybooking.Objects.Customer;
 import com.monkeygang.mindfactorybooking.Objects.Redskaber;
 import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
 
@@ -15,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RedskaberDao implements Dao{
+public class ToolsDao implements Dao{
 
     Connection con = ConnectionSingleton.getInstance().getConnection();
 
-    public RedskaberDao() throws SQLException, IOException {
+    public ToolsDao() throws SQLException, IOException {
     }
 
     @Override
@@ -30,7 +27,7 @@ public class RedskaberDao implements Dao{
             return Optional.of(new Redskaber(0, "Ingen redskaber"));
         }
 
-        PreparedStatement ps = con.prepareStatement("SELECT * FROM redskaber WHERE id = ?");
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM tools WHERE id = ?");
         ps.setLong(1, id);
 
         ResultSet rs = ps.executeQuery();
@@ -72,6 +69,7 @@ public class RedskaberDao implements Dao{
     }
     @Override
     public void save(Object o) throws SQLException, IOException {
+
 
 
 

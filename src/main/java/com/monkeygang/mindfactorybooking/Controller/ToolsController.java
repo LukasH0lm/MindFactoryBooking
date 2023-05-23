@@ -1,13 +1,9 @@
 package com.monkeygang.mindfactorybooking.Controller;
 
-import com.monkeygang.mindfactorybooking.Dao.ActivityDao;
-import com.monkeygang.mindfactorybooking.Dao.RedskaberDao;
-import com.monkeygang.mindfactorybooking.Objects.Activity;
+import com.monkeygang.mindfactorybooking.Dao.ToolsDao;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Redskaber;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,12 +13,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class RedskaberController {
+public class ToolsController {
 
-    public RedskaberController() {
+    public ToolsController() {
 
     }
 
@@ -32,8 +26,8 @@ public class RedskaberController {
         CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
 
         //Vi tilføjer alle redskaber fra databasen til listen.
-        RedskaberDao redskaberDao = new RedskaberDao();
-        tilgængeligeRedskaber.getItems().addAll(redskaberDao.getAll());
+        ToolsDao toolsDao = new ToolsDao();
+        tilgængeligeRedskaber.getItems().addAll(toolsDao.getAll());
 
         if (!currentBookingSingleton.getCurrentRedskaber().isEmpty()) {
             redskaberValgt.getItems().addAll(currentBookingSingleton.getCurrentRedskaber());

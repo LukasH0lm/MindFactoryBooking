@@ -19,9 +19,6 @@ public class CurrentBookingSingleton {
     private List<Redskaber> redskaberList = new ArrayList<>();
 
 
-    Transport transport = null;
-    int transport_id = -1;
-
     Activity activity = null;
     int activity_id = -1;
 
@@ -111,33 +108,12 @@ public class CurrentBookingSingleton {
         this.catering = instance;
     }
 
-    public int getTransportId() {
-
-        return transport_id;
-
-    }
 
 
 
 
 
 
-
-    public void setTransportId(int i) {
-
-        this.transport_id = i;
-
-    }
-
-    public void setTransport(Transport transport) {
-
-        this.transport = transport;
-
-    }
-
-    public Transport getTransport() {
-        return transport;
-    }
 
     public synchronized int getCateringId() {
 

@@ -1,8 +1,7 @@
 package com.monkeygang.mindfactorybooking.Objects;
 
+import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Objects;
 
 public class Booking {
 
@@ -11,7 +10,21 @@ public class Booking {
     private Timestamp endTime;
     private int amount_of_people;
     private Customer customer;
+    private Time arrival_time;
+    private Time departure_time;
+    private boolean is_transport_public = false;
 
+
+    public Booking(int id, Timestamp startTime, Timestamp endTime, int amount_of_people, Customer customer, Time arrival_time, Time departure_time, boolean is_transport_public) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.amount_of_people = amount_of_people;
+        this.customer = customer;
+        this.arrival_time = arrival_time;
+        this.departure_time = departure_time;
+        this.is_transport_public = is_transport_public;
+    }
 
     //overloading constructor for different situations
     //delete if not used
@@ -43,31 +56,69 @@ public class Booking {
     }
 
 
-
     public int getId() {
         return id;
     }
 
-    public void setId(int bookingId) {
-        this.id = bookingId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Timestamp getStartTime() {
         return startTime;
     }
 
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
     public Timestamp getEndTime() {
         return endTime;
+    }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
     }
 
     public int getAmount_of_people() {
         return amount_of_people;
     }
 
+    public void setAmount_of_people(int amount_of_people) {
+        this.amount_of_people = amount_of_people;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Time getArrival_time() {
+        return arrival_time;
+    }
+
+    public void setArrival_time(Time arrival_time) {
+        this.arrival_time = arrival_time;
+    }
+
+    public Time getDeparture_time() {
+        return departure_time;
+    }
+
+    public void setDeparture_time(Time departure_time) {
+        this.departure_time = departure_time;
+    }
+
+    public boolean isIs_transport_public() {
+        return is_transport_public;
+    }
+
+    public void setIs_transport_public(boolean is_transport_public) {
+        this.is_transport_public = is_transport_public;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -93,14 +144,6 @@ public class Booking {
         return result;
     }
 
-    public void setAmountOfPeople(int i) {
-
-        this.amount_of_people = i;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 
 
 }

@@ -3,6 +3,7 @@ package com.monkeygang.mindfactorybooking.Controller;
 import com.monkeygang.mindfactorybooking.Dao.BookingDao;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
+import com.monkeygang.mindfactorybooking.utility.DatabaseUpdaterSingleton;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,14 +46,14 @@ public class BookingController {
                 "13:00", "14:00", "15:00", "16:00", "17:00", "18:00");
 
 
-        //TODO: implement edit booking
-        /*
+        //TODO: implement edit booking in its own window
+
         if (CurrentBookingSingleton.getInstance().getIsEdit()) {
             fillFields();
 
         } else {
             deleteButton.setVisible(false);
-        }*/
+        }
 
         if (CurrentBookingSingleton.getInstance().getBooking() != null) {
             fillFields();
@@ -284,6 +285,12 @@ public class BookingController {
             throwables.printStackTrace();
         }
 
+
+        //removes the current booking from the list of bookings
+        if (CurrentBookingSingleton.getInstance().getIsEdit()) {
+            bookings.removeIf(booking -> booking.getId() == CurrentBookingSingleton.getInstance().getBooking().getId());
+        }
+
         //checks for collisions
         //checks:
         //if current booking starts or end at the same time as another booking
@@ -333,17 +340,9 @@ public class BookingController {
     }
 
     @FXML
-    void onDeleteButtonClick() {
+    void onDeleteButtonClick() throws SQLException, IOException {
 
-        try {
-            System.out.println("deleting:" + CurrentBookingSingleton.getInstance().getBooking().getId());
-            //TODO: modify delete method to delete all tables that are connected to the booking
-            bookingDaoImpl.delete(CurrentBookingSingleton.getInstance().getBooking());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        DatabaseUpdaterSingleton.getInstance().deleteCurrentBookingSingletonFromDatabase();
 
         Stage stage = (Stage) deleteButton.getScene().getWindow();
         stage.close();

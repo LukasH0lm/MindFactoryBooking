@@ -1,13 +1,9 @@
 package com.monkeygang.mindfactorybooking.Controller;
 
-import com.monkeygang.mindfactorybooking.Dao.ActivityDao;
-import com.monkeygang.mindfactorybooking.Dao.TransportDao;
-import com.monkeygang.mindfactorybooking.Objects.Activity;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Organisation_type;
-import com.monkeygang.mindfactorybooking.Objects.Transport;
+import com.monkeygang.mindfactorybooking.utility.AlertHandler;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -19,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
 
 public class TransportController {
 
@@ -29,13 +26,10 @@ public class TransportController {
 
     public void initialize() {
 
-        if (CurrentBookingSingleton.getInstance().getTransportId() != -1){
-            System.out.println("activity id is not -1");
-            switch (CurrentBookingSingleton.getInstance().getTransportId()) {
-                case 2 -> offentligTransportRadioButton.setSelected(true);
-                case 1 -> privatTransportRadioButton.setSelected(true);
-
-            }
+        if (CurrentBookingSingleton.getInstance().getBooking().isIs_transport_public()) {
+            offentligTransportRadioButton.setSelected(true);
+        } else {
+            privatTransportRadioButton.setSelected(true);
         }
 
     }
@@ -49,12 +43,10 @@ public class TransportController {
 
         String buttonName = event.getSource().toString().split("'")[1].split("'")[0];
 
-        switch (buttonName){
+        switch (buttonName) {
             case "Offentlig Transport" -> offentligTransportRadioButton.setSelected(true);
             case "Privat Transport" -> privatTransportRadioButton.setSelected(true);
         }
-
-
 
 
     }
@@ -65,25 +57,61 @@ public class TransportController {
 
         CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
 
+        AlertHandler alertHandler = new AlertHandler();
 
+        if (afgangTextfield.getText().isEmpty() || ankomstTextfield.getText().isEmpty()) {
 
-        if (offentligTransportRadioButton.isSelected()){
-            currentBookingSingleton.setTransportId(2);
+            Stage stage = (Stage) nextButton.getScene().getWindow();
+
+            alertHandler.showAlert(stage, "Udfyld venligst alle felter", "deez","gør det");
+            return;
         }
 
-        if (privatTransportRadioButton.isSelected()){
-            currentBookingSingleton.setTransportId(1);
+        if (privatTransportRadioButton.isSelected() == false && offentligTransportRadioButton.isSelected() == false) {
+
+            Stage stage = (Stage) nextButton.getScene().getWindow();
+
+            alertHandler.showAlert(stage, "Vælg venligst en transportform", "deez","gør det");
+            return;
         }
 
-        TransportDao transportDao = new TransportDao();
+        if (ankomstTextfield.getText().equals(afgangTextfield.getText())) {
 
-        Transport transport = (Transport) transportDao.get(currentBookingSingleton.getTransportId()).get();
+            Stage stage = (Stage) nextButton.getScene().getWindow();
 
-        CurrentBookingSingleton.getInstance().setTransport(transport);
+            alertHandler.showAlert(stage, "Ankomst og afgang kan ikke være det samme", "deez","gør det");
+            return;
+        }
+
+        //if booking is one day the time of arrival can't be after the time of departure
+        if (currentBookingSingleton.getBooking().getStartTime().getDate() != currentBookingSingleton.getBooking().getEndTime().getDate()) {
+
+            if (Time.valueOf(ankomstTextfield.getText() + ":00").after(Time.valueOf(afgangTextfield.getText() + ":00"))) {
+
+                Stage stage = (Stage) nextButton.getScene().getWindow();
+
+                alertHandler.showAlert(stage, "Ankomst kan ikke være efter afgang", "deez","gør det");
+                return;
+            }
+
+
+        }
 
 
 
 
+
+        if (privatTransportRadioButton.isSelected()) {
+            CurrentBookingSingleton.getInstance().getBooking().setIs_transport_public(false);
+        }
+
+        if (offentligTransportRadioButton.isSelected()) {
+            CurrentBookingSingleton.getInstance().getBooking().setIs_transport_public(true);
+        }
+
+
+CurrentBookingSingleton.getInstance().getBooking().setArrival_time(Time.valueOf(ankomstTextfield.getText() + ":00"));
+        CurrentBookingSingleton.getInstance().getBooking().setDeparture_time(Time.valueOf(afgangTextfield.getText() + ":00"));
 
         Scene scene = nextButton.getScene();
 
@@ -103,10 +131,7 @@ public class TransportController {
             return;
         }
 
-        sceneChanger.changeScene(scene,container, view, true);
-
-
-
+        sceneChanger.changeScene(scene, container, view, true);
 
 
     }
@@ -115,7 +140,7 @@ public class TransportController {
     public void onBackButtonClicked() throws IOException {
         SceneChanger sceneChanger = new SceneChanger();
         Scene scene = nextButton.getScene();
-        sceneChanger.changeScene(scene, container,"redskaber", false);
+        sceneChanger.changeScene(scene, container, "redskaber", false);
     }
 
     @FXML
