@@ -450,15 +450,15 @@ public class CalendarController {
 
                switch (activityID) {
                    case 0 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/møde.png"));
-                   case 1 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/idefabrikken.png"));
-                   case 2 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/digitalfabrikation.png"));
-                   case 3 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robotpåjob.png"));
-                   case 4 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robottenrydderop.png"));
-                   case 5 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/naturismevedvadehavet.png"));
-                   case 6 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/skabsikkerhedivadehavet.png"));
-                   case 7 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativspark.png"));
-                   case 8 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/ideGeneratoren.png"));
-                   case 9 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativtech.png"));
+                   case 10 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/idefabrikken.png"));
+                   case 13 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/digitalfabrikation.png"));
+                   case 11 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robotpåjob.png"));
+                   case 14 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robottenrydderop.png"));
+                   case 12 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/naturismevedvadehavet.png"));
+                   case 15 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/skabsikkerhedivadehavet.png"));
+                   case 16 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativspark.png"));
+                   case 17 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/ideGeneratoren.png"));
+                   case 18 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativtech.png"));
                }
 
 

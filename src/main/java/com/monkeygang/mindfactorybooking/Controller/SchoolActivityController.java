@@ -30,12 +30,12 @@ public class SchoolActivityController {
         if (CurrentBookingSingleton.getInstance().getActivityId() != -1){
             System.out.println("activity id is not -1");
             switch (CurrentBookingSingleton.getInstance().getActivityId()) {
-                case 1 -> idéfabrikkenRadioButton.setSelected(true);
-                case 2 -> laserskærerRadioButton.setSelected(true);
-                case 3 -> robotPåJobRadioButton.setSelected(true);
-                case 4 -> RobottenRydderOpRadioButton.setSelected(true);
-                case 5 -> naturturismeRadioButton.setSelected(true);
-                case 6 -> SikkerhedRadioButton.setSelected(true);
+                case 10 -> idéfabrikkenRadioButton.setSelected(true);
+                case 13 -> laserskærerRadioButton.setSelected(true);
+                case 11 -> robotPåJobRadioButton.setSelected(true);
+                case 14 -> RobottenRydderOpRadioButton.setSelected(true);
+                case 12 -> naturturismeRadioButton.setSelected(true);
+                case 15 -> SikkerhedRadioButton.setSelected(true);
                 case 0 -> noActivityRadioButton.setSelected(true);
             }
         }
@@ -100,27 +100,27 @@ public class SchoolActivityController {
 
 
         if (idéfabrikkenRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(1);
+            currentBookingSingleton.setActivityId(10);
         }
 
         if (laserskærerRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(2);
+            currentBookingSingleton.setActivityId(13);
         }
 
         if (robotPåJobRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(3);
+            currentBookingSingleton.setActivityId(11);
         }
 
         if (RobottenRydderOpRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(4);
+            currentBookingSingleton.setActivityId(14);
         }
 
         if (naturturismeRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(5);
+            currentBookingSingleton.setActivityId(12);
         }
 
         if (SikkerhedRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(6);
+            currentBookingSingleton.setActivityId(15);
         }
 
         if (noActivityRadioButton.isSelected()){
