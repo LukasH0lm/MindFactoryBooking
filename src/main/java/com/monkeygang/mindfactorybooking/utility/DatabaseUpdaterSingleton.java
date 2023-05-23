@@ -1,9 +1,6 @@
 package com.monkeygang.mindfactorybooking.utility;
 
-import com.monkeygang.mindfactorybooking.Dao.BookingDao;
-import com.monkeygang.mindfactorybooking.Dao.Booking_ActivityDao;
-import com.monkeygang.mindfactorybooking.Dao.Booking_CateringDao;
-import com.monkeygang.mindfactorybooking.Dao.CustomerDao;
+import com.monkeygang.mindfactorybooking.Dao.*;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
 import com.monkeygang.mindfactorybooking.Objects.Catering;
 import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
@@ -53,6 +50,16 @@ public class DatabaseUpdaterSingleton {
 
         if (currentBookingSingleton.getCatering() == null) {
             System.out.println("catering is null");
+            return false;
+        }
+
+        if (currentBookingSingleton.getCurrentRedskaber().isEmpty()) {
+            System.out.println("redskaber is null");
+            return false;
+        }
+
+       if (currentBookingSingleton.getTransport() == null) {
+            System.out.println("transport is null");
             return false;
         }
 
@@ -108,10 +115,33 @@ public class DatabaseUpdaterSingleton {
 
         }
 
+        //4. booking_redskaber
+
+        if (currentBookingSingleton.getCurrentRedskaber().isEmpty()) {
+            System.out.println("no redskaber selected");
+        }else{
+
+            Booking_RedskaberDao booking_redskaberDao = new Booking_RedskaberDao();
+
+            booking_redskaberDao.save(currentBookingSingleton);
+        }
+
+
+        //5. booking_transport
+
+        if(currentBookingSingleton.getTransport().getId() == 0){
+            System.out.println("no transport selected");
+        }else{
+
+                Booking_TransportDao booking_transportDao = new Booking_TransportDao();
+                booking_transportDao.save(currentBookingSingleton);
+        }
 
 
 
-        //4. booking_activity
+
+
+        //6. booking_activity
 
         if(currentBookingSingleton.getActivity().getId() == 0){
             System.out.println("no activity selected");
@@ -124,7 +154,7 @@ public class DatabaseUpdaterSingleton {
         }
 
 
-        //5. booking_field (if applicable)
+        //7. booking_field (if applicable)
 
         if(currentBookingSingleton.getSubject() == null){
             System.out.println("no subject selected");}

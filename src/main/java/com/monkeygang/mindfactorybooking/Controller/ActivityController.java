@@ -136,7 +136,7 @@ public class ActivityController {
     public void onBackButtonClicked(ActionEvent event) throws IOException {
         SceneChanger sceneChanger = new SceneChanger();
         Scene scene = nextButton.getScene();
-        sceneChanger.changeScene(scene, container,"catering", false);
+        sceneChanger.changeScene(scene, container,"transport", false);
     }
 
     @FXML

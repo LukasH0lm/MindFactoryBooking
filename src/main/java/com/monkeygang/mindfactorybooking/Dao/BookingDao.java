@@ -86,6 +86,8 @@ public class BookingDao implements Dao {
 
     }
 
+
+
     public PreparedStatement generatePreparedStatement(PreparedStatement ps, Object o) throws SQLException {
 
         //id is auto increment, so no need to add it here
@@ -175,6 +177,10 @@ public class BookingDao implements Dao {
         Booking_CateringDao booking_cateringDAO = new Booking_CateringDao();
 
         booking_cateringDAO.deleteByBookingId(booking.getId());
+
+        Booking_RedskaberDao booking_redskaberDao = new Booking_RedskaberDao();
+
+        booking_redskaberDao.deleteByBookingId(booking.getId());
 
         ps.setInt(1, booking.getId());
         ps.execute();

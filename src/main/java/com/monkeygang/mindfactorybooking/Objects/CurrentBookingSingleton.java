@@ -5,6 +5,9 @@ import com.monkeygang.mindfactorybooking.Dao.OrganisationDao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CurrentBookingSingleton {
 
@@ -12,6 +15,12 @@ public class CurrentBookingSingleton {
     static CurrentBookingSingleton instance;
     Booking booking = null;
     Organization organization = null;
+
+    private List<Redskaber> redskaberList = new ArrayList<>();
+
+
+    Transport transport = null;
+    int transport_id = -1;
 
     Activity activity = null;
     int activity_id = -1;
@@ -79,8 +88,55 @@ public class CurrentBookingSingleton {
 
     }
 
+    public synchronized List<Redskaber> getCurrentRedskaber() {
+
+        if (redskaberList == null) {
+            System.out.println("redskaberList is null");
+            return null;
+        }
+
+        return redskaberList;
+
+    }
+
+
+
+    public synchronized void setCurrentRedskaber(Redskaber redskaber) {
+        redskaberList.add(redskaber);
+    }
+
+
+
     public synchronized void setCurrentCatering(Catering instance) {
         this.catering = instance;
+    }
+
+    public int getTransportId() {
+
+        return transport_id;
+
+    }
+
+
+
+
+
+
+
+    public void setTransportId(int i) {
+
+        this.transport_id = i;
+
+    }
+
+    public void setTransport(Transport transport) {
+
+        this.transport = transport;
+
+    }
+
+    public Transport getTransport() {
+        return transport;
     }
 
     public synchronized int getCateringId() {
@@ -147,13 +203,13 @@ public class CurrentBookingSingleton {
     @Override
     public String toString() {
         return "CurrentBookingSingleton{" +
-                "start_time=" + booking.getStartTime() +
-                "\nend_time=" + booking.getEndTime() +
-                "\norganization=" + organization.getName() +
-                "\ncatering=" + catering.getName() +
-                "\nactivity=" + activity.getName() +
-                "\nname=" + customer.getName() +
-                "\nemail=" + customer.getEmail() +
+                "Start tid: " + booking.getStartTime() +
+                "\nSlut tid: " + booking.getEndTime() +
+                "\nOrganisation: " + organization.getName() +
+                "\nForplejning: " + catering.getName() +
+                "\nAktivitet: " + activity.getName() +
+                "\nNavn: " + customer.getName() +
+                "\nEmail: " + customer.getEmail() +
 
                 '}';
     }
@@ -161,13 +217,13 @@ public class CurrentBookingSingleton {
 
     public String toUIString() {
         return
-                "start_time=" + booking.getStartTime() +
-                        "\nend_time=" + booking.getEndTime() +
-                        "\norganization=" + organization.getName() +
-                        "\ncatering=" + catering.getName() +
-                        "\nactivity=" + activity.getName() +
-                        "\nname=" + customer.getName() +
-                        "\nemail=" + customer.getEmail();
+                "Start tid: " + booking.getStartTime() +
+                        "\nSlut tid: " + booking.getEndTime() +
+                        "\nOrganisation: " + organization.getName() +
+                        "\nForplejning: " + catering.getName() +
+                        "\nAktivitet: " + activity.getName() +
+                        "\nNavn: " + customer.getName() +
+                        "\nEmail: " + customer.getEmail();
 
 
     }

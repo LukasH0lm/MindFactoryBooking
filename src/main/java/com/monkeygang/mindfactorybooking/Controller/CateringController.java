@@ -119,21 +119,9 @@ public class CateringController {
 
         SceneChanger sceneChanger = new SceneChanger();
 
-        String view = null;
 
-        if (CurrentBookingSingleton.getInstance().getOrganization().getType().equals(Organisation_type.SCHOOL)) {
-            view = "school-activity";
-        } else if (CurrentBookingSingleton.getInstance().getOrganization().getType().equals(Organisation_type.PRIVATE)) {
-            view = "private-activity";
-        }
 
-        if (view == null) {
-            System.out.println("view is null");
-            System.out.println("organization type is " + CurrentBookingSingleton.getInstance().getOrganization().getType());
-            return;
-        }
-
-        sceneChanger.changeScene(scene,container, view, true);
+        sceneChanger.changeScene(scene,container, "redskaber", true);
 
 
 
