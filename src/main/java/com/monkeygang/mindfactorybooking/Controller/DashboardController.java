@@ -68,18 +68,8 @@ public class DashboardController {
         if (isUpdating){
             displayImages();
             updateStatistics();
+            updateBookingsForThisWeek();
         }
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -104,11 +94,6 @@ public class DashboardController {
 
             }
         }, 0,5000);
-
-
-
-
-
 
     }
     public void customImageClicked(ImageView imageview) {
@@ -206,9 +191,39 @@ public class DashboardController {
 
     }
 
+    public void updateBookingsForThisWeek() {
+
+        Timer timer = new Timer();
+        timer.schedule(new java.util.TimerTask() {
+
+            public void run() {
+
+                if (!isUpdating){
+                    timer.cancel();
+                }
+
+
+                Platform.runLater(() -> {
+                    try {
+                        generateBookingsForThisWeek();
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+
+
+            }
+        }, 0,5000);
+
+    }
+
+
     public void generateBookingsForThisWeek() throws SQLException, IOException {
 
-        List<Booking> bookingsForThisWeek = new LinkedList<>();
+
+
+
 
         startCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
 
@@ -225,11 +240,14 @@ public class DashboardController {
 
         Timestamp end = new Timestamp(calendar.getTimeInMillis());
 
-        bookingsForThisWeek = bookingDao.getAllBookingsFromDate(start, end);
+        List<Booking> bookingsForThisWeek = bookingDao.getAllBookingsFromDate(start, end);
+
+
 
 
 
         for (Booking booking: bookingsForThisWeek){
+            bookingsForThisWeekTableView.getItems().clear();
 
             bookingsForThisWeekTableView.getItems().add(booking);
 
