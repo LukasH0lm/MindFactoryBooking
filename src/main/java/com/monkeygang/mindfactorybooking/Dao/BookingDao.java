@@ -42,6 +42,26 @@ public class BookingDao implements Dao {
 
     }
 
+    public List<Booking> getAllBookingsFromDate(Timestamp startTime, Timestamp endTime) throws SQLException, IOException {
+
+        List<Booking> bookings = getAll();
+        List<Booking> bookingsFromDate = new ArrayList<>();
+
+
+        for (Booking booking : bookings) {
+
+
+            if (booking.getStartTime().after(startTime) && booking.getEndTime().before(endTime)){
+                bookingsFromDate.add(booking);
+            }
+        }
+
+        return bookingsFromDate;
+    }
+
+
+
+
     public Booking getFromTimeStamps(Timestamp startTime, Timestamp endTime) throws SQLException, IOException {
 
         List<Booking> bookings = getAll();
@@ -203,14 +223,13 @@ public class BookingDao implements Dao {
 
     public Organization getOrganisation(Booking booking) throws SQLException, IOException {
 
-        System.out.println("getting organisation");
+
 
         CustomerDao customerDao = new CustomerDao();
 
         Customer customer = (Customer) customerDao.get(booking.getCustomer().getId()).get();
 
-        System.out.println("customer id: " + customer.getId());
-        System.out.println("organisation id: " + customer.getOrganisation().getId());
+
 
         OrganisationDao organisationDao = new OrganisationDao();
 

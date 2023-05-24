@@ -52,10 +52,11 @@ public class DatabaseUpdaterSingleton {
             return false;
         }
 
-        if (currentBookingSingleton.getCurrentRedskaber().isEmpty()) {
+
+       /* if (currentBookingSingleton.getCurrentRedskaber().isEmpty()) {
             System.out.println("redskaber is null");
             return false;
-        }
+        }*/
 
         //transport is never null
         //catering and activity is also never null

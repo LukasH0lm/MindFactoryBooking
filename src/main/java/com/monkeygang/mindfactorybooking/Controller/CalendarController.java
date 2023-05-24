@@ -77,6 +77,8 @@ public class CalendarController {
         datePicker.setValue(LocalDate.now());
 
 
+
+
         // Datoen skal konveretes til date.
         // det virker bøffet det her, hvorfor konvertere vi en dato til en dato?
         LocalDate localDate = datePicker.getValue();
@@ -423,7 +425,7 @@ public class CalendarController {
 
         Organization currentOrganization = bookingDAO.getOrganisation(booking);
 
-        System.out.println(currentOrganization.getName());
+
 
         Label bookingLabel = new Label(currentOrganization.getName());
 
@@ -450,15 +452,15 @@ public class CalendarController {
 
                switch (activityID) {
                    case 0 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/møde.png"));
-                   case 1 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/idefabrikken.png"));
-                   case 2 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/digitalfabrikation.png"));
-                   case 3 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robotpåjob.png"));
-                   case 4 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robottenrydderop.png"));
-                   case 5 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/naturismevedvadehavet.png"));
-                   case 6 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/skabsikkerhedivadehavet.png"));
-                   case 7 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativspark.png"));
-                   case 8 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/ideGeneratoren.png"));
-                   case 9 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativtech.png"));
+                   case 10 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/idefabrikken.png"));
+                   case 13 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/digitalfabrikation.png"));
+                   case 11 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robotpåjob.png"));
+                   case 14 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robottenrydderop.png"));
+                   case 12 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/naturismevedvadehavet.png"));
+                   case 15 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/skabsikkerhedivadehavet.png"));
+                   case 16 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativspark.png"));
+                   case 17 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/ideGeneratoren.png"));
+                   case 18 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativtech.png"));
                }
 
 
@@ -765,7 +767,7 @@ public class CalendarController {
 
     private void initializeUpdatingThread(){
 
-        ArrayList<Booking> allBookingsonThread = new ArrayList<>();
+      //  ArrayList<Booking> allBookingsonThread = new ArrayList<>();
 
 
         Runnable runnableTask = () -> {
@@ -786,14 +788,14 @@ public class CalendarController {
                 //sleep for 5 seconds
                 //forgot to add this and my machine sounded like it was running source 2 :p
                 try {
-                    Thread.sleep(100000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
 
                 try {
-                    allBookingsonThread.clear();
-                    allBookingsonThread.addAll(BookingDAO.getAll());
+                    allBookings.clear();
+                    allBookings.addAll(BookingDAO.getAll());
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -802,7 +804,7 @@ public class CalendarController {
 
                 Platform.runLater(() -> {
                     try {
-                        loadBookings(allBookingsonThread);
+                        loadBookings(allBookings);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {

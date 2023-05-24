@@ -39,9 +39,9 @@ public class ActivityController {
         if (CurrentBookingSingleton.getInstance().getActivityId() != -1){
             System.out.println("activity id is not -1");
             switch (CurrentBookingSingleton.getInstance().getActivityId()) {
-                case 7 -> kreativtSparkRadioButton.setSelected(true);
-                case 8 -> idéGeneratorenRadioButton.setSelected(true);
-                case 9 -> kreativTechRadioButton.setSelected(true);
+                case 16 -> kreativtSparkRadioButton.setSelected(true);
+                case 17 -> idéGeneratorenRadioButton.setSelected(true);
+                case 18 -> kreativTechRadioButton.setSelected(true);
                 case 0 -> noActivityRadioButton.setSelected(true);
             }
         }
@@ -101,15 +101,15 @@ public class ActivityController {
 
 
         if (kreativtSparkRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(7);
+            currentBookingSingleton.setActivityId(16);
         }
 
         if (idéGeneratorenRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(8);
+            currentBookingSingleton.setActivityId(17);
         }
 
         if (kreativTechRadioButton.isSelected()){
-            currentBookingSingleton.setActivityId(9);
+            currentBookingSingleton.setActivityId(18);
         }
 
         if (noActivityRadioButton.isSelected()){

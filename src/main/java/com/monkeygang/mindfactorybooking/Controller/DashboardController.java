@@ -3,13 +3,18 @@ package com.monkeygang.mindfactorybooking.Controller;
 
 import com.monkeygang.mindfactorybooking.Dao.BookingDao;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
+import com.monkeygang.mindfactorybooking.Objects.Customer;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -19,7 +24,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import javafx.scene.chart.CategoryAxis;
@@ -56,22 +63,13 @@ public class DashboardController {
         images.add(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/defaultSlideShowPicture5.jpg"));
 
         generateStatistics();
+        generateBookingsForThisWeek();
 
         if (isUpdating){
             displayImages();
             updateStatistics();
+            updateBookingsForThisWeek();
         }
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -96,11 +94,6 @@ public class DashboardController {
 
             }
         }, 0,5000);
-
-
-
-
-
 
     }
     public void customImageClicked(ImageView imageview) {
@@ -198,6 +191,76 @@ public class DashboardController {
 
     }
 
+    public void updateBookingsForThisWeek() {
+
+        Timer timer = new Timer();
+        timer.schedule(new java.util.TimerTask() {
+
+            public void run() {
+
+                if (!isUpdating){
+                    timer.cancel();
+                }
+
+
+                Platform.runLater(() -> {
+                    try {
+                        generateBookingsForThisWeek();
+                    } catch (SQLException | IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+
+
+            }
+        }, 0,5000);
+
+    }
+
+
+    public void generateBookingsForThisWeek() throws SQLException, IOException {
+
+
+
+
+
+        startCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+
+        endCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+
+
+        Timestamp start = new Timestamp(System.currentTimeMillis());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(start);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        calendar.set(Calendar.HOUR, 11);
+        calendar.set(Calendar.MINUTE, 59);
+
+        Timestamp end = new Timestamp(calendar.getTimeInMillis());
+
+        List<Booking> bookingsForThisWeek = bookingDao.getAllBookingsFromDate(start, end);
+
+
+
+
+
+        for (Booking booking: bookingsForThisWeek){
+            bookingsForThisWeekTableView.getItems().clear();
+
+            bookingsForThisWeekTableView.getItems().add(booking);
+
+
+        }
+
+
+
+
+
+
+
+    }
 
     public void generateStatistics() throws SQLException, IOException {
         statistikBarChart.getData().clear();
@@ -229,7 +292,7 @@ public class DashboardController {
                 case "Tønder Gymnasium" -> tGAntalBookinger++;
                 case "Det Blå Gymnasium" -> dBGAntalBookinger++;
                 case "Tønder Kommune" -> tKAntalBookinger++;
-                case "ECCO" -> eAntalBookinger++;
+                case "Ecco" -> eAntalBookinger++;
 
             }
 
@@ -288,12 +351,26 @@ public class DashboardController {
     @FXML
     private BarChart<String, Integer> statistikBarChart;
 
+    @FXML
+    private TableColumn<String, Booking> dayCol;
+
+    @FXML
+    private TableColumn<?, Booking> endCol;
+
+    @FXML
+    private TableColumn<String, Booking> orgCol;
+
+    @FXML
+    private TableColumn<?, Booking> startCol;
 
     @FXML
     private CategoryAxis xAxis;
 
     @FXML
     private NumberAxis yAxis;
+
+    @FXML
+    private TableView<Booking> bookingsForThisWeekTableView;
 
 
 
