@@ -8,6 +8,7 @@ import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -67,6 +68,28 @@ public class Booking_CateringDao implements Dao{
         ps.setInt(1, id);
 
         ps.execute();
+
+    }
+
+    public Catering getCateringByBookingId(int id) throws SQLException, IOException {
+
+        Connection con = ConnectionSingleton.getInstance().getConnection();
+
+        CateringDao cateringDao = new CateringDao();
+
+        PreparedStatement ps = con.prepareStatement("SELECT catering_id FROM booking_catering WHERE booking_id = ?");
+
+        ps.setInt(1, id);
+
+        ps.execute();
+
+        ResultSet rs = ps.getResultSet();
+
+        if (rs.next()) {
+            return (Catering) cateringDao.get(rs.getInt("catering_id")).get();
+        }
+
+        return null;
 
     }
 }

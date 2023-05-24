@@ -1,12 +1,13 @@
 package com.monkeygang.mindfactorybooking.Dao;
 
-import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
-import com.monkeygang.mindfactorybooking.Objects.Customer;
+import com.monkeygang.mindfactorybooking.Objects.*;
 import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
 
+import java.awt.print.Book;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,23 @@ public class Booking_ActivityDao implements Dao{
         return Optional.empty();
     }
 
+    public Activity getActivityByBookingId(long id) throws SQLException, IOException {
+
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM booking_activity WHERE booking_id = ?");
+
+        ps.setLong(1, id);
+
+        ps.execute();
+
+        ResultSet rs = ps.getResultSet();
+
+        if (rs.next()) {
+            return new Activity(rs.getInt("activity_id"), rs.getString("activity_name"), Organisation_type.values()[ rs.getInt("type")]);
+        }
+
+        return null;
+
+    }
     @Override
     public List getAll() throws SQLException, IOException {
         return null;
@@ -73,5 +91,27 @@ public class Booking_ActivityDao implements Dao{
     @Override
     public void delete(Object o) throws SQLException, IOException {
 
+
+        Booking booking = (Booking) o;
+
+        PreparedStatement ps = con.prepareStatement("DELETE FROM booking_activity WHERE booking_id = ?");
+        ps.setInt(1, booking.getId());
+        ps.execute();
+
+
+
     }
+
+
+    public void deleteById(int id) throws SQLException, IOException {
+
+
+        PreparedStatement ps = con.prepareStatement("DELETE FROM booking_activity WHERE booking_id = ?");
+        ps.setInt(1, id);
+        ps.execute();
+
+
+
+    }
+
 }

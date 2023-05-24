@@ -1,13 +1,11 @@
 package com.monkeygang.mindfactorybooking.utility;
 
 import com.monkeygang.mindfactorybooking.Dao.*;
-import com.monkeygang.mindfactorybooking.Objects.Booking;
-import com.monkeygang.mindfactorybooking.Objects.Catering;
-import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
-import com.monkeygang.mindfactorybooking.Objects.Customer;
+import com.monkeygang.mindfactorybooking.Objects.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class DatabaseUpdaterSingleton {
 
@@ -180,25 +178,38 @@ public class DatabaseUpdaterSingleton {
             return false;
         }
 
-        if (currentBookingSingleton.getCatering().getId() != 0) {
 
-            booking_cateringDao.delete(currentBookingSingleton.getBooking().getId());
+        Activity activity = booking_activityDao.getActivityByBookingId(currentBookingSingleton.getBooking().getId());
 
-        }
-
-        if (!currentBookingSingleton.getCurrentRedskaber().isEmpty()) {
-
-            booking_toolsDao.delete(currentBookingSingleton.getBooking().getId());
-
-        }
-
-        if (currentBookingSingleton.getActivity().getId() != 0) {
+        if (activity == null) {
+            System.out.println("activity is null");
+        }else {
+            currentBookingSingleton.setActivity(activity);
 
             booking_activityDao.delete(currentBookingSingleton.getBooking().getId());
 
+            System.out.println("booking-activity deleted");
         }
 
-        bookingDao.delete(currentBookingSingleton.getBooking().getId());
+
+
+        Catering catering = booking_cateringDao.getCateringByBookingId(currentBookingSingleton.getBooking().getId());
+
+
+            booking_cateringDao.deleteByBookingId(currentBookingSingleton.getBooking().getId());
+
+
+
+
+            booking_toolsDao.deleteByBookingId(currentBookingSingleton.getBooking().getId());
+
+
+
+
+            booking_activityDao.deleteById(currentBookingSingleton.getBooking().getId());
+
+
+        bookingDao.delete(currentBookingSingleton.getBooking());
 
 
         return true;
