@@ -140,6 +140,9 @@ public class Booking {
         result = 31 * result + startTime.hashCode();
         result = 31 * result + endTime.hashCode();
         result = 31 * result + amount_of_people;
+
+        if (customer == null) return result;
+
         result = 31 * result + customer.hashCode();
         return result;
     }

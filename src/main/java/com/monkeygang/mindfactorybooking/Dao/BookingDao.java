@@ -187,9 +187,11 @@ public class BookingDao implements Dao {
 
         PreparedStatement ps = con.prepareStatement("UPDATE booking SET start_time = ?, end_time = ?, amount_of_visitors = ? WHERE id = ?");
 
-        ps = generatePreparedStatement(ps,o);
+        ps.setTimestamp(1, ((Booking) o).getStartTime());
+        ps.setTimestamp(2, ((Booking) o).getEndTime());
+        ps.setInt(3, ((Booking) o).getAmount_of_people());
 
-        ps.setInt(9, ((Booking) o).getId());
+        ps.setInt(4, ((Booking) o).getId());
 
         ps.execute();
 
