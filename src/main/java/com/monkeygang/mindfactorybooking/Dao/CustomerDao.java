@@ -49,7 +49,6 @@ public class CustomerDao implements Dao {
     }
 
 
-
     @Override
     public List getAll() throws SQLException, IOException {
 
@@ -59,7 +58,7 @@ public class CustomerDao implements Dao {
 
         List<Customer> customers = new ArrayList<>();
 
-        while(rs.next()){
+        while (rs.next()) {
 
             customers.add(new Customer(
                     rs.getInt("id"),
@@ -92,19 +91,19 @@ public class CustomerDao implements Dao {
                 "IF NOT EXISTS " +
                         "( SELECT 1 FROM customer WHERE name = ? AND title = ? AND mail = ? AND phone = ? AND organisation_id = ? )" +
                         "    INSERT INTO customer VALUES (?,?,?,?,?);"
-                        ,
+                ,
                 PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, customer.getName());
-        ps.setString(2,customer.getTitle());
-        ps.setString(3,customer.getEmail());
+        ps.setString(2, customer.getTitle());
+        ps.setString(3, customer.getEmail());
         ps.setString(4, customer.getPhone());
-        ps.setInt(5,organization_id);
+        ps.setInt(5, organization_id);
 
         ps.setString(6, customer.getName());
-        ps.setString(7,customer.getTitle());
-        ps.setString(8,customer.getEmail());
+        ps.setString(7, customer.getTitle());
+        ps.setString(8, customer.getEmail());
         ps.setString(9, customer.getPhone());
-        ps.setInt(10,organization_id);
+        ps.setInt(10, organization_id);
 
 
         int alteredcolumns = ps.executeUpdate();
@@ -118,7 +117,7 @@ public class CustomerDao implements Dao {
             //get()
             customer_id = 0;
 
-        }else {
+        } else {
             System.out.println("Customer saved");
 
             ResultSet rs = ps.getGeneratedKeys();

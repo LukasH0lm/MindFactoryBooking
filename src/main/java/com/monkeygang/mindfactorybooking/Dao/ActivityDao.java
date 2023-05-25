@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class ActivityDao implements Dao{
+public class ActivityDao implements Dao {
 
     Connection con = ConnectionSingleton.getInstance().getConnection();
 
@@ -58,8 +58,6 @@ public class ActivityDao implements Dao{
     public void delete(Object o) throws SQLException, IOException {
 
     }
-
-
 
 
 }

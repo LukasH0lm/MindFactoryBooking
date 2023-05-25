@@ -38,13 +38,6 @@ public class ToolsController {
         }
 
 
-
-
-
-
-
-
-
     }
 
 
@@ -58,13 +51,11 @@ public class ToolsController {
         }
 
 
-
         SceneChanger sceneChanger = new SceneChanger();
 
         Scene scene = næsteButton.getScene();
 
-        sceneChanger.changeScene(scene, container,"transport", true);
-
+        sceneChanger.changeScene(scene, container, "transport", true);
 
 
     }
@@ -73,7 +64,7 @@ public class ToolsController {
     public void onBackButtonClicked() throws IOException {
         SceneChanger sceneChanger = new SceneChanger();
         Scene scene = næsteButton.getScene();
-        sceneChanger.changeScene(scene, container,"catering", false);
+        sceneChanger.changeScene(scene, container, "catering", false);
     }
 
     @FXML
@@ -90,10 +81,9 @@ public class ToolsController {
         Redskaber redskaber = tilgængeligeRedskaber.getSelectionModel().getSelectedItem();
 
 
-
         if (redskaber != null) {
-        tilgængeligeRedskaber.getItems().remove(redskaber);
-        redskaberValgt.getItems().add(redskaber);
+            tilgængeligeRedskaber.getItems().remove(redskaber);
+            redskaberValgt.getItems().add(redskaber);
         }
 
     }
@@ -104,16 +94,12 @@ public class ToolsController {
         Redskaber redskaber = redskaberValgt.getSelectionModel().getSelectedItem();
 
         if (redskaber != null) {
-        redskaberValgt.getItems().remove(redskaber);
-        tilgængeligeRedskaber.getItems().add(redskaber);
+            redskaberValgt.getItems().remove(redskaber);
+            tilgængeligeRedskaber.getItems().add(redskaber);
         }
 
 
-
     }
-
-
-
 
 
     @FXML

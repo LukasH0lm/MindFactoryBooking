@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class Booking_ToolsDao implements Dao{
+public class Booking_ToolsDao implements Dao {
     @Override
     public Optional get(long id) throws SQLException, IOException {
         return Optional.empty();
@@ -43,7 +43,7 @@ public class Booking_ToolsDao implements Dao{
         PreparedStatement ps = con.prepareStatement("INSERT INTO booking_tools (booking_id, redskabs_id) VALUES (?, ?)");
 
 
-        for(Redskaber redskaber : redskaberList) {
+        for (Redskaber redskaber : redskaberList) {
             ps.setInt(1, booking.getId());
             ps.setInt(2, redskaber.getId());
             ps.addBatch();

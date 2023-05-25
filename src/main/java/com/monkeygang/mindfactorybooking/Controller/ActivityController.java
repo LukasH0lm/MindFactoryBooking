@@ -24,7 +24,6 @@ public class ActivityController {
     }
 
 
-
     public void initialize() {
 
         //different activities for school and buisness
@@ -36,7 +35,7 @@ public class ActivityController {
         // tilføjer en ny aktivitet vil det resultere i at
         // skole aktiviteter og private aktiviteter bliver sammenflettet
 
-        if (CurrentBookingSingleton.getInstance().getActivityId() != -1){
+        if (CurrentBookingSingleton.getInstance().getActivityId() != -1) {
             System.out.println("activity id is not -1");
             switch (CurrentBookingSingleton.getInstance().getActivityId()) {
                 case 16 -> kreativtSparkRadioButton.setSelected(true);
@@ -65,7 +64,7 @@ public class ActivityController {
 
         kreativTechRadioButton.isSelected();
 
-        switch (buttonName){
+        switch (buttonName) {
             case "Kreativt Spark" -> kreativtSparkRadioButton.setSelected(true);
             case "IdéGeneratoren" -> idéGeneratorenRadioButton.setSelected(true);
             case "Kreativ Tech" -> kreativTechRadioButton.setSelected(true);
@@ -99,20 +98,19 @@ public class ActivityController {
         CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
 
 
-
-        if (kreativtSparkRadioButton.isSelected()){
+        if (kreativtSparkRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(16);
         }
 
-        if (idéGeneratorenRadioButton.isSelected()){
+        if (idéGeneratorenRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(17);
         }
 
-        if (kreativTechRadioButton.isSelected()){
+        if (kreativTechRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(18);
         }
 
-        if (noActivityRadioButton.isSelected()){
+        if (noActivityRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(0);
         }
 
@@ -126,8 +124,7 @@ public class ActivityController {
 
         Scene scene = nextButton.getScene();
 
-        sceneChanger.changeScene(scene, container,"customer", true);
-
+        sceneChanger.changeScene(scene, container, "customer", true);
 
 
     }
@@ -136,7 +133,7 @@ public class ActivityController {
     public void onBackButtonClicked(ActionEvent event) throws IOException {
         SceneChanger sceneChanger = new SceneChanger();
         Scene scene = nextButton.getScene();
-        sceneChanger.changeScene(scene, container,"transport", false);
+        sceneChanger.changeScene(scene, container, "transport", false);
     }
 
     @FXML

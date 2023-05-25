@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class SubjectDao implements Dao{
+public class SubjectDao implements Dao {
 
     Connection con = ConnectionSingleton.getInstance().getConnection();
 
@@ -30,7 +30,6 @@ public class SubjectDao implements Dao{
     public void save(Object o) throws SQLException, IOException {
 
         PreparedStatement ps = con.prepareStatement("INSERT INTO subject (name) VALUES (?)");
-
 
 
     }

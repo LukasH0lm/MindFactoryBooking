@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class CateringDao implements Dao{
+public class CateringDao implements Dao {
 
     Connection con = ConnectionSingleton.getInstance().getConnection();
 
@@ -22,7 +22,7 @@ public class CateringDao implements Dao{
     public Optional get(long id) throws SQLException, IOException {
 
         if (id == 0) {
-            return Optional.of(new Catering(0, "No catering",0,0));
+            return Optional.of(new Catering(0, "No catering", 0, 0));
         }
 
         PreparedStatement ps = con.prepareStatement("SELECT * FROM catering WHERE id = ?");

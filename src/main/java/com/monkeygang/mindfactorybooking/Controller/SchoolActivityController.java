@@ -18,7 +18,6 @@ import java.sql.SQLException;
 public class SchoolActivityController {
 
 
-
     public SchoolActivityController() {
 
     }
@@ -27,7 +26,7 @@ public class SchoolActivityController {
 
         //different activities for school and buisness
 
-        if (CurrentBookingSingleton.getInstance().getActivityId() != -1){
+        if (CurrentBookingSingleton.getInstance().getActivityId() != -1) {
             System.out.println("activity id is not -1");
             switch (CurrentBookingSingleton.getInstance().getActivityId()) {
                 case 10 -> idéfabrikkenRadioButton.setSelected(true);
@@ -81,7 +80,7 @@ public class SchoolActivityController {
 
         SceneChanger sceneChanger = new SceneChanger();
         Scene scene = nextButton.getScene();
-        sceneChanger.changeScene(scene, container,"catering", false);
+        sceneChanger.changeScene(scene, container, "catering", false);
 
     }
 
@@ -99,31 +98,31 @@ public class SchoolActivityController {
         CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
 
 
-        if (idéfabrikkenRadioButton.isSelected()){
+        if (idéfabrikkenRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(10);
         }
 
-        if (laserskærerRadioButton.isSelected()){
+        if (laserskærerRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(13);
         }
 
-        if (robotPåJobRadioButton.isSelected()){
+        if (robotPåJobRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(11);
         }
 
-        if (RobottenRydderOpRadioButton.isSelected()){
+        if (RobottenRydderOpRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(14);
         }
 
-        if (naturturismeRadioButton.isSelected()){
+        if (naturturismeRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(12);
         }
 
-        if (SikkerhedRadioButton.isSelected()){
+        if (SikkerhedRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(15);
         }
 
-        if (noActivityRadioButton.isSelected()){
+        if (noActivityRadioButton.isSelected()) {
             currentBookingSingleton.setActivityId(0);
         }
 
@@ -139,9 +138,7 @@ public class SchoolActivityController {
 
         Scene scene = nextButton.getScene();
 
-        sceneChanger.changeScene(scene, container,"customer", true);
-
-
+        sceneChanger.changeScene(scene, container, "customer", true);
 
 
     }
@@ -164,7 +161,7 @@ public class SchoolActivityController {
 
         System.out.println(buttonName + " selected");
 
-        switch (buttonName){
+        switch (buttonName) {
             case "Idéfabrikken" -> idéfabrikkenRadioButton.setSelected(true);
             case "Digital fabrikation med laserskærer" -> laserskærerRadioButton.setSelected(true);
             case "Robot på job" -> robotPåJobRadioButton.setSelected(true);

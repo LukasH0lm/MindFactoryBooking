@@ -52,8 +52,7 @@ public class FinalizeController {
 
         SceneChanger sceneChanger = new SceneChanger();
         Scene scene = backButton.getScene();
-        sceneChanger.changeScene(scene, container,"customer", false);
-
+        sceneChanger.changeScene(scene, container, "customer", false);
 
 
     }
@@ -96,7 +95,6 @@ public class FinalizeController {
         //mailSender.sendMailToAdmin();
 
 
-
         //Show confirmation message
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -116,10 +114,7 @@ public class FinalizeController {
         stage.close();
 
 
-
-
     }
-
 
 
 }

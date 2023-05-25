@@ -51,7 +51,7 @@ public class BookingDao implements Dao {
         for (Booking booking : bookings) {
 
 
-            if (booking.getStartTime().after(startTime) && booking.getEndTime().before(endTime)){
+            if (booking.getStartTime().after(startTime) && booking.getEndTime().before(endTime)) {
                 bookingsFromDate.add(booking);
             }
         }
@@ -60,15 +60,13 @@ public class BookingDao implements Dao {
     }
 
 
-
-
     public Booking getFromTimeStamps(Timestamp startTime, Timestamp endTime) throws SQLException, IOException {
 
         List<Booking> bookings = getAll();
 
         for (Booking booking : bookings) {
 
-            if (startTime.equals(booking.getStartTime()) && endTime.equals(booking.getEndTime())){
+            if (startTime.equals(booking.getStartTime()) && endTime.equals(booking.getEndTime())) {
                 return booking;
             }
         }
@@ -104,9 +102,7 @@ public class BookingDao implements Dao {
                     (Customer) customerDao.get(rs.getInt("customer_id")).get(),
                     rs.getTime("arrival_time"),
                     rs.getTime("departure_time"),
-                    rs.getBoolean("is_transport_public"))
-
-            ;
+                    rs.getBoolean("is_transport_public"));
 
 
             allBookings.add(booking);
@@ -116,7 +112,6 @@ public class BookingDao implements Dao {
         return allBookings;
 
     }
-
 
 
     public PreparedStatement generatePreparedStatement(PreparedStatement ps, Object o) throws SQLException {
@@ -132,7 +127,6 @@ public class BookingDao implements Dao {
     }
 
 
-
     @Override
     public void save(Object o) throws SQLException {
 
@@ -142,7 +136,6 @@ public class BookingDao implements Dao {
         PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
         CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
-
 
 
         ps.setTimestamp(1, currentBookingSingleton.getBooking().getStartTime());
@@ -242,18 +235,14 @@ public class BookingDao implements Dao {
     public Organization getOrganisation(Booking booking) throws SQLException, IOException {
 
 
-
         CustomerDao customerDao = new CustomerDao();
 
         Customer customer = (Customer) customerDao.get(booking.getCustomer().getId()).get();
 
 
-
         OrganisationDao organisationDao = new OrganisationDao();
 
         return (Organization) organisationDao.get(customer.getOrganisation().getId()).get();
-
-
 
 
     }
@@ -277,8 +266,8 @@ public class BookingDao implements Dao {
         ps.setInt(4, customer.getId());
 
 
-        Time arrivalTime = new Time(0,0,0);
-        Time departureTime = new Time(0,0,0);
+        Time arrivalTime = new Time(0, 0, 0);
+        Time departureTime = new Time(0, 0, 0);
 
         ps.setTime(5, arrivalTime);
         ps.setTime(6, departureTime);
@@ -301,9 +290,6 @@ public class BookingDao implements Dao {
         System.out.println("Booking saved");
 
         currentBookingSingleton.getBooking().setId(Booking_id);
-
-
-
 
 
     }

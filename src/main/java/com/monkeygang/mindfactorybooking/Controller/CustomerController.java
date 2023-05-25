@@ -27,7 +27,7 @@ public class CustomerController {
 
         CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
 
-        if (currentBookingSingleton.getCustomer() != null){
+        if (currentBookingSingleton.getCustomer() != null) {
             nameTextField.setText(currentBookingSingleton.getCustomer().getName());
             titelTextField.setText(currentBookingSingleton.getCustomer().getTitle());
             mailTextField.setText(currentBookingSingleton.getCustomer().getEmail());
@@ -37,8 +37,8 @@ public class CustomerController {
         if (currentBookingSingleton.getOrganization().getType().equals(Organisation_type.SCHOOL)) {
             subjectLabel.setVisible(true);
             subjectTextField.setVisible(true);
-            if (currentBookingSingleton.getSubject() != null){
-            subjectTextField.setText(currentBookingSingleton.getSubject().getName());
+            if (currentBookingSingleton.getSubject() != null) {
+                subjectTextField.setText(currentBookingSingleton.getSubject().getName());
             }
         } else if (currentBookingSingleton.getOrganization().getType().equals(Organisation_type.PRIVATE)) {
             subjectLabel.setVisible(false);
@@ -103,8 +103,7 @@ public class CustomerController {
         }
 
 
-        sceneChanger.changeScene(scene,container,view,true);
-
+        sceneChanger.changeScene(scene, container, view, true);
 
 
     }
@@ -121,13 +120,13 @@ public class CustomerController {
     @FXML
     void onNextButtonClick(ActionEvent event) throws IOException {
 
-        if (nameTextField.getText().isEmpty() || titelTextField.getText().isEmpty() || mailTextField.getText().isEmpty() || telephoneTextField.getText().isEmpty() || amountOfPeopleTextField.getText().isEmpty()){
+        if (nameTextField.getText().isEmpty() || titelTextField.getText().isEmpty() || mailTextField.getText().isEmpty() || telephoneTextField.getText().isEmpty() || amountOfPeopleTextField.getText().isEmpty()) {
 
             AlertHandler alertHandler = new AlertHandler();
 
             Stage stage = (Stage) container.getScene().getWindow();
 
-            alertHandler.showAlert(stage,"Error","Missing fields","Udfyld venligst alle felter");
+            alertHandler.showAlert(stage, "Error", "Missing fields", "Udfyld venligst alle felter");
 
             return;
 
@@ -152,7 +151,7 @@ public class CustomerController {
 
         Scene scene = container.getScene();
 
-        sceneChanger.changeScene(scene,container,"finalize",true);
+        sceneChanger.changeScene(scene, container, "finalize", true);
 
     }
 

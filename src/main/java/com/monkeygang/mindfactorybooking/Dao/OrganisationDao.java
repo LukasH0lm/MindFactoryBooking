@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class OrganisationDao implements Dao{
+public class OrganisationDao implements Dao {
 
     Connection con;
 

@@ -3,9 +3,7 @@ package com.monkeygang.mindfactorybooking.Controller;
 
 import com.monkeygang.mindfactorybooking.Dao.BookingDao;
 import com.monkeygang.mindfactorybooking.Objects.Booking;
-import com.monkeygang.mindfactorybooking.Objects.Customer;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +24,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 import javafx.scene.chart.CategoryAxis;
@@ -34,16 +31,15 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 
-
 public class DashboardController {
 
-    private  final List<Image> images = new ArrayList<>();
+    private final List<Image> images = new ArrayList<>();
 
     private Timer timer;
 
     BookingDao bookingDao = new BookingDao();
 
-    private  int currentImageIndex = 0;
+    private int currentImageIndex = 0;
 
     private boolean isUpdating = true;
 
@@ -65,7 +61,7 @@ public class DashboardController {
         generateStatistics();
         generateBookingsForThisWeek();
 
-        if (isUpdating){
+        if (isUpdating) {
             displayImages();
             updateStatistics();
             updateBookingsForThisWeek();
@@ -73,7 +69,7 @@ public class DashboardController {
 
     }
 
-    public void displayImages(){
+    public void displayImages() {
 
         Timer timer = new Timer();
         timer.schedule(new java.util.TimerTask() {
@@ -81,7 +77,7 @@ public class DashboardController {
             public void run() {
 
 
-                if (!isUpdating){
+                if (!isUpdating) {
                     timer.cancel();
                 }
 
@@ -93,9 +89,10 @@ public class DashboardController {
 
 
             }
-        }, 0,5000);
+        }, 0, 5000);
 
     }
+
     public void customImageClicked(ImageView imageview) {
 
         imageview.setOnMouseClicked(event -> {
@@ -125,8 +122,8 @@ public class DashboardController {
                     }
 
 
-                    }
                 }
+            }
 
         });
 
@@ -153,8 +150,7 @@ public class DashboardController {
 
     }
 
-    public String udregnBelægningIProcent(int antalBookinger, int belægning){
-
+    public String udregnBelægningIProcent(int antalBookinger, int belægning) {
 
 
         double result = (double) antalBookinger / belægning * 100;
@@ -171,7 +167,7 @@ public class DashboardController {
 
             public void run() {
 
-                if (!isUpdating){
+                if (!isUpdating) {
                     timer.cancel();
                 }
 
@@ -185,9 +181,8 @@ public class DashboardController {
                 });
 
 
-
             }
-        }, 0,5000);
+        }, 0, 5000);
 
     }
 
@@ -198,7 +193,7 @@ public class DashboardController {
 
             public void run() {
 
-                if (!isUpdating){
+                if (!isUpdating) {
                     timer.cancel();
                 }
 
@@ -212,17 +207,13 @@ public class DashboardController {
                 });
 
 
-
             }
-        }, 0,5000);
+        }, 0, 5000);
 
     }
 
 
     public void generateBookingsForThisWeek() throws SQLException, IOException {
-
-
-
 
 
         startCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
@@ -243,21 +234,13 @@ public class DashboardController {
         List<Booking> bookingsForThisWeek = bookingDao.getAllBookingsFromDate(start, end);
 
 
-
-
-
-        for (Booking booking: bookingsForThisWeek){
+        for (Booking booking : bookingsForThisWeek) {
             bookingsForThisWeekTableView.getItems().clear();
 
             bookingsForThisWeekTableView.getItems().add(booking);
 
 
         }
-
-
-
-
-
 
 
     }
@@ -271,7 +254,6 @@ public class DashboardController {
         final int tønderKommuneBelægning = 44;
 
 
-
         int easvAntalBookinger = 0; //EASV
         int tGAntalBookinger = 0; //Tønder Gymnasium
         int dBGAntalBookinger = 0; //Det Blå Gymnasium
@@ -282,7 +264,6 @@ public class DashboardController {
         List<Booking> bookingsForTheChosenYear = new LinkedList<>();
 
         bookingsForTheChosenYear = bookingDao.getAll();
-
 
 
         for (Booking booking : bookingsForTheChosenYear) {
@@ -307,7 +288,7 @@ public class DashboardController {
         organisationerSeries.getData().add(new XYChart.Data<>("Tønder Gymnasium\n" + "Belægning i dage: " + tGAntalBookinger
                 + "\nBelægning i procent: " + udregnBelægningIProcent(tGAntalBookinger, ungdomsUddannelseBelægning) + "%", tGAntalBookinger));
 
-        organisationerSeries.getData().add(new XYChart.Data<>("Det Blå Gymnasium\n"+ "Belægning i dage: " + dBGAntalBookinger
+        organisationerSeries.getData().add(new XYChart.Data<>("Det Blå Gymnasium\n" + "Belægning i dage: " + dBGAntalBookinger
                 + "\nBelægning i procent: " + udregnBelægningIProcent(dBGAntalBookinger, ungdomsUddannelseBelægning) + "%", dBGAntalBookinger));
 
         organisationerSeries.getData().add(new XYChart.Data<>("Tønder Kommune\n" + "Belægning i dage: " + tKAntalBookinger
@@ -327,8 +308,6 @@ public class DashboardController {
 
 
         statistikBarChart.getData().add(organisationerSeries);
-
-
 
 
     }
@@ -371,7 +350,6 @@ public class DashboardController {
 
     @FXML
     private TableView<Booking> bookingsForThisWeekTableView;
-
 
 
 }

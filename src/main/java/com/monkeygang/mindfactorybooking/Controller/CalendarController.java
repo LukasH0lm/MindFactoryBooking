@@ -64,19 +64,16 @@ public class CalendarController {
 
     ThreadPoolExecutor executor =
             (ThreadPoolExecutor) Executors.newCachedThreadPool();
+
     public CalendarController() throws SQLException, IOException {
     }
-
 
 
     public void initialize() throws SQLException, IOException {
 
 
-
         // Vi sætter startdatoen til at være dagens dato
         datePicker.setValue(LocalDate.now());
-
-
 
 
         // Datoen skal konveretes til date.
@@ -95,7 +92,6 @@ public class CalendarController {
             }
 
         });
-
 
 
         // Vi skal finde ugenummeret af datoen.
@@ -128,8 +124,6 @@ public class CalendarController {
 
         // updates ui every 5 seconds
         initializeUpdatingThread();
-
-
 
 
         //
@@ -182,7 +176,7 @@ public class CalendarController {
                 timeLine.setEndX(hBoxCalendar.getPrefWidth());
                 timeLine.setLayoutX(hBoxCalendar.getLayoutX());
                 timeLine.setLayoutY(hBoxCalendar.getLayoutY() + timeLabelsHeight);
-                timeLine.setStroke(Color.rgb(169,169, 169));
+                timeLine.setStroke(Color.rgb(169, 169, 169));
                 timeLine.setOpacity(0.5);
 
 
@@ -223,11 +217,10 @@ public class CalendarController {
     }
 
 
-
     private void loadBookings(List<Booking> bookings) throws SQLException, IOException {
 
 
-        if (bookings == null){
+        if (bookings == null) {
             System.out.println("bookings er null");
         }
 
@@ -262,40 +255,31 @@ public class CalendarController {
             Date bookingDate = booking.getStartTime();
 
 
-
             // Vi skal finde ugenummeret af datoen.
             Calendar calBookingDate = Calendar.getInstance();
             calBookingDate.setTime(bookingDate);
             int bookingDateWeek = calBookingDate.get(Calendar.WEEK_OF_YEAR);
 
 
-
             // vi ligger 1900 til, da Timestamp er underlig D:D:D:D:
             if (bookingDateWeek == weekOnAction && booking.getStartTime().getYear() + 1900 == yearOnAction) {
 
-                if (!(booking.getStartTime().getDay() == booking.getEndTime().getDay())){
+                if (!(booking.getStartTime().getDay() == booking.getEndTime().getDay())) {
 
                     createBookingMultipleDays(booking);
 
-                }
-                else{
+                } else {
                     createSingleBooking(booking);
 
                 }
 
 
-
-
             }
-
-
-
 
 
         }
 
         fillCalendarWithBlankSquares();
-
 
 
     }
@@ -351,7 +335,7 @@ public class CalendarController {
         // vi burde nok bruge endtime her fra kalenderen
 
         //vi laver start dagen her, da vi skal have et bestemt tidspunkt, hvor dagen starter.
-        Timestamp firstDayEndTime = new Timestamp(booking.getStartTime().getYear(), booking.getStartTime().getMonth(), booking.getStartTime().getDate(), 18, 00, 00, 00 );
+        Timestamp firstDayEndTime = new Timestamp(booking.getStartTime().getYear(), booking.getStartTime().getMonth(), booking.getStartTime().getDate(), 18, 00, 00, 00);
 
         createSingleBookingFixedValues(booking, booking.getStartTime(), firstDayEndTime);
 
@@ -377,7 +361,7 @@ public class CalendarController {
         // vi burde nok bruge starttime her fra kalenderen
 
         //Vi laver slutdagen her, da vi skal have bestem tidspunkt for slutningen af dagen.
-        Timestamp lastDayStartTime = new Timestamp(booking.getEndTime().getYear(), booking.getEndTime().getMonth(), currentDay, 7, 00, 00, 00 );
+        Timestamp lastDayStartTime = new Timestamp(booking.getEndTime().getYear(), booking.getEndTime().getMonth(), currentDay, 7, 00, 00, 00);
 
         Timestamp lastDayEndTime = new Timestamp(booking.getEndTime().getYear(), booking.getEndTime().getMonth(), currentDay, booking.getEndTime().getHours(), booking.getEndTime().getMinutes(), booking.getEndTime().getSeconds(), booking.getEndTime().getNanos());
 
@@ -393,10 +377,8 @@ public class CalendarController {
         double endTimeHours = (int) (startTimeHours + (rectangleHeight / 45));
 
 
-
         Timestamp startTime = new Timestamp(datePicker.getValue().getYear() - 1900, datePicker.getValue().getMonthValue() - 1, dayOfMonth, (int) startTimeHours, 00, 00, 00);
         Timestamp endTime = new Timestamp(datePicker.getValue().getYear() - 1900, datePicker.getValue().getMonthValue() - 1, dayOfMonth, (int) endTimeHours, 00, 00, 00);
-
 
 
         Booking availableBooking = new Booking(startTime, endTime);
@@ -410,10 +392,9 @@ public class CalendarController {
         stack.setLayoutY(rectangleYStartPosition);
         stack.setPrefHeight(rectangleHeight);
 
-        bookingCreate(availableBooking , stack);
+        bookingCreate(availableBooking, stack);
 
         pane.getChildren().add(stack);
-
 
 
     }
@@ -426,9 +407,7 @@ public class CalendarController {
         Organization currentOrganization = bookingDAO.getOrganisation(booking);
 
 
-
         Label bookingLabel = new Label(currentOrganization.getName());
-
 
 
         bookingLabel.setAlignment(Pos.CENTER);
@@ -437,8 +416,6 @@ public class CalendarController {
         bookingLabel.setTextFill(Paint.valueOf("white"));
         bookingLabel.setMaxWidth(45); // 50 - 5 to give the text to space to breathe
         bookingLabel.setWrapText(true);
-
-
 
 
         int activityID = booking_activityDao.getActivityIDbyBookingID(booking.getId());
@@ -450,37 +427,43 @@ public class CalendarController {
         // Vi returner 0, når booking id ikke findes i aktivitets tabellen, så når den er 0, så sætter vi billedet til møde,
         // da vi ser en booking som et møde, når der ikke er valgt nogen aktivitet.
 
-               switch (activityID) {
-                   case 0 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/møde.png"));
-                   case 10 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/idefabrikken.png"));
-                   case 13 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/digitalfabrikation.png"));
-                   case 11 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robotpåjob.png"));
-                   case 14 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robottenrydderop.png"));
-                   case 12 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/naturismevedvadehavet.png"));
-                   case 15 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/skabsikkerhedivadehavet.png"));
-                   case 16 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativspark.png"));
-                   case 17 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/ideGeneratoren.png"));
-                   case 18 -> activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativtech.png"));
-               }
-
-
+        switch (activityID) {
+            case 0 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/møde.png"));
+            case 10 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/idefabrikken.png"));
+            case 13 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/digitalfabrikation.png"));
+            case 11 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robotpåjob.png"));
+            case 14 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/robottenrydderop.png"));
+            case 12 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/naturismevedvadehavet.png"));
+            case 15 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/skabsikkerhedivadehavet.png"));
+            case 16 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativspark.png"));
+            case 17 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/ideGeneratoren.png"));
+            case 18 ->
+                    activityIcon.setImage(new Image("file:src/main/resources/com/monkeygang/mindfactorybooking/kreativtech.png"));
+        }
 
 
         activityIcon.setTranslateX(35);
-        activityIcon.setTranslateY(- ((rectangleHeight / 2) - 7));
+        activityIcon.setTranslateY(-((rectangleHeight / 2) - 7));
 
         StackPane stack = new StackPane(bookingRectangle, bookingLabel, activityIcon);
 
         stack.setLayoutY(rectangleYStartPosition);
         stack.setPrefHeight(rectangleHeight);
 
-        bookingInitialize(bookingRectangle, booking , stack);
+        bookingInitialize(bookingRectangle, booking, stack);
 
         return stack;
 
     }
-
-
 
 
     //opens the booking the rectangle is representing
@@ -541,7 +524,7 @@ public class CalendarController {
 
     }
 
-    public void fillCalendarWithBlankSquares()  {
+    public void fillCalendarWithBlankSquares() {
 
         // Vi vil gerne have usynlige rektangler, der hvor der ikke er nogen bookings registreret
         // Det vil vi gerne, så man kan trykke i de firkanter, og derved lave en booking der.
@@ -572,7 +555,6 @@ public class CalendarController {
         panesForEachDay.add(paneSondag);
 
 
-
         //Vi går igennem hver pane, og hvis de er tomme, så laver vi et rektangel, der fylder hele panelet.
         for (Pane pane : panesForEachDay) {
             if (pane.getChildren().isEmpty()) {
@@ -584,8 +566,7 @@ public class CalendarController {
                 generateAvailableBookingStack(dayOfMonth, pane, rectangleHeight, rectangleYStartPosition);
 
 
-            }
-            else if (!pane.getChildren().isEmpty()) {
+            } else if (!pane.getChildren().isEmpty()) {
                 // Hvis panet vi ser på ikke er tomt, skal vi få de eksisterende bookinger i panet
                 // Vi skal ud fra dem beregne de tomme felter, og fylde dem med usynlige rektangler.
 
@@ -624,7 +605,6 @@ public class CalendarController {
                 double startRectangleHeight = spacingBetweenStartOfCalendarAndFirstBooking;
 
 
-
                 //Vi starter med at tjekke, om der er afstand mellem det første rektangel
                 //I hvert pane, og starten på kalenderen
                 // Hvis der er afstand, skal vi have lagt en rektangel ind, som går fra starten af kalenderen,
@@ -635,11 +615,7 @@ public class CalendarController {
                     generateAvailableBookingStack(dayOfMonth, pane, startRectangleHeight, startRectangleYStartPosition);
 
 
-
-
                 }
-
-
 
 
                 for (int i = 1; i < eksisterendeRektanglerForHvertPane.size(); i++) {
@@ -685,7 +661,7 @@ public class CalendarController {
 
                 if (spacingBetweenLastBookingAndEndOfCalendar > 1) {
 
-                  generateAvailableBookingStack(dayOfMonth, pane, endRectangleHeight, endRectangleYStartPosition);
+                    generateAvailableBookingStack(dayOfMonth, pane, endRectangleHeight, endRectangleYStartPosition);
 
 
                 }
@@ -700,8 +676,6 @@ public class CalendarController {
 
         }
     }
-
-
 
 
     //booking in this instance refers to the entire booking (booking, customer, catering, activity, etc.)
@@ -730,7 +704,6 @@ public class CalendarController {
             bookingAnchorPane.setDisable(true);
 
 
-
             stage.setOnHiding(event -> {
 
                 currentStage.setOpacity(1);
@@ -744,7 +717,6 @@ public class CalendarController {
                 }*/
 
 
-
                 try {
                     loadBookings(allBookings);
                 } catch (SQLException e) {
@@ -753,7 +725,6 @@ public class CalendarController {
                     throw new RuntimeException(e);
                 }
             });
-
 
 
             stage.show();
@@ -765,13 +736,12 @@ public class CalendarController {
     }
 
 
-    private void initializeUpdatingThread(){
+    private void initializeUpdatingThread() {
 
-      //  ArrayList<Booking> allBookingsonThread = new ArrayList<>();
+        //  ArrayList<Booking> allBookingsonThread = new ArrayList<>();
 
 
         Runnable runnableTask = () -> {
-
 
 
             BookingDao BookingDAO = null;
@@ -823,19 +793,15 @@ public class CalendarController {
         //Thread thread = new Thread(runnableTask);
         //thread.start();
 
-    };
+    }
+
+    ;
 
 
+    public void onSearchButtonClick() {
 
-
-
-
-
-
-    public void onSearchButtonClick(){
-
-        for (Booking booking : allBookings){
-            if (booking.hashCode() == Integer.parseInt(SearchTextField.getText())){
+        for (Booking booking : allBookings) {
+            if (booking.hashCode() == Integer.parseInt(SearchTextField.getText())) {
                 CurrentBookingSingleton.getInstance().setCurrentBooking(booking);
                 CurrentBookingSingleton.getInstance().setIsEdit(true);
                 loadBookingUI();
@@ -884,14 +850,9 @@ public class CalendarController {
     }
 
 
-
-
-
-
     public void previousWeekButtonPressed() {
 
         datePicker.setValue(datePicker.getValue().minusDays(7));
-
 
 
     }
@@ -931,7 +892,6 @@ public class CalendarController {
 
     @FXML
     private Line hBoxLineThree;
-
 
 
     @FXML

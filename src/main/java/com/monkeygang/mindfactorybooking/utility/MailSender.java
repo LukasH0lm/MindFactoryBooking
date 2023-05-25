@@ -5,9 +5,6 @@ import java.io.*;
 import java.util.Properties;
 
 import com.monkeygang.mindfactorybooking.BookingApplication;
-import jakarta.activation.DataHandler;
-import jakarta.activation.DataSource;
-import jakarta.activation.FileDataSource;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -101,7 +98,6 @@ public class MailSender {
 
             // Send the complete message parts
             message.setContent(multipart);
-
 
 
             System.out.println("sending...");

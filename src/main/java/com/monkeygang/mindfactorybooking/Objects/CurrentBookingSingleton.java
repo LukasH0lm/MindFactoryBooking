@@ -95,22 +95,14 @@ public class CurrentBookingSingleton {
     }
 
 
-
     public synchronized void setCurrentRedskaber(Redskaber redskaber) {
         redskaberList.add(redskaber);
     }
 
 
-
     public synchronized void setCurrentCatering(Catering instance) {
         this.catering = instance;
     }
-
-
-
-
-
-
 
 
     public synchronized int getCateringId() {
@@ -206,9 +198,10 @@ public class CurrentBookingSingleton {
     public Activity getActivity() {
         return activity;
     }
+
     public void setActivity(Activity activity) {
 
-            this.activity = activity;
+        this.activity = activity;
 
     }
 

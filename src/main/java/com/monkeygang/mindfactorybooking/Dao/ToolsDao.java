@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ToolsDao implements Dao{
+public class ToolsDao implements Dao {
 
     Connection con = ConnectionSingleton.getInstance().getConnection();
 
@@ -52,8 +52,6 @@ public class ToolsDao implements Dao{
         ResultSet rs = ps.executeQuery();
 
 
-
-
         while (rs.next()) {
             Redskaber redskaber = new Redskaber(
                     rs.getInt("id"),
@@ -67,10 +65,9 @@ public class ToolsDao implements Dao{
         return allTools;
 
     }
+
     @Override
     public void save(Object o) throws SQLException, IOException {
-
-
 
 
     }

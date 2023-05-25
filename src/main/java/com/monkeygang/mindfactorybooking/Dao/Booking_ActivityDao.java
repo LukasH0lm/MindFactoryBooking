@@ -3,7 +3,6 @@ package com.monkeygang.mindfactorybooking.Dao;
 import com.monkeygang.mindfactorybooking.Objects.*;
 import com.monkeygang.mindfactorybooking.utility.ConnectionSingleton;
 
-import java.awt.print.Book;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class Booking_ActivityDao implements Dao{
+public class Booking_ActivityDao implements Dao {
 
     Connection con = ConnectionSingleton.getInstance().getConnection();
 
@@ -41,6 +40,7 @@ public class Booking_ActivityDao implements Dao{
         return -1;
 
     }
+
     @Override
     public List getAll() throws SQLException, IOException {
         return null;
@@ -99,7 +99,6 @@ public class Booking_ActivityDao implements Dao{
         ps.execute();
 
 
-
     }
 
 
@@ -109,7 +108,6 @@ public class Booking_ActivityDao implements Dao{
         PreparedStatement ps = con.prepareStatement("DELETE FROM booking_activity WHERE booking_id = ?");
         ps.setInt(1, id);
         ps.execute();
-
 
 
     }

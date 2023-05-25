@@ -8,11 +8,6 @@ public class Redskaber {
     private int id;
 
 
-
-
-
-
-
     public Redskaber(int id, String name) {
         this.name = name;
         this.id = id;

@@ -5,7 +5,6 @@ import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.Objects.Organization;
 import com.monkeygang.mindfactorybooking.utility.AlertHandler;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -16,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class OrganizationController {
 
@@ -30,11 +28,11 @@ public class OrganizationController {
 
     public void initialize() throws SQLException, IOException {
 
-            organisationCombobox.getItems().addAll(organisationDao.getAll());
+        organisationCombobox.getItems().addAll(organisationDao.getAll());
 
-            if (currentBookingSingleton.getOrganization() != null) {
-                organisationCombobox.setValue(currentBookingSingleton.getOrganization());
-            }
+        if (currentBookingSingleton.getOrganization() != null) {
+            organisationCombobox.setValue(currentBookingSingleton.getOrganization());
+        }
 
     }
 
@@ -87,7 +85,7 @@ public class OrganizationController {
 
         SceneChanger sceneChanger = new SceneChanger();
 
-        sceneChanger.changeScene(scene,container,"booking", true);
+        sceneChanger.changeScene(scene, container, "booking", true);
 
 
     }

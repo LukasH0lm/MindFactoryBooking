@@ -1,7 +1,6 @@
 package com.monkeygang.mindfactorybooking;
 
 
-import com.monkeygang.mindfactorybooking.utility.MailSender;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -40,8 +39,8 @@ public class BookingApplication extends Application {
 
     }
 
-    public static void main(String[] args) throws IOException {
-        
+    public static void main(String[] args) {
+
 
         launch();
     }
