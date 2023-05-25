@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +52,27 @@ public class CustomerDao implements Dao {
 
     @Override
     public List getAll() throws SQLException, IOException {
-        return null;
+
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM customer");
+
+        ResultSet rs = ps.executeQuery();
+
+        List<Customer> customers = new ArrayList<>();
+
+        while(rs.next()){
+
+            customers.add(new Customer(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("title"),
+                    rs.getString("mail"),
+                    rs.getString("phone"),
+                    null));
+
+        }
+
+        return customers;
+
     }
 
     @Override

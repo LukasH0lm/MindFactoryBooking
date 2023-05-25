@@ -112,7 +112,7 @@ public class BookingController {
     }
 
 
-    public void newBooking() throws IOException {
+    public void newBooking() throws IOException, SQLException {
 
         //TODO: make this make a temporary booking, and then check if it collides with other bookings
         //TODO: then save is as a temoprary booking
@@ -204,6 +204,37 @@ public class BookingController {
 
             //we wait with adding the booking to the database until the catering is done
             CurrentBookingSingleton.getInstance().setCurrentBooking(booking);
+
+            BookingDao bookingDao = new BookingDao();
+
+            if (!CurrentBookingSingleton.getInstance().getIsEdit()) {
+                bookingDao.saveTemporary(booking);
+                CurrentBookingSingleton.getInstance().setIsTemporary(true);
+            }
+
+            Stage stage = (Stage) nextButton.getScene().getWindow();
+
+            stage.setOnHiding((e) -> {
+
+                System.out.println("closing");
+                System.out.println(CurrentBookingSingleton.getInstance().getIsTemporary());
+
+                System.out.println("DELETING TEMP DELETING TEMP!!!!!!!!");
+
+                if (CurrentBookingSingleton.getInstance().getIsTemporary()) {
+
+
+                    try {
+                        bookingDao.delete(booking);
+                    } catch (SQLException | IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+
+                }
+
+
+            });
 
             loadCateringView();
 

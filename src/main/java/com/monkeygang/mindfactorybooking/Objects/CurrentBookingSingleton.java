@@ -1,11 +1,9 @@
 package com.monkeygang.mindfactorybooking.Objects;
 
 import com.monkeygang.mindfactorybooking.Dao.BookingDao;
-import com.monkeygang.mindfactorybooking.Dao.OrganisationDao;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +222,9 @@ public class CurrentBookingSingleton {
     }
 
 
+    public void setIsTemporary(boolean b) {
 
+        isTemporary = b;
 
-
+    }
 }

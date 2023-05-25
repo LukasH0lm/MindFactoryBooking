@@ -208,6 +208,8 @@ public class BookingDao implements Dao {
 
         PreparedStatement ps = con.prepareStatement("DELETE FROM booking WHERE id = ?");
 
+
+        //WE SHOULDNT DELETE THIS HERE
         Booking_CateringDao booking_cateringDAO = new Booking_CateringDao();
 
         booking_cateringDAO.deleteByBookingId(booking.getId());
@@ -220,6 +222,18 @@ public class BookingDao implements Dao {
         ps.execute();
 
     }
+
+    public void deleteByID(int currentid) throws SQLException, IOException {
+
+
+        PreparedStatement ps = con.prepareStatement("DELETE FROM booking WHERE id = ?");
+
+
+        ps.setInt(1, currentid);
+        ps.execute();
+
+    }
+
 
     public Organization getOrganisation(Booking booking) throws SQLException, IOException {
 
@@ -234,6 +248,56 @@ public class BookingDao implements Dao {
         OrganisationDao organisationDao = new OrganisationDao();
 
         return (Organization) organisationDao.get(customer.getOrganisation().getId()).get();
+
+
+
+
+    }
+
+    public void saveTemporary(Booking booking) throws SQLException, IOException {
+
+        CurrentBookingSingleton currentBookingSingleton = CurrentBookingSingleton.getInstance();
+
+        PreparedStatement ps = con.prepareStatement("INSERT INTO booking VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+
+        ps.setTimestamp(1, currentBookingSingleton.getBooking().getStartTime());
+        ps.setTimestamp(2, currentBookingSingleton.getBooking().getEndTime());
+        ps.setInt(3, -1);
+
+        CustomerDao customerDao = new CustomerDao();
+
+        //DONSENT WORK WHEN NO CUSTOMER IN DATABASE
+
+        Customer customer = (Customer) customerDao.getAll().get(0);
+
+        ps.setInt(4, customer.getId());
+
+
+        Time arrivalTime = new Time(0,0,0);
+        Time departureTime = new Time(0,0,0);
+
+        ps.setTime(5, arrivalTime);
+        ps.setTime(6, departureTime);
+        ps.setBoolean(7, false);
+
+        int affectedRows = ps.executeUpdate();
+
+        if (affectedRows == 0) {
+            throw new SQLException("Creating booking failed, no rows affected.");
+        }
+
+        ResultSet rs = ps.getGeneratedKeys();
+
+        int Booking_id = -1;
+
+        if (rs.next()) {
+            Booking_id = rs.getInt(1);
+        }
+
+        System.out.println("Booking saved");
+
+        currentBookingSingleton.getBooking().setId(Booking_id);
+
 
 
 

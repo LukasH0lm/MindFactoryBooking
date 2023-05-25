@@ -86,6 +86,10 @@ public class DatabaseUpdaterSingleton {
         //4. booking_activity
         //5. booking_field (if applicable)
 
+        //DELETING TEMPORARY BOOKING
+        BookingDao bookingDao = new BookingDao();
+
+        bookingDao.delete(currentBookingSingleton.getBooking().getId());
 
         //1. Customer
 
@@ -95,7 +99,6 @@ public class DatabaseUpdaterSingleton {
         //2. Booking
 
 
-        BookingDao bookingDao = new BookingDao();
         bookingDao.save(currentBookingSingleton.getBooking());
 
         System.out.println(currentBookingSingleton.getBooking().getId());
