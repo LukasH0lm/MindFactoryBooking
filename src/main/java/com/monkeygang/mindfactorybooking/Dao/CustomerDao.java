@@ -88,28 +88,42 @@ public class CustomerDao implements Dao {
         Customer customer = currentBookingSingleton.getCustomer();
 
         PreparedStatement ps = con.prepareStatement(
-                "IF NOT EXISTS " +
-                        "( SELECT 1 FROM customer WHERE name = ? AND title = ? AND mail = ? AND phone = ? AND organisation_id = ? )" +
-                        "    INSERT INTO customer VALUES (?,?,?,?,?);"
-                ,
-                PreparedStatement.RETURN_GENERATED_KEYS);
+
+                        "( SELECT 1 FROM customer WHERE name = ? AND title = ? AND mail = ? AND phone = ? AND organisation_id = ? )"
+
+        );
         ps.setString(1, customer.getName());
         ps.setString(2, customer.getTitle());
         ps.setString(3, customer.getEmail());
         ps.setString(4, customer.getPhone());
         ps.setInt(5, organization_id);
 
-        ps.setString(6, customer.getName());
-        ps.setString(7, customer.getTitle());
-        ps.setString(8, customer.getEmail());
-        ps.setString(9, customer.getPhone());
-        ps.setInt(10, organization_id);
 
 
-        int alteredcolumns = ps.executeUpdate();
 
-        int customer_id = -1;
+        ResultSet rs = ps.executeQuery();
 
+
+
+        if (rs.next()) {
+            System.out.println("Customer already exists");
+            CurrentBookingSingleton.getInstance().getCustomer().setId(rs.getInt("id"));
+        }else{
+
+            PreparedStatement ps2 = con.prepareStatement("INSERT INTO customer (name, title, mail, phone, organisation_id) VALUES (?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            ps2.setString(1, customer.getName());
+            ps2.setString(2, customer.getTitle());
+            ps2.setString(3, customer.getEmail());
+            ps2.setString(4, customer.getPhone());
+            ps2.setInt(5, organization_id);
+            ps2.executeUpdate();
+            ResultSet rs2 = ps2.getGeneratedKeys();
+            rs2.next();
+            CurrentBookingSingleton.getInstance().getCustomer().setId(rs2.getInt(1));
+
+        }
+
+/*
         if (alteredcolumns == 0) {
             System.out.println("Customer already exists");
 
@@ -124,10 +138,9 @@ public class CustomerDao implements Dao {
             rs.next();
             customer_id = rs.getInt(1);
 
-        }
+        }*/
 
         //CurrentBookingSingleton.getInstance().getBooking().setId(customer_id);
-        CurrentBookingSingleton.getInstance().getCustomer().setId(customer_id);
 
 
     }
