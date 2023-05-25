@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class FinalizeController {
 
@@ -72,7 +74,17 @@ public class FinalizeController {
         //TODO: Save booking to database
 
         DatabaseUpdaterSingleton databaseUpdaterSingleton = DatabaseUpdaterSingleton.getInstance();
-        databaseUpdaterSingleton.addCurrentBookingSingletonToDatabase();
+
+        ThreadPoolExecutor executor =
+                (ThreadPoolExecutor) Executors.newCachedThreadPool();
+
+        executor.execute(() -> {
+            try {
+                databaseUpdaterSingleton.addCurrentBookingSingletonToDatabase();
+            } catch (SQLException | IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         //TODO: Send email to customer and organization
         MailSender mailSender = new MailSender();

@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 public class BookingController {
@@ -381,7 +382,16 @@ public class BookingController {
     @FXML
     void onDeleteButtonClick() throws SQLException, IOException {
 
-        DatabaseUpdaterSingleton.getInstance().deleteCurrentBookingSingletonFromDatabase();
+        ThreadPoolExecutor executor =
+                (ThreadPoolExecutor) Executors.newCachedThreadPool();
+
+        executor.execute(() -> {
+            try {
+                DatabaseUpdaterSingleton.getInstance().deleteCurrentBookingSingletonFromDatabase();
+            } catch (SQLException | IOException throwables) {
+                throwables.printStackTrace();
+            }
+        });
 
         Stage stage = (Stage) deleteButton.getScene().getWindow();
         stage.close();
