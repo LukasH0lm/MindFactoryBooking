@@ -210,6 +210,8 @@ public class BookingDao implements Dao {
 
 
         //WE SHOULDNT DELETE THIS HERE
+
+        /*
         Booking_CateringDao booking_cateringDAO = new Booking_CateringDao();
 
         booking_cateringDAO.deleteByBookingId(booking.getId());
@@ -217,7 +219,7 @@ public class BookingDao implements Dao {
         Booking_ToolsDao booking_toolsDao = new Booking_ToolsDao();
 
         booking_toolsDao.deleteByBookingId(booking.getId());
-
+*/
         ps.setInt(1, booking.getId());
         ps.execute();
 
