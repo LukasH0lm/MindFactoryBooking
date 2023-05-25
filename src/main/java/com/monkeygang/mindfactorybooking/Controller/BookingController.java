@@ -6,11 +6,13 @@ import com.monkeygang.mindfactorybooking.Objects.CurrentBookingSingleton;
 import com.monkeygang.mindfactorybooking.utility.DatabaseUpdaterSingleton;
 import com.monkeygang.mindfactorybooking.utility.SceneChanger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -214,14 +216,20 @@ public class BookingController {
 
             Stage stage = (Stage) nextButton.getScene().getWindow();
 
+
+            EventHandler test = stage.getOnHiding();
+
             stage.setOnHiding((e) -> {
+
+                test.handle(e);
 
                 System.out.println("closing");
                 System.out.println(CurrentBookingSingleton.getInstance().getIsTemporary());
 
-                System.out.println("DELETING TEMP DELETING TEMP!!!!!!!!");
 
                 if (CurrentBookingSingleton.getInstance().getIsTemporary()) {
+
+                    System.out.println("DELETING TEMP DELETING TEMP!!!!!!!!");
 
 
                     try {
